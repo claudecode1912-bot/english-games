@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feed Tops: Irregular Verbs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+/*
+VOICE: soft kawaii sticker book, gentle and friendly, addressed to the child as "you".
+IDEA: a sticker-style meadow where a little triceratops named Tops eats apples for every right verb form.
+PICTURE: pastel meadow with a smiling sun, puffy clouds, flowers and an apple tree; Tops sways, wags and blinks.
+COLOUR and TYPE: mint-grey ground, leaf-green Tops with cream horns, dark-green outlines everywhere, pastel butter/sky/pink/mint buttons; Baloo 2 + Nunito.
+LAYOUT: one column up to 780px: title and stars, scene, mode tabs, level chips, question card.
+*/
+:root{color-scheme:light dark;
+  --bg:light-dark(#e6eee4,#17221c);
+  --sky1:light-dark(#cbe8f4,#22324f);--sky2:light-dark(#eef8f0,#3b4a6b);
+  --hill1:light-dark(#a9d891,#3f6e48);--hill2:light-dark(#c6e6ae,#4d7d55);
+  --sun:light-dark(#ffe28a,#f3efd2);--cloud:light-dark(#ffffff,#55648a);
+  --card:light-dark(#fffefa,#22322a);--text:light-dark(#24492d,#eaf4e6);--soft:light-dark(#5b7a60,#a9c4ad);
+  --ol:#2f6b38;--line:light-dark(#2f6b38,#0d1a11);
+  --butter:#f7df8c;--sky:#aad9ef;--pink:#f6b9c9;--mint:#bfe5a9;--peach:#f9c79b}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.5 Nunito,"Segoe UI",system-ui,sans-serif;overflow-x:clip}
+main{max-width:780px;margin:0 auto;padding:clamp(16px,3vw,36px) max(4vw,12px) 48px}
+h1,h2,.big{font-family:"Baloo 2",Nunito,sans-serif;font-weight:800;line-height:1.05;margin:0}
+h1{font-size:clamp(32px,6.5vw,50px);text-wrap:balance}
+.top{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+.top p{margin:4px 0 0;color:var(--soft);max-width:46ch}
+.purse{display:flex;align-items:center;gap:8px;background:var(--card);border:3px solid var(--line);border-radius:999px;padding:6px 16px 6px 8px;box-shadow:0 4px 0 var(--line)}
+.purse svg{width:34px;height:34px}.purse b{font:800 26px "Baloo 2",sans-serif}
+.purse small{display:block;font-size:13px;color:var(--soft);line-height:1.2}
+.ico{fill:var(--butter);stroke:var(--ol);stroke-width:2.5;stroke-linejoin:round}
+
+.scene{position:relative;aspect-ratio:600/320;border:4px solid var(--line);border-radius:30px;overflow:hidden;box-shadow:0 6px 0 var(--line)}
+.scene>svg{position:absolute;inset:0;width:100%;height:100%}
+.bubble{position:absolute;left:4%;top:7%;max-width:40%;background:#fffefa;color:#24492d;border:3px solid var(--ol);border-radius:20px;
+  padding:8px 14px;font:800 clamp(14px,2.6vw,20px)/1.2 "Baloo 2",sans-serif}
+.ol{stroke:var(--ol);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.sway,.tail,.blink{transform-box:view-box}
+.sway{transform-origin:110px 232px;animation:sway 3.2s ease-in-out infinite}
+.tail{transform-origin:70px 184px;animation:wag .9s ease-in-out infinite alternate}
+.blink{transform-origin:110px 131px;animation:blink 4.6s infinite}
+.happy .tail{animation-duration:.25s}
+@keyframes sway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+@keyframes wag{from{transform:rotate(-12deg)}to{transform:rotate(12deg)}}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.night{opacity:0}.day{opacity:1}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .night{opacity:1}:root:not([data-theme=light]) .day{opacity:0}}
+:root[data-theme=dark] .night{opacity:1}:root[data-theme=dark] .day{opacity:0}
+.gift{display:none}.has-lemon .lemon,.has-glasses .glasses,.has-hat .hat,.has-crown .crown{display:inline}.has-crown .hat{display:none}
+
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 12px}
+.tab,.lvl{font:800 16px Nunito,sans-serif;min-height:46px;padding:0 18px;border-radius:999px;border:3px solid var(--line);
+  background:var(--card);color:var(--text);cursor:pointer}
+.tab[aria-selected=true]{background:var(--peach);color:#24492d}
+.lvls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.lvl{min-height:40px;font-size:15px}.lvl[aria-pressed=true]{background:var(--sky);color:#24492d}
+button:focus-visible,input:focus-visible{outline:4px solid #e5738f;outline-offset:3px}
+
+.card{background:var(--card);border:4px solid var(--line);border-radius:30px;padding:clamp(18px,3.5vw,30px);box-shadow:0 6px 0 var(--line)}
+.prog{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.prog i{width:22px;height:22px;border-radius:50%;border:3px solid var(--line);background:transparent}
+.prog i.on{background:#f28b82}
+.verb{font-size:clamp(46px,11vw,78px)}
+.ru{color:var(--soft);margin:2px 0 14px;font-weight:700}
+.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.slot{border:3px dashed var(--soft);border-radius:16px;padding:6px 10px;text-align:center}
+.slot small{display:block;font-size:13px;color:var(--soft);font-weight:700}
+.slot b{font:800 clamp(18px,4vw,26px) "Baloo 2",sans-serif;overflow-wrap:anywhere}
+.slot.ask{border-style:solid;border-color:#e5738f;background:light-dark(#fff1f4,#4a2f3a)}
+.q{font-weight:800;font-size:19px;margin:0 0 12px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.opt{font:800 clamp(20px,4.5vw,28px) "Baloo 2",sans-serif;min-height:68px;border-radius:22px;border:3px solid var(--ol);color:#24492d;
+  cursor:pointer;box-shadow:0 6px 0 var(--ol);transition:transform .08s,box-shadow .08s}
+.opt:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ol)}
+.opt:nth-child(1){background:var(--butter)}.opt:nth-child(2){background:var(--sky)}.opt:nth-child(3){background:var(--pink)}.opt:nth-child(4){background:var(--mint)}
+.opt.bad{opacity:.45;text-decoration:line-through}.opt.good{outline:5px solid var(--ol);outline-offset:3px}
+.opt:disabled{cursor:default}
+.write{display:flex;flex-wrap:wrap;gap:10px}
+.write input{flex:1 1 220px;font:800 26px "Baloo 2",sans-serif;padding:8px 16px;border-radius:18px;border:3px solid var(--line);background:light-dark(#f6fbf2,#16231b);color:var(--text)}
+.btn{font:800 18px Nunito,sans-serif;min-height:54px;padding:0 24px;border-radius:999px;border:3px solid var(--ol);background:var(--peach);color:#24492d;
+  cursor:pointer;box-shadow:0 5px 0 var(--ol)}
+.btn.soft{background:var(--card);color:var(--text);border-color:var(--line);box-shadow:0 5px 0 var(--line)}
+.hint{color:var(--soft);font-weight:800;letter-spacing:.12em;margin:10px 0 0}
+.fb{display:none;margin-top:18px;padding:14px 16px;border-radius:20px;border:3px solid var(--line);align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between}
+.fb.show{display:flex}.fb.ok{background:light-dark(#eaf7e1,#28452f)}.fb.no{background:light-dark(#ffecef,#4a2f3a)}
+.fb p{margin:0;font-weight:800;font-size:19px}.fb .tri{font:800 22px "Baloo 2",sans-serif}
+.say{width:48px;height:48px;border-radius:50%;border:3px solid var(--line);background:var(--card);cursor:pointer;display:inline-grid;place-items:center;padding:0;vertical-align:middle}
+.say svg{width:24px;height:24px;fill:none;stroke:var(--text);stroke-width:2.5;stroke-linecap:round}
+
+.search{width:100%;font:700 17px Nunito,sans-serif;padding:12px 16px;border-radius:16px;border:3px solid var(--line);background:light-dark(#f6fbf2,#16231b);color:var(--text);margin-bottom:12px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:14px;color:var(--soft);padding:6px 8px}
+td{padding:8px;border-top:2px dashed light-dark(#cfe0c8,#3a5242);font-weight:700}
+td:first-child{font:800 20px "Baloo 2",sans-serif}
+td .say{width:40px;height:40px}
+.empty{color:var(--soft);font-weight:700}
+.note{font-size:14px;color:var(--soft);margin:14px 0 0}
+
+.modal{position:fixed;inset:0;display:none;place-items:center;background:#0d1a1199;padding:16px;z-index:5}
+.modal.show{display:grid}
+.panel{position:relative;background:var(--card);border:4px solid var(--line);border-radius:30px;padding:28px;max-width:440px;width:100%;text-align:center;box-shadow:0 8px 0 var(--line)}
+.panel .stars{display:flex;justify-content:center;gap:6px;margin-bottom:8px}.panel .stars svg{width:72px;height:72px}
+.panel .stars .off{fill:light-dark(#e3e9df,#3a5242)}
+.panel h2{font-size:clamp(30px,6vw,40px)}.panel p{margin:8px 0}
+.panel .row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:6}
+@media(max-width:600px){
+  .bubble{top:4%;left:3%;font-size:13px;padding:5px 10px;border-width:2px;max-width:38%}
+  .opts{gap:10px}.opt{min-height:60px}
+  .stack thead{display:none}.stack tr{display:grid;grid-template-columns:1fr auto;padding-block:8px;border-top:2px dashed light-dark(#cfe0c8,#3a5242)}
+  .stack td{border:0;padding:2px 0}.stack td:nth-child(5){grid-row:1/5;grid-column:2;align-self:center}
+}
+@media(prefers-reduced-motion:reduce){.sway,.tail,.blink{animation:none}.opt{transition:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 40 40"><path d="M20 3l5.2 10.6 11.7 1.7-8.5 8.2 2 11.6L20 29.6 9.6 35.1l2-11.6-8.5-8.2 11.7-1.7z"/></symbol>
+  <symbol id="spk" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/></symbol>
+  <symbol id="fl" viewBox="-12 -12 24 24" overflow="visible">
+    <g fill="#fff" stroke="#2f6b38" stroke-width="1.6"><circle cx="0" cy="-6" r="4.5"/><circle cx="5.7" cy="-1.9" r="4.5"/><circle cx="3.5" cy="4.9" r="4.5"/><circle cx="-3.5" cy="4.9" r="4.5"/><circle cx="-5.7" cy="-1.9" r="4.5"/></g>
+    <circle r="3.2" fill="#f7d35c" stroke="#2f6b38" stroke-width="1.6"/>
+  </symbol>
+  <symbol id="spark" viewBox="-10 -10 20 20" overflow="visible"><path d="M0-9Q1.2-1.2 9 0Q1.2 1.2 0 9Q-1.2 1.2-9 0Q-1.2-1.2 0-9Z"/></symbol>
+</svg>
+<main>
+  <div class="top">
+    <div>
+      <h1>Feed Tops! Irregular verbs</h1>
+      <p>Tops the little triceratops only eats right answers. Pick the correct verb form and watch Tops munch.</p>
+    </div>
+    <div class="purse" title="Your stars">
+      <svg viewBox="0 0 40 40"><use href="#star" class="ico"/></svg>
+      <div><b id="total">0</b><small id="next">Lemon clip in 5 stars</small></div>
+    </div>
+  </div>
+
+  <div class="scene" id="scene">
+    <svg viewBox="0 0 600 320" preserveAspectRatio="xMidYMax slice" aria-label="Tops the triceratops next to an apple tree" role="img">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sky1)"/><stop offset="1" style="stop-color:var(--sky2)"/></linearGradient>
+      </defs>
+      <rect width="600" height="320" fill="url(#sky)"/>
+      <g class="day" fill="#ffffff"><use href="#spark" x="150" y="40" width="14" height="14"/><use href="#spark" x="250" y="96" width="10" height="10"/><use href="#spark" x="400" y="30" width="12" height="12"/><use href="#spark" x="36" y="160" width="10" height="10"/></g>
+      <g class="night" fill="#fff6c9"><use href="#spark" x="60" y="40" width="12" height="12"/><use href="#spark" x="150" y="80" width="9" height="9"/><use href="#spark" x="250" y="30" width="14" height="14"/><use href="#spark" x="330" y="90" width="9" height="9"/><use href="#spark" x="420" y="24" width="11" height="11"/><use href="#spark" x="210" y="130" width="8" height="8"/></g>
+      <!-- sun / moon with a face -->
+      <g>
+        <circle cx="515" cy="62" r="46" style="fill:var(--sun)" opacity=".35"/>
+        <circle cx="515" cy="62" r="33" style="fill:var(--sun)" class="ol"/>
+        <circle cx="505" cy="58" r="3" fill="#2f6b38"/><circle cx="525" cy="58" r="3" fill="#2f6b38"/>
+        <path d="M509 68q6 5 12 0" fill="none" class="ol" stroke-width="2.5"/>
+        <ellipse cx="499" cy="68" rx="5" ry="3" fill="#f6a9a0" opacity=".8"/><ellipse cx="531" cy="68" rx="5" ry="3" fill="#f6a9a0" opacity=".8"/>
+      </g>
+      <g style="fill:var(--cloud)" class="ol">
+        <path d="M58 128a16 16 0 0 1 6-28a22 22 0 0 1 40-10a18 18 0 0 1 32 10a15 15 0 0 1 4 28Z"/>
+        <path d="M296 58a12 12 0 0 1 4-21a16 16 0 0 1 30-7a14 14 0 0 1 24 8a11 11 0 0 1 3 20Z"/>
+      </g>
+      <path d="M0 225Q120 172 270 214T600 198V320H0Z" style="fill:var(--hill2)" class="ol"/>
+      <path d="M0 274Q160 244 310 272T600 260V320H0Z" style="fill:var(--hill1)" class="ol"/>
+      <use href="#fl" x="28" y="282" width="22" height="22"/><use href="#fl" x="86" y="296" width="18" height="18"/><use href="#fl" x="350" y="292" width="20" height="20"/>
+      <use href="#fl" x="418" y="282" width="16" height="16"/><use href="#fl" x="448" y="300" width="20" height="20"/><use href="#fl" x="572" y="292" width="18" height="18"/>
+      <!-- apple tree -->
+      <path d="M500 292V206q0-8 8-8h10q8 0 8 8v86Z" fill="#d1a06d" class="ol"/>
+      <g fill="#8fcb76" stroke="#2f6b38" stroke-width="6">
+        <circle cx="472" cy="170" r="30"/><circle cx="492" cy="128" r="32"/><circle cx="534" cy="120" r="34"/><circle cx="562" cy="156" r="32"/><circle cx="546" cy="192" r="28"/><circle cx="490" cy="196" r="28"/>
+      </g>
+      <g fill="#8fcb76"><circle cx="472" cy="170" r="30"/><circle cx="492" cy="128" r="32"/><circle cx="534" cy="120" r="34"/><circle cx="562" cy="156" r="32"/><circle cx="546" cy="192" r="28"/><circle cx="490" cy="196" r="28"/><circle cx="516" cy="160" r="48"/></g>
+      <g id="apples" fill="#f28b82" class="ol" stroke-width="2.5">
+        <circle cx="488" cy="150" r="9"/><circle cx="536" cy="134" r="9"/><circle cx="520" cy="186" r="9"/><circle cx="558" cy="170" r="9"/><circle cx="470" cy="184" r="9"/>
+      </g>
+      <g fill="#fff" opacity=".8"><circle cx="485" cy="147" r="2.4"/><circle cx="533" cy="131" r="2.4"/><circle cx="517" cy="183" r="2.4"/><circle cx="555" cy="167" r="2.4"/><circle cx="467" cy="181" r="2.4"/></g>
+
+      <!-- Tops -->
+      <ellipse cx="244" cy="300" rx="96" ry="9" fill="#2f6b38" opacity=".18"/>
+      <g transform="translate(120 46) scale(1.1)">
+        <g id="hop">
+          <g class="sway">
+            <g class="tail"><path d="M74 172Q30 176 0 146Q2 194 72 206Z" fill="#86c276" class="ol"/></g>
+            <rect x="50" y="190" width="30" height="42" rx="13" fill="#79b569" class="ol"/>
+            <rect x="144" y="190" width="30" height="42" rx="13" fill="#79b569" class="ol"/>
+            <ellipse cx="112" cy="182" rx="62" ry="45" fill="#86c276" class="ol"/>
+            <ellipse cx="112" cy="190" rx="32" ry="21" fill="#eef3c9"/>
+            <rect x="74" y="196" width="32" height="38" rx="13" fill="#86c276" class="ol"/>
+            <rect x="118" y="196" width="32" height="38" rx="13" fill="#86c276" class="ol"/>
+            <g fill="#fbf8e4" class="ol" stroke-width="1.8"><ellipse cx="82" cy="229" rx="4" ry="3"/><ellipse cx="90" cy="230" rx="4" ry="3"/><ellipse cx="98" cy="229" rx="4" ry="3"/><ellipse cx="126" cy="229" rx="4" ry="3"/><ellipse cx="134" cy="230" rx="4" ry="3"/><ellipse cx="142" cy="229" rx="4" ry="3"/></g>
+            <!-- frill: stroked circles, then unstroked copies hide inner lines -->
+            <g fill="#78b468" stroke="#2f6b38" stroke-width="6" id="frillA"></g>
+            <g fill="#78b468" id="frillB"></g>
+            <!-- horns -->
+            <g fill="#fbf8e4" class="ol">
+              <path d="M100 86Q106 46 112 32Q118 46 124 86Z"/>
+              <path d="M68 104Q58 74 54 52Q72 64 90 92Z"/>
+              <path d="M156 104Q166 74 170 52Q152 64 134 92Z"/>
+            </g>
+            <ellipse cx="112" cy="130" rx="56" ry="48" fill="#86c276" class="ol"/>
+            <ellipse cx="80" cy="147" rx="8" ry="5" fill="#ecc28f" opacity=".85"/><ellipse cx="144" cy="147" rx="8" ry="5" fill="#ecc28f" opacity=".85"/>
+            <g class="blink">
+              <ellipse cx="91" cy="131" rx="6.5" ry="8" fill="#16301c"/><ellipse cx="133" cy="131" rx="6.5" ry="8" fill="#16301c"/>
+              <circle cx="93" cy="128" r="2.2" fill="#fff"/><circle cx="135" cy="128" r="2.2" fill="#fff"/>
+            </g>
+            <ellipse cx="112" cy="124" rx="9" ry="5.5" fill="#fbf8e4" class="ol" stroke-width="2.5"/>
+            <path id="brow" d="" fill="none" class="ol" stroke-width="2.5"/>
+            <path id="mouth" d="M105 146q7 6 14 0" fill="none" class="ol" stroke-width="2.5"/>
+            <!-- gifts -->
+            <g class="gift lemon">
+              <circle cx="82" cy="104" r="13" fill="#f7e7a1" class="ol" stroke-width="2.5"/>
+              <circle cx="82" cy="104" r="9.5" fill="#fff8d2"/>
+              <path d="M82 95v18M73 104h18M76 98l12 12M88 98l-12 12" stroke="#e8d07a" stroke-width="1.6"/>
+            </g>
+            <g class="gift glasses" fill="#ffffff55" stroke="#8a5a36" stroke-width="2.8"><circle cx="91" cy="131" r="13"/><circle cx="133" cy="131" r="13"/><path d="M104 130q8-4 16 0" fill="none"/></g>
+            <g class="gift hat">
+              <path d="M94 86L112 24L130 86Z" fill="#f6b9c9" class="ol" stroke-width="2.5"/>
+              <circle cx="106" cy="66" r="3" fill="#fff"/><circle cx="118" cy="52" r="3" fill="#fff"/><circle cx="116" cy="76" r="3" fill="#fff"/>
+              <circle cx="112" cy="24" r="7" fill="#f7df8c" class="ol" stroke-width="2.5"/>
+            </g>
+            <g class="gift crown">
+              <path d="M90 86L92 58L102 70L112 52L122 70L132 58L134 86Z" fill="#f7df8c" class="ol" stroke-width="2.5"/>
+              <circle cx="112" cy="76" r="4" fill="#f6b9c9" class="ol" stroke-width="1.6"/><circle cx="99" cy="79" r="2.6" fill="#aad9ef"/><circle cx="125" cy="79" r="2.6" fill="#aad9ef"/>
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
+    <div class="bubble" id="bubble">Hi! I'm Tops. I'm so hungry!</div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-m="choose" aria-selected="true">Pick an answer</button>
+    <button class="tab" role="tab" data-m="write" aria-selected="false">Type it</button>
+    <button class="tab" role="tab" data-m="learn" aria-selected="false">Verb table</button>
+  </div>
+  <div class="lvls" id="lvls">
+    <button class="lvl" data-l="1" aria-pressed="true">Easy</button>
+    <button class="lvl" data-l="2" aria-pressed="false">Medium</button>
+    <button class="lvl" data-l="3" aria-pressed="false">Hard</button>
+    <button class="lvl" data-l="4" aria-pressed="false">Master</button>
+    <button class="lvl" data-l="5" aria-pressed="false">Super master</button>
+  </div>
+
+  <section class="card" id="play">
+    <div class="prog" id="prog" aria-label="Apples eaten"></div>
+    <div class="big verb" id="verb">go</div>
+    <p class="ru" id="ru"></p>
+    <div class="slots" id="slots"></div>
+    <p class="q" id="q"></p>
+    <div id="answer"></div>
+    <div class="fb" id="fb" aria-live="polite"></div>
+  </section>
+
+  <section class="card" id="learn" hidden>
+    <input class="search" id="search" type="search" placeholder="Find a verb in English or Russian" aria-label="Find a verb">
+    <table class="stack"><thead><tr><th>Verb</th><th>Past Simple</th><th>Past Participle</th><th>Translation</th><th></th></tr></thead><tbody id="rows"></tbody></table>
+    <p class="note">Tap the speaker to hear all three forms. No sound? Your browser can't read aloud.</p>
+  </section>
+</main>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="panel">
+    <div class="stars" id="mStars"></div>
+    <h2 id="mTitle">Round complete!</h2>
+    <p id="mText"></p>
+    <p id="mGift"></p>
+    <div class="row"><button class="btn" id="again">Play again</button><button class="btn soft" id="close">Take a break</button></div>
+  </div>
+</div>
+<canvas id="confetti"></canvas>
+
+<script>
+{
+const V = [
+ ['be','was/were','been','быть',1],['have','had','had','иметь',1],['do','did','done','делать',1],['go','went','gone','идти',1],['come','came','come','приходить',1],
+ ['see','saw','seen','видеть',1],['get','got','got','получать',1],['make','made','made','делать, создавать',1],['take','took','taken','брать',1],['give','gave','given','давать',1],
+ ['say','said','said','сказать',1],['eat','ate','eaten','есть',1],['drink','drank','drunk','пить',1],['run','ran','run','бегать',1],['sit','sat','sat','сидеть',1],
+ ['sleep','slept','slept','спать',1],['read','read','read','читать',1],['write','wrote','written','писать',1],['swim','swam','swum','плавать',1],['sing','sang','sung','петь',1],
+ ['buy','bought','bought','покупать',2],['bring','brought','brought','приносить',2],['think','thought','thought','думать',2],['teach','taught','taught','учить кого-то',2],['catch','caught','caught','ловить',2],
+ ['fly','flew','flown','летать',2],['draw','drew','drawn','рисовать',2],['know','knew','known','знать',2],['grow','grew','grown','расти',2],['throw','threw','thrown','бросать',2],
+ ['break','broke','broken','ломать',2],['speak','spoke','spoken','говорить',2],['begin','began','begun','начинать',2],['ride','rode','ridden','ездить верхом',2],['drive','drove','driven','водить машину',2],
+ ['find','found','found','находить',2],['tell','told','told','рассказывать',2],['sell','sold','sold','продавать',2],['leave','left','left','уходить',2],['meet','met','met','встречать',2],
+ ['fall','fell','fallen','падать',3],['feel','felt','felt','чувствовать',3],['forget','forgot','forgotten','забывать',3],['choose','chose','chosen','выбирать',3],['hide','hid','hidden','прятать',3],
+ ['bite','bit','bitten','кусать',3],['wear','wore','worn','носить одежду',3],['steal','stole','stolen','красть',3],['freeze','froze','frozen','замерзать',3],['shake','shook','shaken','трясти',3],
+ ['lose','lost','lost','терять',3],['build','built','built','строить',3],['send','sent','sent','отправлять',3],['spend','spent','spent','тратить',3],['keep','kept','kept','хранить',3],
+ ['dig','dug','dug','копать',3],['hold','held','held','держать',3],['understand','understood','understood','понимать',3],['learn','learnt/learned','learnt/learned','учиться',3],['dream','dreamt/dreamed','dreamt/dreamed','мечтать',3],
+ ['hear','heard','heard','слышать',4],['show','showed','shown','показывать',4],['stand','stood','stood','стоять',4],['put','put','put','класть, ставить',4],['cut','cut','cut','резать',4],
+ ['let','let','let','позволять',4],['pay','paid','paid','платить',4],['win','won','won','побеждать',4],['fight','fought','fought','драться',4],['feed','fed','fed','кормить',4],
+ ['wake','woke','woken','просыпаться',4],['ring','rang','rung','звонить',4],['shut','shut','shut','закрывать',4],['hit','hit','hit','ударять',4],['cost','cost','cost','стоить',4],
+ ['burn','burnt/burned','burnt/burned','гореть',4],['blow','blew','blown','дуть',4],['become','became','become','становиться',4],['mean','meant','meant','значить',4],['lend','lent','lent','одалживать',4],
+ ['sweep','swept','swept','подметать',4],['swing','swung','swung','качаться',4],['shine','shone','shone','светить',4],['tear','tore','torn','рвать',4],
+ ['beat','beat','beaten','бить',5],['bend','bent','bent','сгибать',5],['bet','bet','bet','держать пари',5],['bleed','bled','bled','кровоточить',5],['breed','bred','bred','разводить животных',5],
+ ['forgive','forgave','forgiven','прощать',5],['hurt','hurt','hurt','причинять боль',5],['lay','laid','laid','класть',5],['lead','led','led','вести',5],['lean','leant/leaned','leant/leaned','опираться',5],
+ ['quit','quit','quit','бросать, прекращать',5],['rise','rose','risen','подниматься',5],['set','set','set','устанавливать',5],['shoe','shod','shod','подковывать',5],['shoot','shot','shot','стрелять',5],
+ ['shrink','shrank','shrunk','сжиматься',5],['sink','sank','sunk','тонуть',5],['spill','spilt/spilled','spilt/spilled','проливать',5],['spread','spread','spread','распространять',5],['speed','sped','sped','мчаться',5],
+ ['stick','stuck','stuck','приклеивать',5],['sting','stung','stung','жалить',5],['stink','stank','stunk','вонять',5],['swear','swore','sworn','клясться',5]
+];
+const ROUND = 10;
+const GIFTS = [[5,'lemon','a lemon clip','Lemon clip'],[15,'glasses','glasses','Glasses'],[30,'hat','a party hat','Party hat'],[50,'crown','a crown','Crown']];
+const NAMES = ['Base form','Past Simple','Past Participle'];
+const $ = id => document.getElementById(id);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+const rnd = n => Math.floor(Math.random() * n);
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const SPK = '<svg viewBox="0 0 24 24"><use href="#spk"/></svg>';
+const NS = 'http://www.w3.org/2000/svg';
+
+/* frill: ring of puffs behind the head */
+{
+  let a = '', b = '';
+  for (let i = 0; i <= 8; i++) {
+    const t = (160 + i * 27.5) * Math.PI / 180, x = (112 + 58 * Math.cos(t)).toFixed(1), y = (116 + 50 * Math.sin(t)).toFixed(1);
+    a += `<circle cx="${x}" cy="${y}" r="23"/>`;
+  }
+  b = a + '<ellipse cx="112" cy="118" rx="58" ry="50"/>';
+  $('frillA').innerHTML = a; $('frillB').innerHTML = b;
+}
+
+let mode = 'choose', level = 1, queue = [], cur = null, firstOk = 0, eaten = 0, streak = 0, total = 0;
+try { total = +localStorage.getItem('tops-stars') || 0; } catch (e) {}
+
+/* ---------- Tops ---------- */
+const MOUTH = {smile:'M105 146q7 6 14 0', open:'M105 144q7 12 14 0Z', sad:'M105 150q7-6 14 0', wow:'M108 147a4 4 0 1 0 8 0a4 4 0 1 0-8 0'};
+function mood(m) {
+  const mo = $('mouth');
+  mo.setAttribute('d', MOUTH[m]);
+  mo.setAttribute('fill', m === 'open' || m === 'wow' ? '#b4545a' : 'none');
+  $('brow').setAttribute('d', m === 'sad' ? 'M82 115l12 4M142 115l-12 4' : '');
+}
+function say(t) { $('bubble').textContent = t; }
+function happy() { const s = $('scene'); s.classList.add('happy'); clearTimeout(happy.t); happy.t = setTimeout(() => s.classList.remove('happy'), 1500); }
+function gifts() {
+  const sc = $('scene');
+  GIFTS.forEach(([n, cls]) => sc.classList.toggle('has-' + cls, total >= n));
+  $('total').textContent = total;
+  const nx = GIFTS.find(g => total < g[0]);
+  $('next').textContent = nx ? `${nx[3]} in ${nx[0] - total} ${stars(nx[0] - total)}` : 'All gifts collected!';
+}
+const stars = n => n === 1 ? 'star' : 'stars';
+function feed() {
+  const ap = $('apples').children[rnd(5)];
+  const x = +ap.getAttribute('cx'), y = +ap.getAttribute('cy');
+  happy();
+  if (reduce.matches) { mood('open'); setTimeout(() => mood('smile'), 400); return; }
+  const f = ap.cloneNode(); f.style.transformBox = 'fill-box'; f.style.transformOrigin = 'center';
+  $('apples').after(f); mood('wow');
+  const dx = 243 - x, dy = 205 - y;
+  f.animate([{transform:'translate(0,0)'},{transform:`translate(${dx * .5}px,${dy - 80}px) rotate(180deg)`,offset:.5},{transform:`translate(${dx}px,${dy}px) scale(.4) rotate(360deg)`}],{duration:700,easing:'ease-in'})
+    .onfinish = () => {
+      f.remove(); mood('open');
+      $('hop').animate([{transform:'translateY(0)'},{transform:'translateY(-12px)'},{transform:'translateY(0)'}],{duration:320,easing:'ease-out'});
+      setTimeout(() => mood('smile'), 380);
+    };
+}
+
+/* ---------- speech ---------- */
+function speak(v) {
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(v.slice(0, 3).map(s => s.replace('/', ' or ')).join(', '));
+    u.lang = 'en-US'; u.rate = .8; speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+/* ---------- answer options: only forms of the same verb ---------- */
+function regular(b) {
+  if (b.endsWith('e')) return b + 'd';
+  if (/[^aeiou]y$/.test(b)) return b.slice(0, -1) + 'ied';
+  return b + 'ed';
+}
+function distract(v, slot) {
+  const right = v[slot].split('/'), b = v[0], f = right[0], o = v[3 - slot].split('/')[0];
+  const dbl = /[^aeiou][aeiou][bdgmnprt]$/.test(b) ? b + b.slice(-1) + 'ed' : '';
+  const swaps = [['i','a'],['i','u'],['ee','e']].filter(([a]) => b.includes(a)).map(([a, c]) => b.replace(a, c));
+  const pool = [regular(b), o, b, dbl, ...swaps, f !== b ? regular(f) : '', b + 'en', f + 'en', b + 't'];
+  const out = [];
+  for (const w of pool) if (w && w !== '' && !right.includes(w) && !out.includes(w) && out.length < 3) out.push(w);
+  return out;
+}
+
+/* ---------- game ---------- */
+function newRound() {
+  const pool = shuffle(V.filter(v => v[4] === level)).slice(0, ROUND);
+  queue = pool.map(v => ({v, slot: 1 + rnd(2), retry: false}));
+  firstOk = 0; eaten = 0; streak = 0;
+  say(level >= 3 ? 'Hard verbs? You are so brave!' : "I'm hungry! Let's go!"); mood('smile');
+  ask();
+}
+function prog() { $('prog').innerHTML = Array.from({length: ROUND}, (_, i) => `<i class="${i < eaten ? 'on' : ''}"></i>`).join(''); }
+function slotsHTML() {
+  const v = cur.v;
+  return [0, 1, 2].map(i => {
+    const show = i === 0 || cur.done, ask = i === cur.slot;
+    return `<div class="slot${ask ? ' ask' : ''}"><small>${NAMES[i]}</small><b>${show ? v[i] : ask ? '?' : '…'}</b></div>`;
+  }).join('');
+}
+function ask() {
+  cur = queue.shift();
+  cur.done = false;
+  cur.opts = shuffle([cur.v[cur.slot].split('/')[0], ...distract(cur.v, cur.slot)]);
+  prog();
+  $('verb').textContent = cur.v[0]; $('ru').textContent = cur.v[3];
+  $('slots').innerHTML = slotsHTML();
+  const fb = $('fb'); fb.className = 'fb'; fb.innerHTML = '';
+  renderAnswer();
+}
+function renderAnswer() {
+  const s = cur.slot;
+  $('q').textContent = mode === 'write'
+    ? (s === 1 ? 'Type the Past Simple (the 2nd form).' : 'Type the Past Participle (the 3rd form).')
+    : (s === 1 ? 'What happened yesterday? Pick the Past Simple.' : 'Pick the 3rd form, the Past Participle.');
+  if (mode === 'choose') {
+    $('answer').innerHTML = `<div class="opts">${cur.opts.map(o => `<button class="opt" data-a="${o}">${o}</button>`).join('')}</div>`;
+    $('answer').querySelectorAll('.opt').forEach(b => b.onclick = () => check(b.dataset.a, b));
+  } else {
+    $('answer').innerHTML = `<form class="write" id="wf"><input id="inp" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your answer"><button class="btn">Check</button><button type="button" class="btn soft" id="hintB">Hint</button></form><p class="hint" id="hint"></p>`;
+    $('wf').onsubmit = e => { e.preventDefault(); const val = $('inp').value.trim(); if (val) check(val); };
+    $('hintB').onclick = () => { const w = cur.v[s].split('/')[0]; $('hint').textContent = w[0] + ' _'.repeat(w.length - 1); say('Look at the first letter!'); };
+    $('inp').focus({preventScroll: true});
+  }
+}
+function check(val, btn) {
+  if (cur.done) return; cur.done = true;
+  const v = cur.v, right = v[cur.slot].split('/');
+  const ok = right.includes(val.toLowerCase());
+  if (mode === 'choose') $('answer').querySelectorAll('.opt').forEach(b => {
+    b.disabled = true;
+    if (right.includes(b.dataset.a)) b.classList.add('good'); else if (b === btn) b.classList.add('bad');
+  });
+  else { $('inp').disabled = true; $('wf').querySelectorAll('button').forEach(b => b.disabled = true); }
+  $('slots').innerHTML = slotsHTML();
+  const fb = $('fb'), tri = `${v[0]} – ${v[1]} – ${v[2]}`;
+  if (ok) {
+    if (!cur.retry) firstOk++;
+    eaten++; streak++;
+    say(streak >= 3 ? `Yum-yum! ${streak} in a row!` : ['Yum! So tasty!', 'Correct! More, please!', 'Hooray, an apple!'][rnd(3)]);
+    feed(); prog();
+    fb.className = 'fb show ok';
+    fb.innerHTML = `<div><p>Correct!</p><span class="tri">${tri}</span></div>`;
+  } else {
+    streak = 0; mood('sad');
+    say('Oops! That apple tastes funny…');
+    queue.push({v, slot: cur.slot, retry: true});
+    fb.className = 'fb show no';
+    fb.innerHTML = `<div><p>The right answer is ${right.join(' or ')}</p><span class="tri">${tri}</span><br><small>This verb will come back later.</small></div>`;
+  }
+  fb.innerHTML += `<div><button class="say" aria-label="Listen">${SPK}</button> <button class="btn" id="nextB">${queue.length ? 'Next' : 'Finish'}</button></div>`;
+  fb.querySelector('.say').onclick = () => speak(v);
+  $('nextB').onclick = next; $('nextB').focus({preventScroll: true});
+}
+function next() { if (queue.length) { mood('smile'); ask(); } else finish(); }
+function finish() {
+  const s = firstOk >= 9 ? 3 : firstOk >= 7 ? 2 : 1, before = total;
+  total += s;
+  try { localStorage.setItem('tops-stars', total); } catch (e) {}
+  gifts();
+  $('mStars').innerHTML = [1, 2, 3].map(i => `<svg viewBox="0 0 40 40"><use href="#star" class="ico${i > s ? ' off' : ''}"/></svg>`).join('');
+  $('mTitle').textContent = s === 3 ? 'Super! Tops is full!' : s === 2 ? 'Great job!' : 'Round complete!';
+  $('mText').textContent = `Right on the first try: ${firstOk} of ${ROUND}. You earned ${s} ${stars(s)}.`;
+  const g = GIFTS.find(([n]) => before < n && total >= n);
+  $('mGift').textContent = g ? `New gift! Tops is wearing ${g[2]}.` : '';
+  $('modal').classList.add('show'); $('again').focus();
+  say(g ? `Look, I've got ${g[2]}!` : "Thank you! I'm full!"); mood('smile'); happy();
+  confetti();
+}
+function confetti() {
+  if (reduce.matches) return;
+  const c = $('confetti'), x = c.getContext('2d');
+  c.width = innerWidth; c.height = innerHeight;
+  const cols = ['#f6b9c9', '#f7df8c', '#aad9ef', '#bfe5a9', '#f9c79b'];
+  const P = Array.from({length: 140}, () => ({x: c.width / 2, y: c.height / 3, vx: (Math.random() - .5) * 14, vy: -Math.random() * 12 - 4, r: Math.random() * 6, a: Math.random() * 6, c: cols[rnd(5)]}));
+  const t0 = performance.now();
+  (function f(t) {
+    x.clearRect(0, 0, c.width, c.height);
+    for (const p of P) { p.vy += .35; p.x += p.vx; p.y += p.vy; p.a += .2; x.save(); x.translate(p.x, p.y); x.rotate(p.a); x.fillStyle = p.c; x.fillRect(-4, -2 - p.r / 2, 8, 4 + p.r); x.restore(); }
+    if (t - t0 < 2200) requestAnimationFrame(f); else x.clearRect(0, 0, c.width, c.height);
+  })(t0);
+}
+
+/* ---------- verb table ---------- */
+function table() {
+  const s = $('search').value.trim().toLowerCase();
+  const list = V.filter(v => !s || v.slice(0, 4).some(f => f.toLowerCase().includes(s)));
+  $('rows').innerHTML = list.length ? list.map(v => `<tr><td>${v[0]}</td><td>${v[1]}</td><td>${v[2]}</td><td>${v[3]}</td><td><button class="say" data-i="${V.indexOf(v)}" aria-label="Listen to ${v[0]}">${SPK}</button></td></tr>`).join('')
+    : `<tr><td colspan="5" class="empty">No verb like that here. Try another word.</td></tr>`;
+  $('rows').querySelectorAll('.say').forEach(b => b.onclick = () => speak(V[b.dataset.i]));
+}
+$('search').oninput = table;
+
+/* ---------- tabs keep the round: switching never changes the verb ---------- */
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  const m = t.dataset.m;
+  document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === t));
+  const learn = m === 'learn';
+  $('play').hidden = learn; $('learn').hidden = !learn; $('lvls').hidden = learn;
+  if (learn) { if (!$('rows').children.length) table(); return; }
+  if (m !== mode) { mode = m; if (!cur.done) renderAnswer(); }
+});
+document.querySelectorAll('.lvl').forEach(b => b.onclick = () => {
+  level = +b.dataset.l;
+  document.querySelectorAll('.lvl').forEach(x => x.setAttribute('aria-pressed', x === b));
+  newRound();
+});
+$('again').onclick = () => { $('modal').classList.remove('show'); newRound(); };
+$('close').onclick = () => { $('modal').classList.remove('show'); newRound(); };
+addEventListener('keydown', e => {
+  if (e.key === 'Escape' && $('modal').classList.contains('show')) $('close').click();
+  if (mode === 'choose' && !$('play').hidden && cur && !cur.done && /^[1-4]$/.test(e.key)) { const b = $('answer').querySelectorAll('.opt')[e.key - 1]; b && b.click(); }
+});
+
+gifts(); newRound();
+}
+</script>
+</body>
+</html>
