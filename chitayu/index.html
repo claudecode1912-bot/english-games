@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Читаю по-английски</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: спокойный, взрослый, поддерживающий — учебник для подростка, а не для малыша
+   IDEA: бассейн: курс — это дорожки, модули — заплывы, уроки — отрезки
+   PICTURE: вид сверху на бассейн с разделителями дорожек; прогресс — точки на дорожках
+   COLOUR and TYPE: бирюза и глубокий синий на кремово-голубом; гласные красные, согласные синие; Lexend
+   LAYOUT: одна колонка карточек-блоков по 3–5 минут, крупный текст, много воздуха */
+:root{color-scheme:light dark;
+--bg:light-dark(#eef6f3,#0b1d26);--panel:light-dark(#fdfefd,#112a35);--panel2:light-dark(#e3f1f0,#15333f);
+--ink:light-dark(#10283a,#e6f0f2);--soft:light-dark(#4a6272,#9db4bf);
+--pool:light-dark(#0d7f8c,#3cbac8);--deep:light-dark(#0a4d68,#08303f);--line:light-dark(#c9e0e0,#24434f);
+--v:light-dark(#cf1f2c,#ff7d7d);--c:light-dark(#1b3aa8,#93b2ff);--m:light-dark(#7a35c4,#c9a5ff);--sil:light-dark(#9aa6ad,#5f747c);
+--ok:light-dark(#0f7a45,#59d495);--okbg:light-dark(#dcf3e6,#123b2a);--bad:light-dark(#b93d0b,#ffa06a);--badbg:light-dark(#fde6da,#45230f);
+--hl:light-dark(#fff0b0,#4b4212);--rope1:#e5484d;--rope2:#ffffff;
+--font:'Lexend';--fs:19px}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+body.warm{--bg:light-dark(#f6f1e4,#1d1a12);--panel:light-dark(#fffcf3,#28241a);--panel2:light-dark(#efe7d3,#332d1f)}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font:var(--fs)/1.6 var(--font),Verdana,sans-serif;letter-spacing:.02em;word-spacing:.12em;overflow-x:clip}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--pool)}
+h1,h2,h3{line-height:1.15;margin:0;text-wrap:balance;letter-spacing:0}
+h1{font-size:clamp(30px,5vw,46px)}h2{font-size:clamp(24px,3.4vw,30px)}h3{font-size:21px}
+.wrap{max-width:980px;margin:0 auto;padding:0 max(4vw,14px)}
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;background:var(--deep);color:#fff}
+.bar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding-block:8px}
+.bar .brand{font-weight:700;margin-right:auto;text-decoration:none;color:#fff;display:flex;align-items:center;gap:10px;min-height:44px}
+.bar .brand svg{flex:none}
+.nav{display:flex;flex-wrap:wrap;gap:4px}
+.nav button,.nav a{background:transparent;border:0;color:#d8eef0;padding:8px 12px;border-radius:10px;min-height:44px;text-decoration:none;font-size:16px;display:inline-flex;align-items:center}
+.nav button:hover,.nav a:hover,.nav .on{background:rgba(255,255,255,.14);color:#fff}
+.tmode{border:1.5px solid rgba(255,255,255,.4)!important}
+.tmode.on{background:#ffd166!important;color:#10283a!important;border-color:#ffd166!important}
+/* hero */
+.hero{background:var(--pool);color:#fff;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:center;padding-block:clamp(26px,4vw,48px)}
+.hero p{font-size:18px;max-width:34em;color:#e7f7f8}
+.hero .big{font-size:clamp(40px,7vw,64px);font-weight:700;line-height:1}
+.hero svg{width:100%;height:auto;display:block}
+@media(max-width:700px){.hero .wrap{grid-template-columns:1fr}}
+/* pool lanes */
+.pool{margin:26px auto 40px;border-radius:18px;overflow:hidden;border:3px solid var(--deep);background:linear-gradient(180deg,light-dark(#bfe9ee,#0f3b4a),light-dark(#9fdde5,#0c3240))}
+.lane{display:grid;grid-template-columns:52px minmax(0,1fr) 64px;gap:12px;align-items:center;padding:14px 14px 18px;position:relative}
+.lane+.lane{background-image:repeating-linear-gradient(90deg,var(--rope1) 0 14px,var(--rope2) 14px 28px);background-size:100% 6px;background-repeat:no-repeat;background-position:top}
+.lnum{width:46px;height:46px;border-radius:50%;background:var(--deep);color:#fff;display:grid;place-items:center;font-weight:700;font-size:20px}
+.linfo h3{font-size:19px;color:light-dark(#08384c,#e8fbff)}
+.linfo .sub{font-size:15px;color:light-dark(#215a6c,#a9d6df);margin-bottom:8px}
+.dots{display:flex;flex-wrap:wrap;gap:8px}
+.dot{width:44px;height:44px;border-radius:50%;border:2.5px solid var(--deep);background:light-dark(#ffffffcc,#0b2a36);font-size:14px;font-weight:700;display:grid;place-items:center;text-decoration:none;color:var(--ink)}
+.dot.done{background:var(--deep);color:#fff}
+.dot:hover{transform:translateY(-2px)}
+.medal{width:56px;height:56px;display:grid;place-items:center}
+.medal svg{width:52px;height:52px}
+@media(max-width:600px){.lane{grid-template-columns:40px minmax(0,1fr)}.lnum{width:38px;height:38px;font-size:17px}.medal{grid-column:2;width:auto;justify-content:start}}
+/* lesson */
+.lhead{background:var(--pool);color:#fff}
+.lhead .wrap{padding-block:22px 26px}
+.crumbs{font-size:15px;color:#d5f1f3;margin-bottom:6px}
+.crumbs a{color:#fff}
+.lprog{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.lprog span{height:10px;flex:1 1 24px;max-width:70px;border-radius:5px;background:rgba(255,255,255,.3)}
+.lprog span.on{background:#fff}
+.block{background:var(--panel);border:1.5px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,28px);margin:18px 0}
+.block.isdone{border-color:var(--ok)}
+.bh{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.bh .n{width:38px;height:38px;border-radius:50%;background:var(--panel2);display:grid;place-items:center;font-weight:700;flex:none}
+.bh h2{font-size:22px;margin-right:auto}
+.bh .min{font-size:14px;color:var(--soft)}
+.donebtn{border:2px solid var(--line);background:transparent;border-radius:12px;padding:6px 14px;min-height:44px;font-size:15px}
+.isdone .donebtn{background:var(--ok);border-color:var(--ok);color:#fff}
+.keycard{display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:var(--panel2);border-radius:16px;padding:18px 22px;margin-bottom:14px}
+.keycard .snd{font-size:44px;font-weight:700;color:var(--deep);line-height:1}
+:root .keycard .snd{color:light-dark(#0a4d68,#7fd8e3)}
+.keycard .kw{font-size:40px;font-weight:500}
+.keycard .em{font-size:44px}
+.tip{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;margin:10px 0;align-items:start}
+.tip .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--panel2);font-size:18px}
+.rule{border-left:6px solid var(--pool);background:var(--panel2);padding:14px 18px;border-radius:0 14px 14px 0;font-size:20px}
+.rule b{color:light-dark(#0a4d68,#8fe3ee)}
+.tutor{display:none;margin-top:14px;background:light-dark(#fff6d6,#3a3216);border:1.5px dashed light-dark(#d9a400,#a88a2a);border-radius:14px;padding:12px 16px;font-size:16px}
+.tutor::before{content:"Для репетитора";display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:light-dark(#8a6400,#ffd76a)}
+body.tm .tutor{display:block}
+/* words */
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.tg{border:2px solid var(--line);background:var(--panel);border-radius:12px;padding:6px 14px;min-height:44px;font-size:15px}
+.tg.on{background:var(--deep);border-color:var(--deep);color:#fff}
+.cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(var(--mw,150px),100%),1fr));gap:12px}
+@media(max-width:600px){.cols{gap:8px;--mw:var(--mws,150px)}.w{font-size:26px;padding:4px 8px}.tx{font-size:23px;padding:14px}.syl{font-size:26px;padding:2px 4px}.cut{width:14px}.cut::after{left:6px}.cut.on::after{left:5px}.phr{font-size:23px}}
+.col{display:flex;flex-direction:column;gap:8px;background:var(--panel2);border-radius:14px;padding:10px}
+.col .play{align-self:flex-start}
+.w{display:inline-block;white-space:nowrap;max-width:100%;font-size:30px;font-weight:500;padding:4px 12px;border-radius:12px;border:2px solid transparent;background:var(--panel);text-align:left;cursor:pointer;line-height:1.3;letter-spacing:.06em}
+.w:hover{border-color:var(--pool)}
+.w.say{border-color:var(--pool);background:var(--hl)}
+.g{display:inline-block}
+.pic{font-size:.8em;margin-left:.35em;letter-spacing:0;display:inline-block;vertical-align:middle}
+body.nopic .pic{display:none}
+.vlist{display:flex;flex-direction:column;gap:6px}.vlist .tg{text-align:left}
+.v{color:var(--v)}.c{color:var(--c)}
+.vv{color:var(--v);border-bottom:3px solid currentColor;border-radius:2px}
+.cc{color:var(--c);border-bottom:3px solid currentColor;border-radius:2px}
+.vl{color:var(--v);position:relative}
+.vl::after{content:"";position:absolute;left:8%;right:8%;top:.05em;height:3px;background:currentColor;border-radius:2px}
+.me{color:var(--m)}
+.sil{color:var(--sil)}
+.soft{color:var(--c);text-decoration:underline wavy;text-underline-offset:5px}
+.tw{color:var(--m);border-bottom:2px dotted var(--m)}
+.g.on{background:var(--hl);border-radius:6px;outline:2px solid var(--pool)}
+body.nocol .v,body.nocol .c,body.nocol .vv,body.nocol .cc,body.nocol .vl,body.nocol .me,body.nocol .soft{color:inherit;border-color:transparent}
+body.nocol .vl::after{display:none}
+body.nocol .sil{color:inherit}
+.play{border:0;background:var(--pool);color:#fff;border-radius:50%;width:44px;height:44px;display:inline-grid;place-items:center;flex:none}
+.play svg{width:20px;height:20px}
+.play.sm{width:38px;height:38px}
+/* phrases & text */
+.phr{display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:26px}
+.phr:last-child{border:0}
+.tx{font-size:26px;line-height:2;background:var(--panel2);border-radius:16px;padding:18px 22px;max-width:36em}
+.tw2{cursor:pointer;border-radius:6px;padding:0 2px}
+.tw2:hover{background:var(--hl)}
+.tw2.say{background:var(--hl)}
+.hlg{color:var(--v);font-weight:700;border-bottom:3px solid currentColor}
+body.nocol .hlg{color:inherit}
+.pv{border-bottom:2px dashed var(--soft);color:var(--soft)}
+.legend{font-size:15px;color:var(--soft);margin-top:10px}
+/* exercises */
+.ex{margin:6px 0 18px}
+.ex h3{font-size:19px;margin-bottom:4px}
+.ex .how{color:var(--soft);font-size:16px;margin:0 0 12px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border:0}
+.opt{border:2px solid var(--line);background:var(--panel);border-radius:12px;padding:6px 16px;min-height:52px;font-size:26px;font-weight:500;letter-spacing:.05em}
+.opt:hover{border-color:var(--pool)}
+.opt.ok,.chip.ok{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.opt.no{background:var(--badbg);border-color:var(--bad)}
+.shake{animation:sh .35s}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media(prefers-reduced-motion:reduce){.shake{animation:none}.dot:hover{transform:none}}
+.slot{display:inline-block;min-width:1.4em;border-bottom:3px solid var(--ink);text-align:center;color:var(--ok)}
+.fw{font-size:32px;font-weight:500;letter-spacing:.08em;min-width:5em}
+.sortpool{display:flex;flex-wrap:wrap;gap:8px;padding:12px;border:2px dashed var(--line);border-radius:14px;min-height:70px;margin-bottom:12px}
+.chip{white-space:nowrap;border:2px solid var(--line);background:var(--panel);border-radius:12px;padding:4px 14px;font-size:24px;font-weight:500;min-height:48px}
+.chip.sel{border-color:var(--pool);background:var(--hl);outline:3px solid var(--pool)}
+.sortcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.scol{border:2px solid var(--line);border-radius:14px;padding:10px;min-height:120px;background:var(--panel2);text-align:left;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.scol .lab{font-weight:700;font-size:20px;margin-bottom:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:8px;max-width:640px}
+.gl{height:64px;border:2px solid var(--line);background:var(--panel);border-radius:12px;font-size:38px;font-family:var(--font),sans-serif}
+.gl.ok{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.cnt{font-weight:700;margin:10px 0}
+.syl{display:inline-flex;align-items:center;font-size:34px;font-weight:500;background:var(--panel);border-radius:12px;padding:2px 8px}
+.cut{width:22px;height:52px;border:0;background:transparent;position:relative;padding:0}
+.cut::after{content:"";position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.cut.on::after{background:var(--bad);width:4px;left:9px}
+.small{font-size:15px;color:var(--soft)}
+.btn{border:0;background:var(--deep);color:#fff;border-radius:12px;padding:10px 18px;min-height:48px;font-size:17px}
+.btn.alt{background:var(--panel2);color:var(--ink);border:2px solid var(--line)}
+.res{font-weight:700;margin-left:6px}
+.res.ok{color:var(--ok)}.res.no{color:var(--bad)}
+.dict input{font:inherit;font-size:24px;padding:6px 12px;border-radius:12px;border:2px solid var(--line);background:var(--panel);color:var(--ink);width:min(260px,100%);letter-spacing:.05em}
+.dict input:focus,button:focus-visible,a:focus-visible{outline:3px solid #ffb703;outline-offset:2px}
+.can label{display:flex;gap:12px;align-items:center;font-size:20px;padding:8px 0;cursor:pointer}
+.can input{width:28px;height:28px;accent-color:var(--ok)}
+.finish{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;margin:20px 0 50px}
+.intro p{max-width:40em}
+.lettergrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;margin:12px 0}
+.lettergrid button{height:70px;border-radius:12px;border:2px solid var(--line);background:var(--panel);font-size:30px;font-weight:500}
+/* pages */
+.page{padding-block:26px 60px}
+.page h1{margin-bottom:10px}
+.sgroup{margin:22px 0}
+.scards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:10px}
+.scard{display:flex;align-items:center;gap:12px;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:10px 14px;text-align:left}
+.scard .s{font-weight:700;font-size:22px;color:light-dark(#0a4d68,#7fd8e3);min-width:3.4em}
+.scard .k{font-size:24px}
+.trlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.tri{background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:12px 16px}
+.tri .ww{font-size:28px;font-weight:500}
+.guide p,.guide li{max-width:42em}
+.guide li{margin:6px 0}
+/* settings */
+.ov{position:fixed;inset:0;background:rgba(5,20,30,.5);z-index:50;display:none;align-items:flex-start;justify-content:center;padding:60px 14px;overflow:auto}
+.ov.open{display:flex}
+.sheet{background:var(--panel);border-radius:18px;padding:22px;max-width:520px;width:100%}
+.set{margin:14px 0}
+.set .lab{font-weight:700;margin-bottom:6px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.warn{background:var(--badbg);border-radius:12px;padding:10px 14px;font-size:15px;margin-top:10px}
+.ruler{position:fixed;left:0;right:0;height:2.4em;pointer-events:none;z-index:40;box-shadow:0 0 0 200vmax rgba(8,25,35,.42);border-top:2px solid #ffd166;border-bottom:2px solid #ffd166;display:none}
+body.rul .ruler{display:block}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--deep);color:#fff;padding:12px 20px;border-radius:14px;z-index:60;display:none;max-width:90vw;font-size:17px}
+</style>
+</head>
+<body>
+<div class="bar"><div class="wrap">
+<a class="brand" href="#pool"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="16" fill="#3cbac8"/><path d="M5 20c3-3 5-3 8 0s5 3 8 0 5-3 8 0" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="20" cy="11" r="3" fill="#fff"/></svg>Читаю по‑английски</a>
+<nav class="nav">
+<a href="#pool" data-nav="pool">Бассейн</a>
+<a href="#sounds" data-nav="sounds">Звуки</a>
+<a href="#tricky" data-nav="tricky">Хитрые слова</a>
+<a href="#guide" data-nav="guide">Как заниматься</a>
+<button data-act="settings">Настройки</button>
+<button class="tmode" data-act="tutor" title="Показать подсказки для репетитора">Репетитор</button>
+</nav></div></div>
+<div id="vbanner" style="display:none;background:#fff1c2;color:#3d2c00;padding:10px max(4vw,14px);font-size:16px">Голос озвучки на этом устройстве звучит неточно. <button class="btn alt" style="min-height:36px;padding:4px 12px;margin-left:6px" data-act="settings">Как исправить</button></div>
+<main id="app"></main>
+<div class="ov" id="ov"><div class="sheet" role="dialog" aria-label="Настройки">
+<div class="bh"><h2>Настройки</h2><button class="btn alt" data-act="close">Готово</button></div>
+<div class="set"><div class="lab">Шрифт</div><div class="seg" data-set="font">
+<button class="tg" data-v="Lexend">Lexend</button><button class="tg" data-v="Atkinson Hyperlegible">Atkinson</button><button class="tg" data-v="Verdana">Verdana</button></div></div>
+<div class="set"><div class="lab">Размер текста</div><div class="seg" data-set="fs">
+<button class="tg" data-v="17px">Обычный</button><button class="tg" data-v="19px">Крупный</button><button class="tg" data-v="22px">Очень крупный</button></div></div>
+<div class="set"><div class="lab">Фон</div><div class="seg" data-set="bgc">
+<button class="tg" data-v="aqua">Голубой</button><button class="tg" data-v="warm">Тёплый кремовый</button></div></div>
+<div class="set"><div class="lab">Цветные буквы</div><div class="seg" data-set="col">
+<button class="tg" data-v="on">Включены</button><button class="tg" data-v="off">Выключены</button></div>
+<p class="small">Гласные — <span class="v">красные</span>, согласные — <span class="c">синие</span>, немая e — <span class="me">фиолетовая</span>, буквы, которые не читаются, — <span class="sil">серые</span>. Подчёркнутые вместе буквы дают один звук.</p></div>
+<div class="set"><div class="lab">Картинки к словам</div><div class="seg" data-set="pic">
+<button class="tg" data-v="on">Показывать</button><button class="tg" data-v="off">Скрыть</button></div>
+<p class="small">Картинка рядом со словом помогает запомнить его смысл и написание. Если ученица начинает «угадывать» слово по картинке, а не читать, скройте картинки.</p></div>
+<div class="set"><div class="lab">Голос</div><div class="vlist" id="voices"></div><p class="small">Самые естественные британские голоса — в браузере Edge (например, Sonia или Libby) и в Chrome (Google UK English). Выберите тот, который звучит лучше.</p></div>
+<div class="set"><div class="lab">Скорость озвучки</div><div class="seg" data-set="rate">
+<button class="tg" data-v="0.85">Обычная</button><button class="tg" data-v="0.6">Медленная</button></div></div>
+<div class="set"><div class="lab">Линейка для чтения</div><div class="seg" data-set="rul">
+<button class="tg" data-v="off">Выкл.</button><button class="tg" data-v="on">Вкл.</button></div>
+<p class="small">Подсвечивает одну строку и затемняет остальное. Двигается за мышкой или пальцем.</p></div>
+<div class="set"><button class="btn alt" data-act="testvoice">Проверить голос</button> <span class="small" id="vname"></span><div id="vwarn"></div></div>
+<div class="set"><button class="btn alt" data-act="reset">Сбросить прогресс</button> <span class="small" id="rsmsg"></span></div>
+</div></div>
+<div class="ruler" id="ruler"></div>
+<div class="toast" id="toast"></div>
+<script>
+const EMO={cat:'🐱',cats:'🐈',hat:'🎩',mat:'🧘',bat:'🦇',map:'🗺️',tap:'🚰',cap:'🧢',nap:'😴',bag:'👜',tag:'🏷️',man:'👨',can:'🥫',van:'🚐',pan:'🍳',dad:'👨‍👧',sad:'😢',mad:'😠',bad:'👎',
+pin:'📌',win:'🏆',bin:'🗑️',tin:'🥫',sit:'🪑',kit:'🧰',big:'🐘',dig:'⛏️',pig:'🐷',lip:'👄',hot:'🔥',pot:'🍲',dot:'⚫',dog:'🐶',dogs:'🐕',log:'🌲',fog:'🌫️',jog:'🏃',top:'🔝',hop:'🐇',mop:'🧹',box:'📦',boxes:'📦',fox:'🦊',ox:'🐂',cod:'🐟',
+sun:'☀️',run:'🏃',running:'🏃',fun:'🎉',bun:'🍞',cup:'☕',cups:'☕',pup:'🐶',bus:'🚌',cut:'✂️',nut:'🥜',hut:'🏠',mug:'☕',hug:'🤗',bug:'🐛',tub:'🛁',
+bed:'🛏️',red:'🔴',ten:'🔟',pen:'🖊️',pens:'🖊️',hen:'🐔',men:'👥',net:'🥅',wet:'💦',vet:'🩺',jet:'✈️',pet:'🐾',leg:'🦵',yes:'✅',off:'📴',bell:'🔔',hill:'⛰️',kiss:'💋',buzz:'🐝',jazz:'🎷',
+web:'🕸️',vest:'🦺',yum:'😋',yell:'📣',up:'⬆️',wax:'🕯️',
+stop:'🛑',step:'👣',spin:'🌀',swim:'🏊‍♀️',swims:'🏊‍♀️',swam:'🏊‍♀️',snap:'📸',sniff:'👃',smell:'👃',smog:'🌫️',sled:'🛷',clap:'👏',flag:'🚩',glad:'😊',plan:'📝',crab:'🦀',drip:'💧',drop:'💧',drum:'🥁',frog:'🐸',grin:'😁',trip:'🧳',
+hand:'✋',sand:'🏖️',band:'🎸',tent:'⛺',jump:'🤸',jumped:'🤸',jumping:'🤸',lamp:'💡',camp:'🏕️',best:'🥇',rest:'😌',nest:'🐣',desk:'🖥️',disk:'💿',gift:'🎁',lift:'🛗',sprint:'🏃‍♀️',scrub:'🧽',frost:'❄️',
+ship:'🚢',shop:'🛒',fish:'🐟',dish:'🍽️',wish:'🌠',wishes:'🌠',splash:'💦',flash:'⚡',crash:'💥',shell:'🐚',chip:'🍟',chips:'🍟',lunch:'🥪',bench:'🪑',match:'🏅',stretch:'🧘',maths:'➗',cloth:'🧣',
+neck:'🧣',duck:'🦆',kick:'🦵',kicks:'🦵',kicking:'🦵',lock:'🔒',pack:'🎒',ring:'💍',sing:'🎤',king:'👑',song:'🎵',bank:'🏦',pink:'🌸',think:'🤔',drink:'🥤',sink:'🚰',quick:'⚡',quiz:'❓',dolphin:'🐬',graph:'📈',
+cake:'🎂',lake:'🏞️',game:'🎮',name:'📛',gate:'🚪',plate:'🍽️',skate:'⛸️',tape:'📼',cape:'🦸',shape:'🔷',wave:'🌊',save:'💾',brave:'🦁',bike:'🚲',like:'👍',hike:'🥾',time:'⏰',lime:'🍋',five:'5️⃣',dive:'🏊',diving:'🏊',drive:'🚗',shine:'✨',smile:'😊',smiling:'😊',white:'⚪',ride:'🚲',riding:'🚲',kite:'🪁',
+home:'🏠',hope:'🙏',note:'📝',vote:'🗳️',bone:'🦴',joke:'😂',nose:'👃',rose:'🌹',stroke:'🏊',cube:'🧊',tube:'🧪',cute:'🥰',tune:'🎵',huge:'🐘',rule:'📏',
+car:'🚗',star:'⭐',park:'🏞️',dark:'🌑',shark:'🦈',arm:'💪',farm:'🚜',start:'🏁',card:'🃏',garden:'🌷',fork:'🍴',sport:'🏅',north:'🧭',storm:'⛈️',torch:'🔦',shore:'🏖️',store:'🏪',
+bird:'🐦',girl:'👧',first:'🥇',shirt:'👕',third:'🥉',turn:'↩️',burn:'🔥',hurt:'🤕',swimmer:'🏊‍♀️',winner:'🏆',sister:'👭',summer:'☀️',
+see:'👀',feet:'🦶',green:'🟢',sleep:'😴',week:'📅',sea:'🌊',team:'👥',eat:'🍽️',read:'📖',beach:'🏖️',dream:'💭',teach:'👩‍🏫',seat:'💺',
+rain:'🌧️',train:'🚆',wait:'⏳',paint:'🎨',play:'🎮',played:'🎮',playing:'🎮',boat:'⛵',coat:'🧥',goal:'🥅',road:'🛣️',toast:'🍞',coach:'🧑‍🏫',soap:'🧼',snow:'❄️',slow:'🐢',grow:'🌱',
+night:'🌙',light:'💡',fight:'🥊',bright:'🔆',fly:'🕊️',cry:'😢',sky:'🌤️',shy:'🙈',why:'❓',happy:'😀',funny:'😂',sunny:'☀️',party:'🥳',lucky:'🍀',
+pool:'🏊',moon:'🌙',cool:'😎',spoon:'🥄',food:'🍔',tool:'🔧',book:'📖',look:'👀',good:'👍',foot:'🦶',cook:'🧑‍🍳',
+cloud:'☁️',loud:'📢',round:'⭕',sound:'🔊',count:'🔢',shout:'📢',mouth:'👄',cow:'🐄',down:'⬇️',town:'🏘️',brown:'🟤',crowd:'👥',shower:'🚿',coin:'💰',point:'👉',noise:'🔊',boy:'👦',toy:'🧸',joy:'😄',
+city:'🏙️',ice:'🧊',rice:'🍚',face:'🙂',race:'🏁',space:'🚀',gym:'🏋️',page:'📄',stage:'🎭',magic:'✨',bridge:'🌉',badge:'🏅',
+know:'🧠',knee:'🦵',knock:'🚪',knit:'🧶',write:'✍️',wrist:'⌚',wrong:'❌',wrap:'🎁',thumb:'👍',climb:'🧗',lamb:'🐑',
+sunset:'🌅',backstroke:'🏊',pancake:'🥞',weekend:'📅',lunchbox:'🍱',goalpost:'🥅',bedroom:'🛏️',handstand:'🤸',rabbit:'🐰',button:'🔘',goblin:'👺',muffin:'🧁',dentist:'🦷',magnet:'🧲',helmet:'⛑️',insect:'🐞',contest:'🏆',picnic:'🧺',
+robot:'🤖',music:'🎵',tiger:'🐯',paper:'📄',student:'🧑‍🎓',relax:'😌',silent:'🤫',swimming:'🏊‍♀️',rained:'🌧️',station:'🚉',apple:'🍎',puzzle:'🧩',butterfly:'🦋',championship:'🏆',competition:'🏆',
+friend:'👭',school:'🏫',people:'👥',eye:'👁️',laugh:'😂',beautiful:'🌸',water:'💧',walk:'🚶',talk:'💬',one:'1️⃣',two:'2️⃣',four:'4️⃣'};
+
+const BASE_TRICKY=[];
+const M=[
+{n:'0',t:'Разминка',s:'Буквы и звуки. Гласные и согласные'},
+{n:'Т',t:'Тренажёр «Не перепутай»',s:'b и d, v и w, u и y'},
+{n:'1',t:'Короткие гласные',s:'Закрытый слог: cat, pin, hot, sun, bed'},
+{n:'2',t:'Две согласные рядом',s:'st, sw, fr, tr, -nd, -mp, str'},
+{n:'3',t:'Две буквы — один звук',s:'sh, ch, th, ck, ng, wh, ph, qu'},
+{n:'4',t:'Волшебная e',s:'cake, bike, home, cube'},
+{n:'5',t:'Гласная + r',s:'car, sport, her, bird, turn'},
+{n:'6',t:'Гласные пары',s:'ee, ea, ai, ay, oa, igh, oo, ou, oi'},
+{n:'7',t:'Мягкие и немые буквы',s:'city, gym, know, write, thumb'},
+{n:'8',t:'Длинные слова',s:'Слоги, -ed, -ing, -tion, -le'},
+{n:'9',t:'Хитрые слова и финал',s:'Слова-исключения и финальный заплыв'}
+];
+const AB='abcdefghijklmnopqrstuvwxyz'.split('');
+const L=[
+/* ===== 0. РАЗМИНКА ===== */
+{id:'0-1',m:0,t:'Буквы и звуки',
+intro:[
+['Буква и звук — не одно и то же',3,`<p><b>Буква</b> — то, что мы видим и пишем. <b>Звук</b> — то, что мы слышим и произносим.</p>
+<p>У каждой английской буквы есть <b>имя</b> (как в алфавите) и <b>звук</b> (как она читается в слове). Например, буква <b>c</b> называется «си», а в слове cat звучит как [k].</p>
+<p>Чтобы читать, нам нужны <b>звуки</b>. Послушай слова и обрати внимание на первый звук:</p>
+<p><button class="w" data-w="cat">cat</button> <button class="w" data-w="sun">sun</button> <button class="w" data-w="map">map</button> <button class="w" data-w="dog">dog</button></p>`],
+['Алфавит',4,`<p>Здесь звучат <b>имена</b> букв. Нажимай по порядку и повторяй вслух. Звуки букв мы будем учить в уроках.</p>
+<div class="lettergrid">${AB.map(x=>`<button class="w" data-w="${x.toUpperCase()}">${x}</button>`).join('')}</div>
+<p class="small">Подсказка: буквы b, d, p, q похожи друг на друга. Для них есть отдельный тренажёр «Не перепутай».</p>`],
+['Как устроен урок',3,`<p>Каждый урок — это <b>дорожка</b> в бассейне. Она состоит из коротких отрезков по 3–5 минут. Закончила отрезок — нажми «Отметить готовым». Можно остановиться на любом отрезке и продолжить в другой день.</p>
+<p><b>Цвета букв:</b> гласные <span class="v">красные</span>, согласные <span class="c">синие</span>. Если две буквы <span class="cc">подчёркнуты</span> вместе, они дают <b>один</b> звук. <span class="me">Фиолетовая</span> e не читается, а <span class="sil">серые</span> буквы молчат. Цвета можно выключить в настройках.</p>
+<p><b>Звуки</b> мы записываем в квадратных скобках с ключевым словом: [a] как в cat, [sh] как в ship.</p>
+<p><b>Любое английское слово можно нажать</b> — оно прозвучит. Кнопка с динамиком читает слово, фразу или целый текст.</p>
+<p>В настройках есть <b>линейка</b>: она подсвечивает одну строку, чтобы глаза не прыгали.</p>`]],
+tu:'Первое занятие — знакомство. Не торопитесь с алфавитом: если ученица уверенно знает имена букв, достаточно пройти его один раз. Покажите, как работают кнопки озвучки и настройки, и вместе выберите удобный шрифт и размер.',
+can:['Я понимаю разницу между буквой и звуком','Я знаю, как устроен урок и где настройки']},
+
+{id:'0-2',m:0,t:'Гласные и согласные',
+intro:[['Гласные и согласные',3,`<p>Гласных букв пять: <span class="v" style="font-size:34px;font-weight:700;letter-spacing:.3em">a e i o u</span>. Иногда гласной бывает и <span class="v" style="font-size:34px;font-weight:700">y</span>.</p>
+<p>Все остальные буквы — согласные: <span class="c" style="font-size:30px;font-weight:700;letter-spacing:.2em">b c d f g h j k l m n p q r s t v w x z</span></p>
+<p>В каждом слоге есть гласный звук. Гласные — как вода в бассейне: без них слово не «плывёт».</p>`]],
+goal:'Отличать гласные буквы от согласных.',
+ex:[{type:'sort',h:'Гласная или согласная?',cols:[['Гласная','a e i o u'],['Согласная','b d f m s t k']]},
+{type:'grid',find:'a',h:'Найди все гласные a',s:'abdatmanosapleaqa'}],
+tu:'Цвета в учебнике строятся на этом делении, поэтому важно, чтобы ученица уверенно различала гласные и согласные. Можно попросить её назвать гласные в своём имени и в имени любимого пловца.',
+can:['Я знаю пять гласных: a, e, i, o, u','Я отличаю гласные от согласных']},
+
+/* ===== Т. ТРЕНАЖЁР ===== */
+{id:'t-1',m:1,t:'b или d',k:['[b] и [d]','bed','🛏️'],
+goal:'Не путать буквы b и d.',
+mouth:'[b] — губы сомкнуты и «взрываются», как в русском «б». [d] — кончик языка стоит за верхними зубами, как в «д».',
+mix:'Подсказка «кровать»: сожми кулаки и подними большие пальцы. Левая рука — b, правая — d. Получилась кровать <b>bed</b>: b в начале, d в конце. Ещё подсказка: d пишется как <b>c</b> + палочка.',
+rule:'<b>b</b> — сначала палочка, потом животик. <b>d</b> — сначала животик (как буква c), потом палочка. Сомневаешься — проверь словом <b>bed</b>.',
+words:'bad bed big bud bat | dad dig den dip dug | bid dab bib',
+ex:[{type:'grid',find:'b',s:'bdbpdbqdbbdpdbdbqd'},
+{type:'listen',items:['bad dad','big dig','bin din','bug dug']},
+{type:'fill',opts:['b','d'],w:'_ed=b _ig=d sa_=d ta_=b ru_=b ki_=d _en=d _ug=b'}],
+dict:'bed bad dig bud dip',
+tu:'Если ученица путает, не говорите «нет», скажите «проверь кроватью». Пишите b одним движением сверху вниз: палочка, затем животик. d начинайте с буквы c и добавляйте палочку — так у букв разные траектории, и рука запоминает разницу. Этот тренажёр стоит повторять по 2 минуты в начале каждого занятия, пока путаница не пройдёт.',
+can:['Я проверяю b и d словом bed','Я нахожу b среди похожих букв']},
+
+{id:'t-2',m:1,t:'v или w',k:['[v] и [w]','vet','🩺'],
+goal:'Не путать v и w ни в чтении, ни в произношении.',
+mouth:'[v] — верхние зубы касаются нижней губы, как в русском «в». [w] — губы трубочкой, как будто задуваешь свечу, и сразу раскрываешь. Зубы губ не касаются. Похоже на быстрое «уэ».',
+mix:'v — один острый уголок. w — два уголка, как две v рядом. По-английски она так и называется: double u.',
+rule:'<b>v</b> = [v], как русское «в». <b>w</b> = [w], губы трубочкой. vet ≠ wet!',
+words:'van vet vest | wet web win wig | wax wag well',
+ex:[{type:'listen',items:['vet wet','vest west','vine wine','veil whale']},
+{type:'grid',find:'w',s:'vwvwmwvuwvnwvvwmw'},
+{type:'fill',opts:['v','w'],w:'_an=v _in=w _ig=w _ax=w _at=v _eb=w'}],
+dict:'van wet win vet web',
+tu:'Русскоязычные часто произносят [w] как [v]. Попросите ученицу посмотреть в зеркало: при [v] видно верхние зубы, при [w] губы вытянуты вперёд. Сначала добейтесь различия в произношении, потом в чтении.',
+can:['Я произношу [v] и [w] по-разному','Я различаю буквы v и w']},
+
+{id:'t-3',m:1,t:'u или y',k:['u и y','sun','☀️'],
+goal:'Не путать буквы u и y.',
+mouth:'u в слове sun — короткий звук, похожий на русское безударное «а» (как в слове «вода»). y в начале слова — как русское «й»: yes [йес].',
+mix:'u — чашка, в неё можно налить воду. y — чашка с хвостиком, который уходит вниз под строку.',
+rule:'<b>u</b> — чашка. <b>y</b> — чашка с хвостиком вниз. В начале слова y звучит как «й»: <b>y</b>es, <b>y</b>et.',
+words:'up sun bus cup mug | yes yet yak yum yell',
+ex:[{type:'sort',cols:[['u — чашка','up sun bus cup mug'],['y — с хвостиком','yes yet yak yum yell']]},
+{type:'grid',find:'y',s:'uyvuyuuyvyuyuvyu'},
+{type:'fill',opts:['u','y'],w:'_es=y s_n=u b_s=u _et=y c_p=u _ak=y'}],
+dict:'yes sun bus yet cup',
+tu:'Попросите ученицу обвести пальцем крупные u и y и проговорить: «чашка» и «чашка с хвостиком». Хвостик y уходит ниже строки, как у g, j, p, q.',
+can:['Я отличаю u от y','Я читаю y в начале слова как «й»']},
+
+{id:'t-4',m:1,t:'Всё вместе',k:['b d v w u y','web','🕸️'],
+goal:'Закрепить различие всех трудных букв.',
+rule:'Проверяй себя: <b>b/d</b> — кровать bed. <b>v/w</b> — один уголок или два. <b>u/y</b> — чашка или чашка с хвостиком.',
+words:'bed web yes | dig van bus | bud wet yum',
+ex:[{type:'grid',find:'d',h:'Найди все буквы d',s:'bdpqdbdbqpdbdqbd'},
+{type:'listen',items:['bed wed','vet bet','dig wig','bin win','yet wet']},
+{type:'fill',opts:['b','d','v','w','u','y'],w:'_ig=b _og=d _an=v _in=w _es=y c_p=u be_=d we_=b'}],
+dict:'web dig bad vet yes',
+tu:'Этот урок можно возвращать как разминку на любом этапе курса. Если какая-то пара всё ещё путается, вернитесь к её отдельному уроку.',
+can:['Я не путаю b и d','Я не путаю v и w','Я не путаю u и y']},
+
+/* ===== 1. КОРОТКИЕ ГЛАСНЫЕ ===== */
+{id:'1-1',m:2,t:'Звук [a] как в cat',k:['[a]','cat','🐱'],g:['a'],
+goal:'Читать слова с коротким [a] в закрытом слоге.',
+mouth:'Рот широко открыт, как будто удивляешься. Звук средний между русскими «а» и «э», губы чуть растянуты.',
+mix:'Не читай как русское «а»: в cat звук ярче и ближе к «э».',
+rule:'<b>Закрытый слог</b>: гласная стоит между согласными (c<b>a</b>t). Согласная её «закрывает», и гласная звучит <b>коротко</b>. В закрытом слоге a читается [a].',
+words:'cat hat sat mat bat | map tap cap nap lap | bag tag rag wag | man can fan van pan | dad sad mad bad had',
+ex:[{type:'listen',items:['cat cap can','bag bad bat','man map mat','fan fat']},
+{type:'odd',h:'Найди слово, которое не рифмуется',how:'Три слова рифмуются, одно нет. Нажми на лишнее.',items:['cat hat mat !map','can fan van !cap','bag rag tag !bad']}],
+ph:['A fat cat.','Dad has a cap.','The man ran.','Sam can nap.'],
+tx:{t:'Sam and Max',b:'Sam has a cat. The cat is Max. Max is fat. Max has a mat. Max can nap. Sam has a cap and a bag. Max ran at the bag. Bad cat, Max!',q:[['Is Max a cat?','yes'],['Can Max nap?','yes']]},
+dict:'cat map bag van dad sad',
+tr:[['the','Звонкий [th] (кончик языка между зубами, с голосом) + слабое «э». Не «зэ» и не «дэ»! Подробно — в уроке про th.'],['a','Перед словом читается коротко и слабо, как безударное «э».'],['is','Буква s здесь звучит как [z]: [из].'],['has','s звучит как [z]: [хэз].']],
+tu:'Попросите ученицу отстучать звуки по пальцам: c-a-t — три звука, три пальца. Потом «склеить» их в слово. Если она быстро устала, остановитесь после блока «Читаем слова»: это нормально.',
+can:['Я читаю [a] в закрытом слоге','Я читаю слова cat, map, bag','Я знаю хитрые слова the, a, is, has']},
+
+{id:'1-2',m:2,t:'Звук [i] как в pin',k:['[i]','pin','📌'],g:['i'],
+goal:'Читать слова с коротким [i].',
+mouth:'Короткий звук, средний между русскими «и» и «ы». Рот чуть приоткрыт, губы не растягивай.',
+mix:'Не тяни звук: pin — коротко. Долгий [ee], как в see, — другой звук, он будет позже.',
+rule:'В закрытом слоге <b>i</b> читается [i] коротко: p<b>i</b>n, s<b>i</b>t, b<b>i</b>g.',
+words:'pin win bin tin | sit hit bit kit | big dig pig wig | lip dip hip tip | him rim dim',
+ex:[{type:'sort',cols:[['[a] как в cat','cat map bag fan'],['[i] как в pin','pin sit big lip']]},
+{type:'listen',items:['pin pan','bit bat','big bag','lip lap','tin tan']}],
+ph:['Sit, Max!','A big pig.','Tim is in a cab.','I can win!'],
+tx:{t:'Tim and the Big Pig',b:'Tim has a pig. The pig is big. Tim can dig. The pig can dig. Tim had a nap. The big pig sat in his cap! Bad pig! Tim is mad.',q:[['Is the pig big?','yes'],['Is Tim mad?','yes']]},
+dict:'pin sit big lip win dig',
+tr:[['his','s звучит как [z]: [хиз].'],['as','s звучит как [z]: [эз].'],['I','«Я». Всегда пишется большой буквой и читается [ай].']],
+tu:'Частая путаница у русскоязычных — [i] и [ee]. Пока не объясняйте долгий звук, просто следите, чтобы ученица не тянула [i].',
+can:['Я читаю [i] в закрытом слоге','Я различаю [a] и [i]']},
+
+{id:'1-3',m:2,t:'Звук [o] как в hot',k:['[o]','hot','🔥'],g:['o'],
+goal:'Читать слова с коротким [o].',
+mouth:'Короткий открытый звук, как русское «о», но рот открыт шире, губы почти не округлены. Похоже на «о» с оттенком «а».',
+mix:'Не превращай [o] в «оу», как в boat. hot — коротко!',
+rule:'В закрытом слоге <b>o</b> читается [o] коротко: h<b>o</b>t, d<b>o</b>g, b<b>o</b>x.',
+words:'hot pot dot not | dog log fog jog | top hop mop pop | box fox ox | rod cod on',
+ex:[{type:'listen',items:['hot hat','pot pit','dog dig','top tap','mop map']},
+{type:'odd',h:'Найди слово, которое не рифмуется',items:['hot pot dot !hat','dog fog log !dig','top hop mop !tip']}],
+ph:['A hot pot.','The dog can hop.','Tom has a box.','A fox on a log.'],
+tx:{t:'Tom and the Fox',b:'Tom has a dog, Rob. Rob can jog. Tom and Rob jog on and on. Rob is hot. A fox is on a log. Rob ran at the fox! The fox hid in a box.',q:[['Can Rob jog?','yes'],['Is the fox in a bag?','no']]},
+dict:'hot dog top box fox log',
+tr:[['to','o читается как [у]: [ту].'],['do','o читается как [у]: [ду].']],
+tu:'Можно поиграть: вы называете слово, ученица показывает карточку с нужной гласной (a, i или o).',
+can:['Я читаю [o] в закрытом слоге','Я различаю [a], [i] и [o]']},
+
+{id:'1-4',m:2,t:'Звук [u] как в sun',k:['[u]','sun','☀️'],g:['u'],
+goal:'Читать слова с коротким [u].',
+mouth:'Похоже на русское безударное «а» в слове «вода» [вада]: рот приоткрыт, расслаблен.',
+mix:'Буква u здесь <b>не</b> читается как русское «у»! sun звучит примерно как [сан].',
+rule:'В закрытом слоге <b>u</b> читается [u]: s<b>u</b>n, c<b>u</b>p, b<b>u</b>s.',
+words:'sun run fun bun | cup pup | bus but cut nut hut | mug hug bug jug rug | tub rub sub',
+ex:[{type:'sort',cols:[['[u] как в sun','sun cup bus hug'],['[o] как в hot','hot dog top fox']]},
+{type:'listen',items:['cup cap','bun bin','hut hot','rug rag','cut cat']}],
+ph:['Run, run, run!','A bug in a mug.','The sun is hot.','Gus has fun.'],
+tx:{t:'Fun in the Sun',b:'Gus and Bud run in the sun. It is hot. Gus has a cup. Bud has a bun. A bug is on the bun! Bud is not mad. The bug has fun. Gus and Bud *swim* in the *pool*.',q:[['Is it hot?','yes'],['Is Bud mad?','no']]},
+dict:'sun cup bus run hug nut',
+tr:[['of','f звучит как [v]: [ов].'],['was','Начинается с [w] (губы трубочкой, не «в»!), a звучит как [о], s как [z]: примерно [уоз].']],
+tu:'Самая частая ошибка: читать u как русское «у». Покажите разницу: sun — «сан», а не «сун».',
+can:['Я читаю [u] как в sun','Я не читаю u как русское «у» в закрытом слоге']},
+
+{id:'1-5',m:2,t:'Звук [e] как в bed',k:['[e]','bed','🛏️'],g:['e'],
+goal:'Читать слова с коротким [e].',
+mouth:'Как русское «э» в слове «это», рот приоткрыт.',
+mix:'e — это не «и»! bed звучит как [бэд]. Также следи за последней буквой: bed и bet звучат по-разному.',
+rule:'В закрытом слоге <b>e</b> читается [e]: b<b>e</b>d, t<b>e</b>n, w<b>e</b>t.',
+words:'bed red fed led | ten pen hen men | net wet vet jet pet | get set let | leg peg beg | yes yet',
+ex:[{type:'listen',items:['bed bad','pen pin','ten tan','net nut','pet pot']},
+{type:'odd',h:'Найди слово, которое не рифмуется',items:['ten hen pen !pin','wet net jet !web','set get let !sit']}],
+ph:['Ten red pens.','Ben is wet.','Get the net!','A hen and a pet.'],
+tx:{t:'Ben and Meg',b:'Meg has a red cap. Ben has ten pens. Meg and Ben get on a bus. Ben is wet. Meg is not wet. Meg has a pet hen! The hen sat on the bus. Yes, it is a hen.',q:[['Is Ben wet?','yes'],['Is Meg wet?','no']]},
+dict:'bed pen ten wet red leg',
+tr:[['he','e на конце короткого слова читается долго [и:]: [хи:].'],['she','[ши:]. Буквы sh вместе дают звук «ш».'],['we','[уи:]: губы трубочкой, как в [w].'],['me','[ми:].'],['be','[би:].']],
+tu:'Русскоязычные часто оглушают последнюю согласную: bed звучит как bet. Попросите ученицу «дотянуть» звонкий звук в конце и чуть удлинить гласную перед ним.',
+can:['Я читаю [e] как в bed','Я различаю все пять коротких гласных']},
+
+{id:'1-6',m:2,t:'Финиш заплыва: все короткие гласные',g:[],
+goal:'Повторить все пять коротких гласных. Новое: удвоенные буквы на конце и окончание -s.',
+rule:'После короткой гласной в конце слова <b>f, l, s, z</b> часто удваиваются: o<b>ff</b>, be<b>ll</b>, mi<b>ss</b>, bu<b>zz</b>. Две одинаковые буквы дают <b>один</b> звук. Буква <b>s</b> на конце часто значит «много»: cat → cat<b>s</b>.',
+words:'off puff cuff | bell well tell | hill fill doll | miss kiss boss mess | buzz fizz jazz | cats dogs pens cups',
+ex:[{type:'sort',h:'Разложи по гласным',cols:[['[a]','map bag'],['[i]','pin sit'],['[o]','hot box'],['[u]','sun mug'],['[e]','bed ten']]},
+{type:'fill',opts:['a','e','i','o','u'],w:'b_g=a p_n=e h_t=o s_n=u l_p=i d_g=o m_ss=e h_ll=i b_ll=e c_p=u'}],
+ph:['Tell Bill!','The bell is on the hill.','Jess has six cats.','It is fun!'],
+tx:{t:'The Big Hill',b:'Jess and Bill run up a big hill. Bill can run well. Jess can run well, but Bill fell! Bill is not sad. Jess and Bill sit on the hill. The sun is hot. It is fun!',q:[['Is Bill sad?','no'],['Is the sun hot?','yes']]},
+dict:'hill bell miss off cats dogs',
+tr:[['said','[сэд]. ai здесь читается как короткое [e].'],['you','[ю:].'],['your','[йо:] — «твой».']],
+tu:'Это контрольная дорожка заплыва. Если какой-то гласный звук всё ещё путается, вернитесь к его уроку. Особенно часто путаются [e] и [i], [u] и [o].',
+can:['Я читаю все пять коротких гласных','Я знаю, что ll, ss, ff читаются как один звук']},
+
+/* ===== 2. ДВЕ СОГЛАСНЫЕ ===== */
+{id:'2-1',m:3,t:'s + согласная: st, sp, sw, sn',k:['[sw]','swim','🏊‍♀️'],g:[],
+goal:'Читать две согласные в начале слова и не терять ни одну.',
+mouth:'Каждая буква звучит, между ними нет гласного: sw — не «сэв», а [св] слитно.',
+mix:'Самая частая ошибка — пропустить вторую букву: swim → sim. Веди пальцем под каждой буквой.',
+rule:'Две согласные в начале слова читаются <b>обе</b>, быстро одна за другой: <b>st</b>op, <b>sw</b>im, <b>sn</b>ap, <b>sk</b>ip.',
+words:'stop step stem | spin spot spell | swim swam swell | snap snip sniff | skip skin skid | smog smell | slip slim sled',
+ex:[{type:'listen',items:['sip slip','sin skin','nap snap','top stop','win swim']},
+{type:'fill',opts:['st','sp','sw','sn','sk','sl'],w:'_im=sw _op=st _in=sp _ip=sk _ap=sn _ed=sl'}],
+ph:['Swim, Meg, swim!','Stop and step.','Skip the big spot.','I swim well.'],
+tx:{t:'I Swim',b:'I can swim. I swim in the *pool*. I swim and swim. *Then* I stop. I spin in the *water*. My skin is wet. I sniff. I smell the *pool*! Swim, swim, stop!',q:[['Can I swim?','yes'],['Is my skin wet?','yes']]},
+dict:'swim stop spin skip snap slip',
+tr:[['are','[а:] — r на конце не читается.'],['they','Звонкий [th] + «эй» — «они». Не «зэй»: язык между зубами.'],['my','[май] — «мой». y здесь читается как «ай».']],
+tu:'Если ученица пропускает букву, попросите её сначала прочитать слово без первой буквы (wim), потом добавить её (swim). Так она «слышит», что звук добавился.',
+can:['Я читаю st, sp, sw, sn, sk, sl в начале слова','Я не пропускаю вторую букву']},
+
+{id:'2-2',m:3,t:'Согласная + l или r',k:['[fr]','frog','🐸'],g:[],
+goal:'Читать сочетания bl, cl, fl, gl, pl, br, cr, dr, fr, gr, tr.',
+mouth:'Английский [r] мягче русского: кончик языка поднят и чуть загнут назад, но не дрожит и ничего не касается.',
+rule:'Вторая буква — <b>l</b> или <b>r</b>: <b>fl</b>ag, <b>cl</b>ap, <b>tr</b>ip, <b>fr</b>og. Читаем обе буквы слитно.',
+words:'clap clip club | flag flip flat | glad glum | plan plum plus | crab crop | drip drop drum | frog from grab grin | trip trap trim',
+ex:[{type:'sort',cols:[['со звуком [l]','clap flag glad plum flip'],['со звуком [r]','crab drop frog grin trip']]},
+{type:'odd',h:'Найди слово с другим началом',how:'У трёх слов одинаковое начало, у одного другое.',items:['flip flag flat !frog','drip drop drum !trip','clap clip club !crab']}],
+ph:['A frog on a flat log.','Grab the flag!','Fred is glad.','Drip, drop, drip.'],
+tx:{t:'The Frog Kick',b:'Fred and Flo swim. Flo can do the *breaststroke*. Flo is a frog in the *water*: kick, kick, kick! Fred can not. Fred flips and drops. Glug, glug! Flo grins. Fred is glum. Flo has a plan. Fred can do it!',q:[['Can Flo swim?','yes'],['Can Fred do it at the end?','yes']]},
+dict:'frog flag drum crab plan grin',
+tr:[['go','o на конце короткого слова читается [оу]: [гоу].'],['no','[ноу].'],['so','[соу].']],
+tu:'Брасс по-английски breaststroke, и его движение ногами называют frog kick. Если ученица плавает брассом, это хороший повод связать урок с её опытом.',
+can:['Я читаю сочетания с l и r','Я произношу английский [r] мягко']},
+
+{id:'2-3',m:3,t:'Две согласные в конце',k:['[mp]','jump','🤸'],g:[],
+goal:'Читать слова с двумя согласными в конце: -nd, -nt, -mp, -st, -sk, -lt, -ft.',
+mix:'Частая ошибка — потерять последнюю букву: jump → jup, best → bes. Дочитывай до конца. Важно: в британском английском в словах fast, last, mask, path, after буква a звучит долго, как «а:». Если в озвучке fast звучит «фа:ст», это не ошибка.',
+rule:'Согласные стоят вместе и в <b>конце</b> слова: ha<b>nd</b>, te<b>nt</b>, ju<b>mp</b>, fa<b>st</b>. Последняя буква тоже звучит!',
+words:'hand sand band land | tent went bent | jump lamp camp | best rest nest vest | desk disk | belt felt melt | gift lift soft left',
+ex:[{type:'fill',opts:['nd','nt','mp','st'],w:'ha_=nd te_=nt ju_=mp fa_=st la_=mp be_=st we_=nt sa_=nd'},
+{type:'listen',items:['jump jug','tent ten','bend bed','best bet','lost lot']}],
+ph:['I can jump!','Swim fast!','Rest on the mat.','The best swim.'],
+tx:{t:'The Last Lap',b:'It is the last lap. I swim fast. I kick and kick. I must not stop. Swim, swim! I win! I get a gift. I sit on a mat and rest. It is the best!',q:[['Is it the last lap?','yes'],['Did I stop?','no']]},
+dict:'jump best hand tent desk gift',
+tr:[['what','[уот] — «что». wh читается как [w], a как [o].'],['who','[ху:] — «кто». Здесь w не читается.']],
+tu:'Помогает «дочитывание»: ученица кладёт палец на последнюю букву и называет её звук перед тем, как прочитать слово целиком.',
+can:['Я читаю две согласные в конце слова','Я не теряю последнюю букву']},
+
+{id:'2-4',m:3,t:'Финиш заплыва: три согласные',k:['[spr]','sprint','🏃‍♀️'],g:[],
+goal:'Читать три согласные подряд и повторить сочетания.',
+rule:'Бывает даже <b>три</b> согласные подряд: <b>str</b>ap, <b>spr</b>int, <b>spl</b>it, <b>scr</b>ub. Читаем по одной, быстро и слитно.',
+words:'strap strip | sprint | splat split | scrap scrub | frost stand blend crust',
+ex:[{type:'fill',opts:['str','spr','spl','scr'],w:'_ap=str _int=spr _it=spl _ub=scr _ip=str _at=spl'},
+{type:'listen',items:['trap strap','spit split','print sprint','crab scrub']}],
+ph:['Sprint and stop!','Strap on the mask.','Scrub the pots.','Split the plum.'],
+tx:{t:'The Swim Club',b:'Brad and Flo went to the swim club. It is a big club with lots of kids. Flo can sprint fast. Brad can swim the best. The strap on his mask split! Brad is not glad. Flo has a strap in a bag. Brad is glad. Brad and Flo swim and swim.',q:[['Is the club big?','yes'],['Has Flo got a strap?','yes']]},
+dict:'strap split sprint scrub frost stand',
+tr:[['put','u здесь читается как [у]: [пут].'],['all','[о:л] — «все». a перед ll читается долго, как «о:».']],
+tu:'Если три согласные трудны, разбейте: s + trap → strap, s + print → sprint.',
+can:['Я читаю три согласные подряд','Я читаю короткие тексты из заплыва 2']},
+
+/* ===== 3. ДВЕ БУКВЫ — ОДИН ЗВУК ===== */
+{id:'3-1',m:4,t:'Звук [sh] как в ship',k:['[sh]','ship','🚢'],g:['sh'],
+goal:'Читать sh как один звук.',
+mouth:'Губы вперёд, трубочкой. Звук как русское «ш», но мягче.',
+rule:'<b>s + h</b> вместе дают <b>один</b> звук [sh]: <b>sh</b>ip, fi<b>sh</b>, spla<b>sh</b>.',
+words:'ship shop shut shed | fish dish wish rush | splash flash crash | fresh shelf shell',
+ex:[{type:'sort',cols:[['[s]','sip sell sun mess'],['[sh]','ship shell shut mesh']]},
+{type:'listen',items:['sip ship','sell shell','mess mesh','sort short']}],
+ph:['A fish in a dish.','Splash, splash!','Shut the shed.','I wish I can swim fast.'],
+tx:{t:'Splash!',b:'Josh and Ash went to the *pool*. Splash! Josh is in the *water*. Ash is on the *edge*. Josh is a fish! Ash said: I wish I can swim. Josh has a plan. Ash hops in. Splash! Ash can swim!',q:[['Is Josh in the water?','yes'],['Can Ash swim at the end?','yes']]},
+dict:'ship fish shop shell wish splash',
+tr:[['there','Звонкий [th] + «эа» — «там». Похоже на where.'],['where','[уэа] — «где». Подсказка: в where и there спрятано слово here (здесь).'],['here','[хиа] — «здесь».']],
+tu:'Подчёркнутые вместе буквы — сигнал «это один звук». Попросите ученицу накрыть пальцем sh и назвать звук, а потом прочитать слово.',
+can:['Я читаю sh как один звук','Я различаю [s] и [sh]']},
+
+{id:'3-2',m:4,t:'Звук [ch] как в chips',k:['[ch]','chips','🍟'],g:['ch','tch'],
+goal:'Читать ch и tch.',
+mouth:'Как русское «ч», но твёрже.',
+rule:'<b>c + h</b> = [ch]: <b>ch</b>ip, mu<b>ch</b>. После короткой гласной в конце часто пишем <b>tch</b>: ma<b>tch</b>, ca<b>tch</b>. Буква t здесь не слышна.',
+words:'chip chop chin chest | much such rich lunch bench | match catch patch | fetch stretch',
+ex:[{type:'listen',items:['chip ship','chop shop','chin shin','match mash','catch cash']},
+{type:'fill',opts:['ch','tch'],w:'mu_=ch ca_=tch lun_=ch ma_=tch _ip=ch stre_=tch ben_=ch pa_=tch'}],
+ph:['Fish and chips.','Catch it!','Stretch on the bench.','A swim match.'],
+tx:{t:'The Match',b:'It is a big match. Mitch is at the *edge*. Mitch stretches his legs and his chest. Mitch sets off. Kick, kick! Mitch is fast. Mitch wins the match! *Then* Mitch and his dad get fish and chips. Yum!',q:[['Did Mitch win?','yes'],['Did they get chips?','yes']]},
+dict:'chip lunch match catch chest bench',
+tr:[['one','[уан] — «один». Начинается со звука [w], хотя буквы w нет.'],['two','[ту:] — «два». w не читается.']],
+tu:'Русскоязычные легко путают [ch] и [sh] в быстром чтении. Пары chip/ship, chop/shop хорошо проговаривать перед зеркалом.',
+can:['Я читаю ch и tch','Я различаю [ch] и [sh]']},
+
+{id:'3-3',m:4,t:'Звук [th] как в thin и this',k:['[th]','thin','🥢'],g:['th'],
+goal:'Читать th и произносить оба его звука.',
+mouth:'Кончик языка между зубами, выдыхай. В thin звук глухой (без голоса), в this — звонкий (с голосом).',
+mix:'Русского звука нет. Не заменяй на [с], [з], [ф] или [т]: thin ≠ sin.',
+rule:'<b>t + h</b> = [th]. Глухой: <b>th</b>in, mo<b>th</b>, ma<b>th</b>s. Звонкий: <b>th</b>is, <b>th</b>at, <b>th</b>em, wi<b>th</b>.',
+words:'thin thud thump | moth cloth maths Beth | this that them then | with than',
+ex:[{type:'sort',cols:[['глухой [th]','thin moth maths cloth thud'],['звонкий [th]','this that them then with']]},
+{type:'listen',items:['thin sin','then den','moth moss','thing sing']}],
+ph:['This is a thin moth.','Then I swim with them.','I do maths.','That is Beth.'],
+tx:{t:'Beth and Seth',b:'Beth and Seth go to the *pool*. Seth has a bag with a cloth in it. Beth has a hat. Then they get in the *water*. That is fun! Beth swims with Seth.',q:[['Is Beth on the path?','yes'],['Has Seth got a hat?','no']]},
+dict:'thin this that with moth cloth',
+tr:[['have','[хэв] — «иметь». e на конце не волшебная, она просто не читается.']],
+tu:'Можно положить палец перед губами: при правильном [th] кончик языка касается пальца. При глухом [th] ладонь чувствует поток воздуха.',
+can:['Я читаю th','Я произношу [th] языком между зубами']},
+
+{id:'3-4',m:4,t:'ck, ng, nk',k:['[ng]','ring','💍'],g:['ck','ng','nk'],
+goal:'Читать ck, ng и nk.',
+mouth:'[ng]: задняя часть языка прижата к нёбу, звук идёт через нос. g в конце почти не слышна.',
+rule:'<b>ck</b> = [k] после короткой гласной: ba<b>ck</b>, du<b>ck</b>. <b>ng</b> — носовой звук: ri<b>ng</b>, so<b>ng</b>. <b>nk</b> = [ng] + [k]: thi<b>nk</b>, ba<b>nk</b>.',
+words:'back neck duck kick lock pack | ring sing king song long | bank pink think drink sink',
+ex:[{type:'fill',opts:['ck','ng','nk'],w:'ki_=ck ri_=ng thi_=nk so_=ng du_=ck ba_=nk lo_=ng ne_=ck'},
+{type:'listen',items:['sin sing','sing sink','win wing','ran rang']}],
+ph:['Kick, kick, kick!','Sing a song.','I think I can.','A long swim.'],
+tx:{t:'Kick and Think',b:'Nick is at swim club. The *coach* said: Kick your legs! Nick kicks and kicks. His legs are stiff. Nick thinks: I can not do it. Then he thinks: I can! Nick swims a long lap. Then he drinks his drink. Nick is the king of the *pool*!',q:[['Did Nick kick his legs?','yes'],['Did Nick swim a long lap?','yes']]},
+dict:'back kick sing long think pink',
+tr:[['were','[уё:] — «были». e на конце не читается.']],
+tu:'Русскоязычные часто произносят ng как [нг] с отчётливым [г]. Попросите произнести sing, зажав нос: звук должен «застрять».',
+can:['Я читаю ck как [k]','Я читаю ng и nk']},
+
+{id:'3-5',m:4,t:'wh, ph, qu',k:['[kw]','quick','⚡'],g:['wh','ph','qu'],
+goal:'Читать wh, ph и qu.',
+rule:'<b>wh</b> читается как [w]: <b>wh</b>en, <b>wh</b>ich. <b>ph</b> читается как [f]: gra<b>ph</b>, dol<b>ph</b>in. <b>qu</b> всегда вместе и читается [kw]: <b>qu</b>ick, <b>qu</b>iz.',
+words:'when which whip whisk | graph Phil dolphin | quick quiz quit quilt quest',
+ex:[{type:'sort',cols:[['[w]','when which whip wet win'],['[f]','graph Phil fan fish dolphin'],['[kw]','quick quiz quit quilt']]}],
+ph:['When can we swim?','Which is quick?','A dolphin can swim fast.','A quick quiz.'],
+tx:{t:'The Dolphin',b:'Phil has a quiz. Which fish can swim the best? It is not a fish! It is a dolphin. A dolphin can swim fast. It is quick and *smart*. Phil wishes to swim with a dolphin. Then he can swim as quick as a dolphin!',q:[['Is a dolphin a fish?','no'],['Can a dolphin swim fast?','yes']]},
+dict:'when which quick quiz graph whip',
+tr:[['want','[уонт] — «хотеть». a после w читается как [o].']],
+tu:'Слово dolphin состоит из двух слогов: dol-phin. Покажите, что каждая часть читается по знакомым правилам.',
+can:['Я читаю wh, ph, qu','Я знаю, что q всегда идёт с u']},
+
+{id:'3-6',m:4,t:'Финиш заплыва: один звук — две буквы',g:[],
+goal:'Повторить все сочетания заплыва: sh, ch, th, ck, ng, nk, wh, ph, qu.',
+rule:'Две буквы — один звук: <b>sh</b>, <b>ch</b>/<b>tch</b>, <b>th</b>, <b>ck</b>, <b>ng</b>, <b>nk</b>, <b>wh</b>, <b>ph</b>, <b>qu</b>. Когда видишь подчёркнутые вместе буквы, читай их одним звуком.',
+words:'ship chip thin | catch kick ring | think when quick | graph shop much',
+ex:[{type:'sort',cols:[['sh','shop wish'],['ch','chin lunch'],['th','thin with'],['ng','sing long']]},
+{type:'listen',items:['ship chip','chop shop','thin sin','sing sink','wish witch']}],
+ph:['Which ship?','Think and kick!','Josh and Beth sing a song.','Catch the quick fish!'],
+tx:{t:'My Swim Bag',b:'This is my swim bag. In it I have: a cap, a mask with a strap, a snack and a drink. I check my bag. Then I dash to the *pool*. I think I have it all. Swim *time*!',q:[['Is there a mask in my bag?','yes'],['Is there a fish in my bag?','no']]},
+dict:'shop chin thin sing quick when',
+tu:'Хорошая проверка: ученица читает слова столбиками без подсказок. Если какое-то сочетание тормозит, вернитесь к его уроку.',
+can:['Я читаю все сочетания заплыва 3','Я читаю текст «My Swim Bag»']},
+/* ===== 4. ВОЛШЕБНАЯ E ===== */
+{id:'4-1',m:5,t:'a + волшебная e',k:['[ay]','cake','🎂'],g:[],hl:['magic'],
+goal:'Читать слова по схеме a — согласная — e.',
+mouth:'[ay] похож на русское «эй», первая часть длиннее.',
+rule:'<b>Волшебная e</b> в конце слова не читается, но «будит» гласную: та начинает звучать как своё <b>имя</b>. cap → cap<b>e</b>, mad → mad<b>e</b>. Схема: гласная — согласная — e.',
+words:'cake make take lake | game same came name | gate late plate skate | tape cape shape | wave save brave',
+ex:[{type:'listen',items:['cap cape','tap tape','mad made','hat hate','plan plane']},
+{type:'sort',cols:[['коротко [a]','cap tap mad hat plan'],['долго [ay]','cape tape made hate plane']]}],
+ph:['Make a cake.','Skate on the lake.','The same game.','Be brave and swim!'],
+tx:{t:'The Lake',b:'Jake and Kate came to a lake. The lake is big. Kate is brave. Kate makes a big wave. Splash! Jake is not brave. Then Jake gets in. The lake is *cold*. Jake and Kate swim to the gate. What a game!',q:[['Is Kate brave?','yes'],['Did they swim to the gate?','yes']]},
+dict:'cake make game late tape wave',
+tr:[['some','[сам] — «несколько». o читается как [u], e не волшебная.'],['come','[кам] — «приходить». Читается так же, как some.']],
+tu:'Покажите приём: закройте e пальцем — ученица читает cap, откройте — cape. Волшебная e в учебнике фиолетовая, а долгая гласная отмечена чертой сверху.',
+can:['Я знаю, что делает волшебная e','Я различаю cap и cape']},
+
+{id:'4-2',m:5,t:'i + волшебная e',k:['[igh]','bike','🚲'],g:[],hl:['magic'],
+goal:'Читать слова по схеме i — согласная — e.',
+mouth:'[igh] звучит как русское «ай».',
+rule:'i — согласная — e: <b>i</b> читается как своё имя [igh] «ай»: b<b>i</b>ke, t<b>i</b>me, d<b>i</b>ve.',
+words:'bike like hike | time lime | five dive drive | line fine shine | smile while white | ride side wide',
+ex:[{type:'listen',items:['pin pine','kit kite','bit bite','dim dime','rid ride']},
+{type:'odd',h:'Найди слово с другим звуком',how:'В трёх словах звучит [igh], в одном коротко [i]. Нажми на него.',items:['bike like hike !lick','dive five drive !dim','time line fine !tin']}],
+ph:['I like to dive.','Five times!','Ride a bike.','Smile and shine!'],
+tx:{t:'Dive Time',b:'It is dive time! I stand on the side. I bend my legs. I take a big *breath*. I dive in. I like to dive! I swim five laps. Then I ride my bike *home*. What a fine time!',q:[['Did I dive?','yes'],['Did I swim six laps?','no']]},
+dict:'bike time five dive line smile',
+tr:[['love','[лав]. e не волшебная, o читается как [u].'],['give','[гив]. e не волшебная.'],['live','[лив] — «жить». e не волшебная.']],
+tu:'В словах love, give, live схема выглядит как волшебная e, но не работает: в английском слова почти никогда не заканчиваются на v, поэтому после неё всегда пишут e.',
+can:['Я читаю i + волшебная e как «ай»','Я знаю исключения love, give, live']},
+
+{id:'4-3',m:5,t:'o + волшебная e',k:['[oa]','home','🏠'],g:[],hl:['magic'],
+goal:'Читать слова по схеме o — согласная — e.',
+mouth:'[oa] звучит как «оу»: начни с «о» и закончи губами в трубочку.',
+rule:'o — согласная — e: <b>o</b> звучит [oa] «оу»: h<b>o</b>me, n<b>o</b>te, str<b>o</b>ke.',
+words:'home hope rope | note vote | stone bone | joke woke spoke | stroke those | nose rose',
+ex:[{type:'listen',items:['hop hope','not note','rob robe','cod code']},
+{type:'sort',cols:[['коротко [o]','hop not rob cod'],['долго [oa]','hope note robe code']]}],
+ph:['I hope I win!','A joke and a smile.','Swim the back stroke.','I spoke to Rose.'],
+tx:{t:'My Best Stroke',b:'Rose can swim lots of strokes. She likes the back stroke the best. Rose hopes to win the race. She woke up at five. She swam and swam. And she did it! Rose came home with a note: Rose is the best!',q:[['Did Rose win?','yes'],['Did Rose wake up at six?','no']]},
+dict:'home hope note stroke rope joke',
+tr:[['does','[даз] — «делает». o читается как [u], s как [z].']],
+tu:'Стиль плавания по-английски stroke: back stroke (на спине), breaststroke (брасс), butterfly (баттерфляй). Можно спросить ученицу, какой стиль у неё любимый.',
+can:['Я читаю o + волшебная e как «оу»','Я различаю hop и hope']},
+
+{id:'4-4',m:5,t:'u и e + волшебная e',k:['[yoo]','cube','🧊'],g:[],hl:['magic'],
+goal:'Читать слова по схемам u — согласная — e и e — согласная — e.',
+rule:'u — согласная — e: <b>u</b> звучит [yoo] «ю» (c<b>u</b>be, t<b>u</b>ne) или [oo] «у» (r<b>u</b>le, fl<b>u</b>te). e — согласная — e: [ee] «и:» (th<b>e</b>se, P<b>e</b>te).',
+words:'cube tube cute mute | tune huge use | rule flute June | these theme Pete',
+ex:[{type:'listen',items:['cub cube','tub tube','cut cute','hug huge']}],
+ph:['A cute pup.','A huge tube.','These are the rules.','Use the flute.'],
+tx:{t:'The Pool Rules',b:'These are the *pool* rules. Rule one: Do not run. Rule two: Use a cap. June and Pete like the rules. They make the *pool* safe.',q:[['Can you run at the pool?','no'],['Do you use a cap?','yes']]},
+dict:'cube tune huge use these rule',
+tu:'Звуки [yoo] и [oo] после волшебной e легко различить на слух: если слово не узнаётся с «ю», попробуйте «у».',
+can:['Я читаю u + волшебная e','Я читаю e + волшебная e']},
+
+{id:'4-5',m:5,t:'Финиш заплыва: коротко или долго?',g:[],hl:['magic'],
+goal:'Различать короткие и долгие гласные.',
+rule:'Закрытый слог — гласная <b>короткая</b>: cap, kit, hop, cub. Волшебная e — гласная <b>долгая</b> и звучит как своё имя: cape, kite, hope, cube.',
+words:'cap kit hop cub | cape kite hope cube',
+ex:[{type:'sort',cols:[['короткая','cap kit hop cub mad pin'],['долгая','cape kite hope cube made pine']]},
+{type:'listen',items:['cap cape','kit kite','hop hope','cub cube','fin fine']}],
+ph:['Make a wish.','I hope to swim at five.','Jane hid the kite.','Use the slide!'],
+tx:{t:'Race Day',b:'It is race day! Jane woke up at six. She ate an egg. Then she rode a bike to the *pool*. Jane is in lane five. She stands on the block and smiles. *Beep!* Jane dives. She swims fast. Jane is not *first*, but she made *her* best time. Jane is glad!',q:[['Is Jane in lane six?','no'],['Did Jane make her best time?','yes']]},
+dict:'cape kite hope cube made pine',
+tu:'Игра «волшебная палочка»: вы пишете короткое слово (cap), ученица дописывает e и читает новое слово (cape).',
+can:['Я различаю короткие и долгие гласные','Я читаю текст «Race Day»']},
+
+/* ===== 5. ГЛАСНАЯ + R ===== */
+{id:'5-1',m:6,t:'ar как в car',k:['[ar]','car','🚗'],g:['ar'],
+goal:'Читать ar.',
+mouth:'Долгий звук, как русское «а», но длиннее и глубже. В британском английском r после гласной не произносится!',
+rule:'<b>a + r</b> = долгий [ar] «а:»: c<b>ar</b>, st<b>ar</b>, p<b>ar</b>k. Буква r не читается.',
+words:'car star far jar | park dark shark mark | arm farm harm | start smart part | card hard garden',
+ex:[{type:'listen',items:['cat cart','had hard','pack park','cap carp']},
+{type:'fill',opts:['a','ar'],w:'c_t=a c_r=ar p_rk=ar h_t=a st_r=ar m_p=a'}],
+ph:['A shark in the dark!','Start the car.','A smart star.','Swim hard!'],
+tx:{t:'Shark!',b:'Mark is at the *pool* in the park. It is dark. Mark starts to swim. Then he spots a fin. A shark? No, it is his pal Bart with a fin on his back! Bart has a big grin. Mark and Bart swim hard to the start.',q:[['Is it a shark?','no'],['Is it dark?','yes']]},
+dict:'car star park arm start hard',
+tr:[['water','[уо:тэ] — «вода». a после w читается как [о:].']],
+tu:'Русскоязычные часто «рычат» на r после гласной. В британском варианте её не слышно: car звучит как [ка:].',
+can:['Я читаю ar как долгое «а:»','Я не произношу r после гласной']},
+
+{id:'5-2',m:6,t:'or и ore как в sport',k:['[or]','sport','🏅'],g:['or','ore'],
+goal:'Читать or и ore.',
+mouth:'Долгий [о:], губы округлены, r не читается.',
+rule:'<b>or</b> и <b>ore</b> = долгий [or] «о:»: sp<b>or</b>t, f<b>or</b>k, m<b>ore</b>, sc<b>ore</b>.',
+words:'for fork born | sport short north | storm form torch | more score shore | sore store',
+ex:[{type:'listen',items:['pot port','cod cord','shot short','fog fork']},
+{type:'sort',cols:[['[o] коротко','pot cod shot fog'],['[or] долго','port cord short fork']]}],
+ph:['I like sport.','More, more!','Swim to the shore.','A short storm.'],
+tx:{t:'The Score',b:'Morgan is in a sport club. In the morning she swims a lot. Then there is a big match. The score is six to six. Morgan swims the last lap. She swims hard and fast. Morgan wins it! Morgan wants more!',q:[['Does Morgan like sport?','yes'],['Did Morgan want more?','yes']]},
+dict:'for sport more fork short storm',
+tr:[['four','[фо:] — «четыре». Звучит так же, как for.']],
+tu:'Слова four и for звучат одинаково. Хороший момент поговорить о том, что в английском разные слова могут звучать одинаково, и отличить их помогает смысл.',
+can:['Я читаю or и ore','Я различаю hot и short']},
+
+{id:'5-3',m:6,t:'er, ir, ur — один звук',k:['[er]','bird','🐦'],g:['er','ir','ur'],
+goal:'Читать er, ir, ur как один звук.',
+mouth:'Похоже на «ё» без «й» в начале: рот расслаблен, губы не округлены. Пишется тремя способами, а звучит одинаково!',
+rule:'<b>er, ir, ur</b> — три записи одного звука [er]: h<b>er</b>, b<b>ir</b>d, t<b>ur</b>n. В конце длинного слова er звучит слабо: swimm<b>er</b>.',
+words:'her term fern | bird girl first shirt third | turn burn hurt fur | swimmer winner sister',
+ex:[{type:'sort',cols:[['er','her term fern swimmer'],['ir','bird girl first shirt'],['ur','turn burn hurt fur']]}],
+ph:['Turn and kick!','The first girl.','Her shirt is wet.','My sister is a swimmer.'],
+tx:{t:'First!',b:'My sister is a swimmer. She is the first girl to turn at the end of the lane. Her turns are fast! She hurt her arm in March. It was a bad time for her. But she did not stop. Last term she came first! I am a swimmer, *too*.',q:[['Is my sister a swimmer?','yes'],['Did she stop?','no']]},
+dict:'her bird girl turn first hurt',
+tu:'При письме выбор между er, ir, ur приходится запоминать. Помогает «семья слов»: bird, girl, first, shirt — ir; turn, hurt, burn — ur.',
+can:['Я читаю er, ir, ur как один звук','Я читаю слово swimmer']},
+
+{id:'5-4',m:6,t:'Финиш заплыва: гласная + r',g:[],
+goal:'Повторить ar, or, er, ir, ur.',
+rule:'Буква <b>r</b> после гласной меняет её звук: <b>ar</b> [а:], <b>or</b> [о:], <b>er/ir/ur</b> [ё:]. Сама r при этом не читается.',
+words:'car star park | for more sport | her bird turn',
+ex:[{type:'sort',cols:[['[ar]','car park hard'],['[or]','for short more'],['[er]','her bird turn']]},
+{type:'listen',items:['car cur','farm firm','for fur','star stir','part port']}],
+ph:['Start the sport!','The girl is first.','More stars at dark.','Turn the car.'],
+tx:{t:'Summer Camp',b:'In summer I go to a sport camp. It is on a farm far from the *city*. There is a big *pool*. In the morning we swim. Then we start a sport: *tennis* or a *football* match. At dark we sit and chat. It is the best part of summer!',q:[['Is the camp on a farm?','yes'],['Do we swim at dark?','no']]},
+dict:'farm sport bird turn start summer',
+tu:'Проверьте, что ученица не произносит r в словах этого заплыва: car, for, her должны звучать без «р».',
+can:['Я читаю ar, or, er, ir, ur','Я читаю текст «Summer Camp»']},
+
+/* ===== 6. ГЛАСНЫЕ ПАРЫ ===== */
+{id:'6-1',m:7,t:'ee и ea как в sea',k:['[ee]','sea','🌊'],g:['ee','ea'],
+goal:'Читать ee и ea.',
+mouth:'Долгий [ee] «и:», губы слегка растянуты в улыбку.',
+mix:'Иногда ea читается коротко [e]: head, bread, breath. Если слово не узнаётся, попробуй короткий звук.',
+rule:'<b>ee</b> и <b>ea</b> чаще всего читаются [ee] «и:»: s<b>ee</b>, f<b>ee</b>t, s<b>ea</b>, t<b>ea</b>m. Правило: когда две гласные идут вместе, первая говорит своё имя, а вторая молчит.',
+words:'see feet keep green | sleep speed week deep | sea team eat read | beach dream teach seat',
+ex:[{type:'listen',items:['ship sheep','fit feet','sit seat','bit beat','fill feel']},
+{type:'fill',opts:['ee','ea'],w:'s_=ee t_m=ea f_t=ee b_ch=ea sl_p=ee dr_m=ea'}],
+ph:['Keep your feet up.','The team can swim in the sea.','I dream of the beach.','Swim deep, swim at speed.'],
+tx:{t:'Team Dream',b:'Our team meets each week. We swim at speed in the deep end. Each week we get a bit faster. My dream is to swim in the sea. I need to keep fit. I eat well and sleep well. Then one day my team and I will swim at the beach!',q:[['Does the team meet each week?','yes'],['Is my dream to swim in the sea?','yes']]},
+dict:'see feet team sea sleep beach',
+tr:[['our','[ауэ] — «наш».']],
+tu:'Пары ship/sheep, sit/seat — классическая трудность для русскоязычных. Попросите ученицу «улыбнуться» на долгом [ee] и расслабить губы на коротком [i].',
+can:['Я читаю ee и ea как «и:»','Я различаю ship и sheep']},
+
+{id:'6-2',m:7,t:'ai и ay как в rain',k:['[ay]','rain','🌧️'],g:['ai','ay'],
+goal:'Читать ai и ay.',
+rule:'<b>ai</b> в середине слова, <b>ay</b> в конце — оба читаются [ay] «эй»: r<b>ai</b>n, tr<b>ai</b>n, d<b>ay</b>, pl<b>ay</b>. Тот же звук, что в cake!',
+words:'rain train wait | paint main tail | day play stay | may say | Sunday today',
+ex:[{type:'fill',opts:['ai','ay'],w:'r_n=ai d_=ay tr_n=ai pl_=ay w_t=ai st_=ay p_nt=ai s_=ay'}],
+ph:['Rain, rain, go away!','Play all day.','Wait for the train.','I train on Sunday.'],
+tx:{t:'Rain Day',b:'Today it is a rain day. I can not play in the park. I wait and wait. Then I think: rain is water, and I like water! I take my bag and get on the train to the *pool*. I train all day. Rain or sun, I swim!',q:[['Is it a rain day?','yes'],['Did I stay at home?','no']]},
+dict:'rain day train play wait stay',
+tu:'Подсказка для письма: в конце слова пишем ay (day, play), внутри — ai (rain, wait).',
+can:['Я читаю ai и ay как «эй»','Я знаю, где пишется ai, а где ay']},
+
+{id:'6-3',m:7,t:'oa и ow как в boat',k:['[oa]','boat','⛵'],g:['oa','ow'],
+goal:'Читать oa и ow со звуком [oa].',
+mix:'ow бывает и [ow] «ау», как в cow. Это будет в отдельном уроке.',
+rule:'<b>oa</b> и <b>ow</b> читаются [oa] «оу»: b<b>oa</b>t, c<b>oa</b>t, sn<b>ow</b>, sl<b>ow</b>. Тот же звук, что в home.',
+words:'boat coat goal | road toast float | coach soap | snow slow grow show | low own throw',
+ex:[{type:'fill',opts:['oa','ow'],w:'b_t=oa sn_=ow g_l=oa sl_=ow c_ch=oa gr_=ow fl_t=oa'}],
+ph:['A slow boat.','Float on your back.','My coach said: Go!','Throw the ball.'],
+tx:{t:'Coach Joan',b:'Joan is my swim coach. She shows us the strokes. Joan says: Float on your back! Go slow. Then grow your speed. My goal is to float like a boat. Joan smiles: Go on, swim!',q:[['Is Joan my coach?','yes'],['Is my goal to float?','yes']]},
+dict:'boat coat goal snow slow float',
+tu:'Слово coach (тренер) пригодится ученице в жизни. Можно попросить её рассказать про своего тренера и прочитать вместе несколько слов о нём.',
+can:['Я читаю oa и ow как «оу»','Я читаю слово coach']},
+
+{id:'6-4',m:7,t:'igh и y как в night',k:['[igh]','night','🌙'],g:['igh'],
+goal:'Читать igh и букву y в конце слова.',
+rule:'<b>igh</b> = [igh] «ай»: n<b>igh</b>t, l<b>igh</b>t. Буквы gh не читаются. <b>y</b> в конце короткого слова тоже [igh]: fl<b>y</b>, tr<b>y</b>. В конце длинного слова y читается [ee]: happ<b>y</b>, sunn<b>y</b>.',
+words:'night light high | right fight bright | fly try cry | sky shy why | happy funny sunny | party lucky',
+ex:[{type:'sort',cols:[['y = [igh]','fly try sky why cry'],['y = [ee]','happy funny sunny party lucky']]}],
+ph:['Try, try, try!','The sky is bright.','Why are you so happy?','A funny night.'],
+tx:{t:'Night Swim',b:'On *Friday* there is a night swim at my club. The lights are bright and the sky is black. I try to swim as fast as I can. I am a bit shy, but I feel happy. I swim right to the end. What a night!',q:[['Is it a night swim?','yes'],['Is the sky bright?','no']]},
+dict:'night light fly try happy funny',
+tu:'Правило про y можно проверить слогами: в fly один слог — y звучит «ай», в hap-py два слога — y звучит «и».',
+can:['Я читаю igh как «ай»','Я знаю два звука y на конце слова']},
+
+{id:'6-5',m:7,t:'oo как в pool',k:['[oo]','pool','🏊'],g:['oo'],
+goal:'Читать oo: долгое и короткое.',
+rule:'<b>oo</b> бывает долгим [oo] «у:» — p<b>oo</b>l, m<b>oo</b>n — и коротким «у» (короче и слабее) — b<b>oo</b>k, l<b>oo</b>k, g<b>oo</b>d.',
+words:'pool moon soon cool | room zoom spoon | food tool | book look good | foot wood cook',
+ex:[{type:'sort',cols:[['долгий «у:» как в pool','pool moon soon cool food'],['короткий «у» как в book','book look good foot cook']]}],
+ph:['Look at the moon!','The pool is cool.','A good book.','Zoom, zoom!'],
+tx:{t:'At the Pool',b:'At last I can read the word pool! This is my pool. It is cool and deep. I look at the clock. It is noon. Soon my coach will come. I zoom to the end of the pool and back. It feels so good!',q:[['Is the pool cool?','yes'],['Is it noon?','yes']]},
+dict:'pool moon soon book look good',
+tr:[['school','[ску:л] — «школа». ch здесь читается как [k].']],
+tu:'Наконец-то слово pool читается по правилам! Отметьте это с ученицей: слово, которое было «серым» с первых уроков, теперь ей по силам.',
+can:['Я читаю pool, moon, soon','Я читаю book, look, good']},
+
+{id:'6-6',m:7,t:'ou и ow как в cloud',k:['[ow]','cloud','☁️'],g:['ou','ow'],
+goal:'Читать ou и ow со звуком [ow].',
+mouth:'[ow] звучит как русское «ау».',
+mix:'ow бывает и [oa], как в snow. Если не уверена, попробуй оба звука и выбери знакомое слово.',
+rule:'<b>ou</b> и <b>ow</b> читаются [ow] «ау»: cl<b>ou</b>d, l<b>ou</b>d, c<b>ow</b>, n<b>ow</b>. ou чаще в середине слова, ow — в конце.',
+words:'out loud cloud | round sound count | shout mouth south | cow now how | down town brown | crowd shower',
+ex:[{type:'sort',h:'Как читается ow?',cols:[['ow = [ow] «ау»','cow now how down town'],['ow = [oa] «оу»','snow slow grow show low']]}],
+ph:['Shout out loud!','Count to ten.','Now take a shower.','A crowd in town.'],
+tx:{t:'The Crowd',b:'There is a big crowd at the pool today. Now it is my turn. I count: one, two, three, go! I dive in with a loud sound. I swim down the lane. The crowd shouts my name! Then I take a shower and go out to my mum.',q:[['Is there a crowd?','yes'],['Did I count to five?','no']]},
+dict:'out loud cow now down count',
+tu:'Слова с ow — хорошая тренировка гибкости: ученица пробует один звук, проверяет, есть ли такое слово, и при необходимости меняет звук. Это важная стратегия чтения.',
+can:['Я читаю ou и ow как «ау»','Я пробую второй вариант, если слово не узнаётся']},
+
+{id:'6-7',m:7,t:'oi и oy + финиш заплыва',k:['[oy]','boy','👦'],g:['oi','oy'],
+goal:'Читать oi и oy. Повторить все гласные пары.',
+rule:'<b>oi</b> в середине, <b>oy</b> в конце — [oy] «ой»: c<b>oi</b>n, p<b>oi</b>nt, b<b>oy</b>, enj<b>oy</b>.',
+words:'coin join point | soil boil noise | boy toy joy | enjoy annoy',
+ex:[{type:'fill',opts:['oi','oy'],w:'c_n=oi b_=oy j_n=oi t_=oy p_nt=oi enj_=oy'},
+{type:'sort',h:'Повторение: разложи по звукам',cols:[['[ee]','see team'],['[ay]','rain day'],['[oa]','boat snow'],['[igh]','night fly'],['[oo]','pool moon']]}],
+ph:['Join the club!','The boy has a coin.','Enjoy the swim.','What a noise!'],
+tx:{t:'Join Us!',b:'Do you like water? Join our swim club! Boys and girls can join. We train three days a week. You will get fit and meet good pals. The point is to have fun. Join us and enjoy!',q:[['Can girls join?','yes'],['Is the point to have fun?','yes']]},
+dict:'coin boy join toy point enjoy',
+tu:'Это контрольная дорожка заплыва 6. Полезно пройтись по «Карте звуков» (вкладка «Звуки») и проверить все гласные пары по ключевым словам.',
+can:['Я читаю oi и oy','Я читаю все гласные пары заплыва 6']},
+
+/* ===== 7. МЯГКИЕ И НЕМЫЕ ===== */
+{id:'7-1',m:8,t:'Мягкая c как в city',k:['[s]','city','🏙️'],g:[],soft:true,
+goal:'Знать, когда c читается [s], а когда [k].',
+rule:'Буква <b>c</b> перед <b>e, i, y</b> читается мягко [s]: <b>c</b>ity, i<b>c</b>e, fa<b>c</b>e. В остальных случаях — [k]: cat, cup, clap.',
+words:'city cent | ice nice rice | face race place space | cat cup cod clap',
+ex:[{type:'sort',cols:[['c = [s]','city ice face race cent'],['c = [k]','cat cup cod clap']]}],
+ph:['A nice race.','Space in the city.','Ice on the pond.','Face the wall.'],
+tx:{t:'The Race',b:'It is the city race. Grace is in lane six. Grace is in first place after two laps. Then Lucy speeds up. It is a nice race! At the end Grace and Lucy are face to face. It is a *tie*! They get the same place and a nice *prize*.',q:[['Is it a city race?','yes'],['Is it a tie?','yes']]},
+dict:'city ice face race nice place',
+tu:'Мягкая c подчёркнута волнистой линией. Попросите ученицу посмотреть, какая буква стоит после c: e, i или y — значит [s].',
+can:['Я знаю, когда c читается [s]','Я читаю city, face, race']},
+
+{id:'7-2',m:8,t:'Мягкая g и dge',k:['[j]','gym','🏋️'],g:['dge'],soft:true,
+goal:'Читать мягкую g и сочетание dge.',
+mix:'Попробуй сначала мягкую [j]; если слово не узнаётся — твёрдую [g]. Слова get, give, girl читаются с твёрдой g.',
+rule:'Буква <b>g</b> перед <b>e, i, y</b> часто мягкая [j] «дж»: <b>g</b>ym, pa<b>g</b>e, hu<b>g</b>e. После короткой гласной пишем <b>dge</b>: bri<b>dge</b>, e<b>dge</b>, ba<b>dge</b>.',
+words:'gym gem | page cage huge stage | giant magic | bridge edge badge | judge fudge',
+ex:[{type:'fill',opts:['ge','dge'],w:'pa_=ge bri_=dge sta_=ge e_=dge hu_=ge ba_=dge'}],
+ph:['Go to the gym.','Stand on the edge.','A huge stage.','A badge for the best swimmer.'],
+tx:{t:'The Badge',b:'Gemma trains at the gym. She stands on the edge of the pool. Today she can get a badge if she swims ten laps. It is a huge test. She swims and swims. Her coach hands her the badge. Gemma is proud!',q:[['Is Gemma at the gym?','yes'],['Did Gemma get a badge?','yes']]},
+dict:'gym page edge badge huge bridge',
+tu:'Слово edge (бортик бассейна) раньше было «серым», теперь его можно прочитать самостоятельно.',
+can:['Я читаю мягкую g','Я читаю dge как [j]']},
+
+{id:'7-3',m:8,t:'Немые буквы: kn, wr, mb',k:['[n]','knee','🦵'],g:['kn','wr','mb'],
+goal:'Узнавать буквы, которые не читаются.',
+rule:'Некоторые буквы <b>молчат</b> (они серые): <b>k</b>n → [n]: know, knee. <b>w</b>r → [r]: write, wrist. m<b>b</b> → [m]: thumb, climb. В igh тоже молчат g и h.',
+words:'know knee knock knit | write wrist wrong wrap | thumb climb lamb comb',
+ex:[{type:'sort',cols:[['немая k','know knee knock knit'],['немая w','write wrist wrong wrap'],['немая b','thumb climb lamb comb']]}],
+ph:['I know it!','My knee hurts.','Write it down.','Climb up and jump!'],
+tx:{t:'Wrong Way!',b:'Kate fell on the wet *tiles*. Her knee hurts and her wrist hurts. The coach wraps her wrist. Kate knows the rule: do not run at the pool! She writes it on her hand with a pen. Next time she will walk.',q:[['Did Kate hurt her knee?','yes'],['Can you run at the pool?','no']]},
+dict:'know knee write wrong thumb climb',
+tr:[['walk','[уо:к] — «ходить пешком». l не читается.'],['talk','[то:к] — «разговаривать». l не читается.']],
+tu:'Немые буквы — частая причина ошибок при письме. Помогает «чтение для письма»: ученица проговаривает слово так, как оно пишется (к-ни, в-райт), чтобы запомнить немую букву.',
+can:['Я знаю немые буквы в kn, wr, mb','Я читаю know, write, climb']},
+
+{id:'7-4',m:8,t:'Финиш заплыва: мягкие и немые',g:[],soft:true,
+goal:'Повторить мягкие c, g и немые буквы.',
+rule:'<b>c</b> и <b>g</b> перед e, i, y звучат мягко: [s] и [j]. Буквы <b>k</b> в kn, <b>w</b> в wr, <b>b</b> в mb не читаются.',
+words:'city gym face | know write climb | edge page ice',
+ex:[{type:'sort',cols:[['мягкая c или g','city gym face page ice'],['немая буква','know write climb thumb knee']]}],
+ph:['I know the city.','Climb to the edge.','Write a nice page.','My thumb hurts.'],
+tx:{t:'Climb and Swim',b:'In the city there is a huge gym. You can climb a wall, then jump in the pool. Lucy knows it is a bit *scary*, but she climbs up. At the top she looks down. Then she jumps! Splash! It is the best place in the city.',q:[['Is the gym huge?','yes'],['Did Lucy jump?','yes']]},
+dict:'city gym knee wrist thumb edge',
+tu:'Контрольная дорожка заплыва 7. Если мягкие c и g ещё путаются, повторите урок 7-1 с вопросом: «какая буква идёт после c?».',
+can:['Я читаю мягкие c и g','Я узнаю немые буквы']},
+/* ===== 8. ДЛИННЫЕ СЛОВА ===== */
+{id:'8-1',m:9,t:'Составные слова',k:['2 части','sunset','🌅'],g:[],
+goal:'Читать длинные слова, которые состоят из двух коротких.',
+rule:'Длинное слово часто состоит из двух коротких: sun + set = <b>sunset</b>, back + stroke = <b>backstroke</b>. Найди части — и слово прочитается легко.',
+words:'sunset backstroke pancake | weekend lunchbox goalpost | bedroom inside handstand',
+ex:[{type:'syll',h:'Раздели на две части',w:'sun|set back|stroke pan|cake week|end lunch|box goal|post hand|stand bed|room'}],
+ph:['Swim the backstroke.','A handstand in the pool.','At sunset we go home.','Pancakes at the weekend.'],
+tx:{t:'Weekend',b:'At the weekend I get up at sunrise. I eat a pancake and pack my lunchbox. Then I swim the backstroke and do handstands in the pool. At sunset I go home. At bedtime I think: what a weekend!',q:[['Do I swim at the weekend?','yes'],['Do I eat a pancake?','yes']]},
+dict:'sunset weekend backstroke pancake bedtime inside',
+tu:'Приём «закрой половину»: накройте вторую часть слова карточкой, ученица читает первую, потом откройте вторую и соедините.',
+can:['Я нахожу части в составных словах','Я читаю backstroke и weekend']},
+
+{id:'8-2',m:9,t:'Две закрытые части',k:['rab|bit','rabbit','🐰'],g:[],
+goal:'Делить на слоги слова с двумя согласными посередине.',
+rule:'Если между гласными <b>две согласные</b>, дели между ними: rab|bit, prob|lem, nap|kin. Обе части — закрытые слоги, гласные в них короткие.',
+words:'rabbit button | problem goblin | napkin muffin | dentist magnet | picnic helmet | insect contest',
+ex:[{type:'syll',w:'rab|bit prob|lem nap|kin den|tist mag|net pic|nic hel|met con|test'}],
+ph:['A contest in the pool.','No problem!','A muffin in a basket.','Put on the helmet.'],
+tx:{t:'The Contest',b:'There is a swim contest at the club. Emma has a problem: she has lost her *goggles*. She looks in her basket and in her backpack. Then Tom hands her a spare pair. Emma swims in the contest and wins a magnet with a fish on it!',q:[['Is there a contest?','yes'],['Did Emma win a magnet?','yes']]},
+dict:'rabbit problem picnic helmet contest muffin',
+tu:'Алгоритм: 1) найди гласные и отметь их; 2) посмотри, сколько согласных между ними; 3) две — дели посередине.',
+can:['Я делю слова с двумя согласными посередине','Я читаю problem и contest']},
+
+{id:'8-3',m:9,t:'Открытый слог',k:['ro|bot','robot','🤖'],g:[],
+goal:'Делить на слоги слова с одной согласной посередине.',
+rule:'Если между гласными <b>одна</b> согласная, чаще делим <b>перед</b> ней: ro|bot, mu|sic, ti|ger. Первый слог открытый: гласная звучит долго, как своё имя. Если слово не узнаётся, попробуй делить после согласной: lem|on, cab|in.',
+words:'robot music tiger | paper student | open even | relax silent',
+ex:[{type:'syll',w:'ro|bot mu|sic ti|ger pa|per stu|dent o|pen e|ven si|lent'}],
+ph:['I like music.','Relax and float.','The student has a robot.','Open the gate.'],
+tx:{t:'Music in the Pool',b:'Some swimmers *listen* to music in the water. It is *true*! There are *headphones* that can go in the water. Tom is a student. He likes to relax with music when he swims. He has a tune for each stroke. It is super, Tom says!',q:[['Can music go in the water?','yes'],['Is Tom a student?','yes']]},
+dict:'robot music tiger paper open student',
+tu:'Открытый слог объясняет, почему в music u звучит «ю», а в muffin — коротко. Если ученица спрашивает «почему», это отличный знак.',
+can:['Я знаю, что такое открытый слог','Я читаю robot, music, student']},
+
+{id:'8-4',m:9,t:'Окончания -s, -es, -ed',k:['-ed','jumped','🦘'],g:[],
+goal:'Читать окончания -s, -es и три звука -ed.',
+rule:'<b>-s / -es</b>: «много» или «он/она делает»: swim<b>s</b>, kick<b>s</b>, splash<b>es</b>. -es пишем после s, x, sh, ch: box<b>es</b>, wish<b>es</b>.<br><b>-ed</b> = прошлое, три звука: [t] после глухих (jump<b>ed</b>), [d] после звонких (play<b>ed</b>), [id] после t и d (start<b>ed</b>).',
+words:'swims kicks dives | boxes wishes splashes | jumped kicked | played turned | started landed',
+ex:[{type:'sort',h:'Как звучит -ed?',cols:[['-ed = [t]','jumped kicked splashed helped'],['-ed = [d]','played turned rained cleaned'],['-ed = [id]','started landed waited ended']]}],
+ph:['She swims and kicks.','We played in the pool.','It rained and rained.','The race started!'],
+tx:{t:'Last Week',b:'Last week I trained three times. Day one I kicked and kicked. Day two I jumped in and turned. Day three it rained, but I swam. The race started on Sunday. I dived in and splashed. I landed in third place. My coach smiled and clapped. It was a good week!',q:[['Did it rain?','yes'],['Did I land in first place?','no']]},
+dict:'swims boxes jumped played started wishes',
+tu:'Не требуйте идеально различать [t] и [d] в -ed: главное, чтобы ученица не добавляла лишний слог (jumped — один слог, а не «джампед»).',
+can:['Я читаю -s и -es','Я читаю -ed тремя способами']},
+
+{id:'8-5',m:9,t:'-ing и удвоение',k:['-ing','swimming','🏊‍♀️'],g:[],
+goal:'Читать слова с -ing.',
+rule:'<b>-ing</b> = «делаю сейчас»: jump → jump<b>ing</b>. После короткой гласной согласная <b>удваивается</b>: swim → swi<b>mm</b>ing, run → ru<b>nn</b>ing. Волшебная e исчезает: dive → div<b>ing</b>, ride → rid<b>ing</b>.',
+words:'jumping kicking playing | swimming running sitting | diving riding smiling | getting stopping',
+ex:[{type:'sort',cols:[['удваиваем','swimming running sitting stopping'],['e исчезает','diving riding smiling making'],['просто -ing','jumping kicking playing reading']]},
+{type:'syll',w:'swim|ming run|ning jump|ing kick|ing sit|ting stop|ping'}],
+ph:['I am swimming!','Stop running!','She is diving in.','We are having fun.'],
+tx:{t:'Swimming Is My Thing',b:'Swimming is my thing. When I am swimming, I am not thinking about tests or problems. I am just kicking, *breathing* and gliding. I like diving in at the start. I like the splashing and the cheering. When I am swimming, I am happy.',q:[['Do I like swimming?','yes'],['Am I thinking about tests when I swim?','no']]},
+dict:'swimming running diving jumping sitting smiling',
+tu:'Удвоение «охраняет» короткую гласную: swiming читалось бы как «свайминг». Это хорошая связь с уроками про волшебную e и открытый слог.',
+can:['Я читаю -ing','Я знаю, почему в swimming две m']},
+
+{id:'8-6',m:9,t:'-tion, -le и слабый звук',k:['[shun]','station','🚉'],g:['tion'],
+goal:'Читать -tion, -le и безударные слоги.',
+rule:'<b>-tion</b> читается [shun] «шн»: sta<b>tion</b>, ac<b>tion</b>. Согласная + <b>le</b> в конце — отдельный слог [l]: lit|<b>tle</b>, ap|<b>ple</b>, bub|<b>ble</b>. В длинных словах безударный слог звучит слабо, как короткое «э»: <b>a</b>bout, sev<b>e</b>n, less<b>o</b>n.',
+words:'station action lotion | motion option | little apple bubble | puzzle middle paddle | about seven lesson',
+ex:[{type:'syll',w:'sta|tion ac|tion lit|tle ap|ple bub|ble puz|zle mid|dle pad|dle'},
+{type:'fill',opts:['tion','le'],w:'sta_=tion lit_=le ac_=tion bub_=le mo_=tion mid_=le'}],
+ph:['Blow bubbles in the water.','I am in the middle lane.','Action!','A little lesson.'],
+tx:{t:'Bubbles',b:'In my first lesson I was a little scared. My coach said: Put your face in the water and blow bubbles. I did it! Bubbles, bubbles, bubbles. It was like a puzzle: kick, blow, lift your *head*, *breathe*. Now I swim in the middle lane. Bubbles are the best!',q:[['Was I scared in my first lesson?','yes'],['Do I swim in the middle lane now?','yes']]},
+dict:'station little apple action middle bubble',
+tu:'Слабый звук (schwa) — самый частый звук в английском. Не требуйте произносить безударные гласные чётко: about звучит как «эбаут».',
+can:['Я читаю -tion как «шн»','Я читаю little, apple, middle']},
+
+{id:'8-7',m:9,t:'Финиш заплыва: очень длинные слова',g:[],
+goal:'Читать слова из трёх и четырёх слогов.',
+rule:'Как читать длинное слово: 1) найди знакомые части (-ing, -tion, -ed); 2) отметь гласные; 3) раздели на слоги; 4) прочитай каждый слог; 5) собери слово и проверь, знакомо ли оно.',
+words:'fantastic important | butterfly breaststroke | championship | competition',
+ex:[{type:'syll',w:'fan|tas|tic im|por|tant but|ter|fly cham|pi|on com|pe|ti|tion'}],
+ph:['A fantastic butterfly stroke.','The championship is important.','I am in the competition!','Fantastic!'],
+tx:{t:'The Championship',b:'It is the city championship. It is a big competition and it is important to me. My stroke is the butterfly. It is a hard stroke, but it is fantastic. I stand on the block. The crowd is cheering. *Beep!* I dive in. Kick, pull, breathe. At the finish I look up. I am third! I did my best and I am proud.',q:[['Is it a big competition?','yes'],['Am I first?','no']]},
+dict:'fantastic important butterfly competition championship sunset',
+tu:'Длинные слова утомляют. Делайте не больше 5–6 слов за подход и чередуйте с чтением текста.',
+can:['Я делю длинные слова на слоги','Я читаю butterfly и championship']},
+
+/* ===== 9. ХИТРЫЕ СЛОВА И ФИНАЛ ===== */
+{id:'9-1',m:10,t:'Хитрые слова: friend, because, could',g:[],
+goal:'Запомнить частые слова, которые читаются не по правилам.',
+rule:'Хитрые слова нельзя полностью прочитать по правилам. Найди в слове <b>знакомую часть</b> и <b>хитрое место</b>, а хитрое место запомни с помощью подсказки.',
+words:'friend school people | because could would should | again any many | once eye',
+ex:[{type:'fill',h:'Вставь хитрые буквы',opts:['ou','ie','eo'],w:'c_ld=ou fr_nd=ie p_ple=eo sh_ld=ou w_ld=ou'},
+{type:'listen',items:['could would should','once one','any many']}],
+ph:['My friend is at school.','Could you swim again?','Many people swim once a week.','Because I want to!'],
+tx:{t:'My Friend Lily',b:'My best friend is Lily. We met at school, but we are friends because of swimming. We swim at the same club. Many people think swimming is *boring*, but Lily and I do not. We could swim all day! Once a week we swim again in the evening. I would not swap my friend for anything.',q:[['Is Lily my friend?','yes'],['Do we think swimming is boring?','no']]},
+dict:'friend because could people again many',
+tr:[['friend','[фрэнд]. i не читается. Подсказка: a friend to the end — в конце слова спряталось end.'],['people','[пи:пл]. o не читается.'],['because','[бикоз]. Подсказка по первым буквам: Big Elephants Can Always Understand Small Elephants.'],['could','[куд]. l не читается. Подсказка: o u lucky duck — ould.'],['would','Начинается с [w] (губы трубочкой), l не читается: примерно [уд]. Читается так же, как could, только с [w].'],['should','[шуд]. Так же, как could.'],['again','[эгэн].'],['any','[эни]. a читается как [e].'],['many','[мэни]. a читается как [e].'],['once','[уанс] — «однажды». Как one + s.'],['eye','[ай] — «глаз». Слово похоже на лицо: два глаза и нос.']],
+tu:'Не больше 3–5 новых хитрых слов за занятие. Приём: посмотри — назови — закрой — напиши — проверь. Хитрые слова хорошо писать крупно на карточках и повторять каждый урок по 1–2 минуты.',
+can:['Я читаю friend, because, people','Я читаю could, would, should']},
+
+{id:'9-2',m:10,t:'Хитрые слова: laugh, through, beautiful',g:[],
+goal:'Познакомиться с самыми хитрыми частыми словами.',
+rule:'Сочетание <b>ough</b> и <b>augh</b> читается по-разному. Такие слова учим целиком, по одному.',
+words:'laugh enough | through thought | Wednesday favourite | beautiful sure',
+ex:[{type:'listen',items:['through thought','laugh enough','once one']}],
+ph:['My favourite stroke is the butterfly.','Are you sure?','We laugh and laugh.','On Wednesday I train after school.'],
+tx:{t:'My Favourite Day',b:'My favourite day is Wednesday. On Wednesday I train at the pool after school. It is a beautiful pool with big *windows*. I swim through the water like a fish. Once I thought I could not swim well enough. Now I am sure I can. My friends laugh with me, not at me!',q:[['Is Wednesday my favourite day?','yes'],['Do my friends laugh at me?','no']]},
+dict:'laugh enough sure thought',
+tr:[['laugh','[ла:ф] — «смеяться». gh читается как [f].'],['enough','[инаф] — «достаточно». ough читается как [af].'],['through','Глухой [th] (как в thin) + «ру:» — «через, сквозь». ough читается как «у:».'],['thought','Глухой [th] + «о:т» — «думал». ough читается как «о:».'],['Wednesday','[уэнздэй] — «среда». d и первая e не читаются. Для письма проговаривай Wed-nes-day.'],['favourite','[фэйврит] — «любимый». В британском варианте с u.'],['beautiful','[бью:тифул] — «красивый». Начало beau читается [бью].'],['sure','[шо:] — «уверен». s здесь читается как [sh].']],
+tu:'Это самые нерегулярные слова курса. Нормально, если они не запомнятся сразу. Возвращайтесь к ним понемногу на каждом занятии.',
+can:['Я читаю laugh, enough, through','Я читаю favourite, beautiful, Wednesday']},
+
+{id:'9-3',m:10,t:'Финальный заплыв',g:[],
+goal:'Прочитать большой текст, в котором встречается всё, что ты изучила.',
+rule:'Ты знаешь короткие и долгие гласные, сочетания согласных, волшебную e, гласные пары, немые буквы, длинные слова и хитрые слова. Этого хватает, чтобы читать почти любой текст. Если слово трудное, дели его на части!',
+ex:[{type:'sort',h:'Разминка: разложи по звукам',cols:[['[ay]','rain day cake'],['[ee]','see sea happy'],['[igh]','night fly bike'],['[oa]','boat snow home']]}],
+tx:{t:'My Goal',b:'My name is Mia. I am fourteen, and swimming is my favourite thing in the *world*. I train four times a week at my club. My coach, Joan, is strict, but she is *kind* and funny. My best friend, Lily, trains with me. We push each other to swim faster.\n\nReading was hard for me. Letters jumped around, and I got tired fast. But I did not give up. Step by step, sound by sound, I learned to read. Now I can read books, texts from my friends and notes from my coach.\n\nMy goal is to swim in the *national* championship. It will take a lot of training, but I know I can do it. Swimming has shown me that hard work pays off. Reading has shown me the same thing!',q:[['Is Mia fourteen?','yes'],['Does Mia train four times a week?','yes'],['Did Mia give up?','no'],['Is her goal to swim in the championship?','yes']],
+tu:'Читайте текст в несколько подходов, по абзацу. После чтения можно поговорить: что общего между тренировками в плавании и в чтении? Какая цель у ученицы?'},
+dict:'swimming championship friend because night beautiful',
+tu:'Финал курса. Отпразднуйте! Дальше хорошо перейти к адаптированным книгам для подростков (уровни A1–A2) и продолжать короткие ежедневные чтения по 10–15 минут.',
+can:['Я прочитала финальный текст','Я прошла весь курс!']}
+];
+const GUIDE=`<h1>Как заниматься</h1>
+<p>Памятка для репетитора. Подсказки к каждому уроку появляются, если нажать кнопку «Репетитор» в верхнем меню.</p>
+<h2>Как устроен курс</h2>
+<ul><li>11 заплывов: разминка, тренажёр «Не перепутай» и девять тематических заплывов. Всего 52 урока-дорожки.</li>
+<li>Порядок важен: каждый урок опирается на предыдущие. Слова в упражнениях подобраны так, чтобы читались по уже изученным правилам.</li>
+<li>Новые слова, которые ещё нельзя прочитать по правилам, показаны <span class="pv">серым с пунктиром</span>: их читает репетитор. <span class="tw">Фиолетовые</span> — хитрые слова, их учат целиком.</li>
+<li>Урок разбит на блоки по 3–5 минут. Один урок не обязательно проходить за одно занятие.</li></ul>
+<h2>Структура занятия (30–40 минут)</h2>
+<ol><li><b>Разминка, 2–3 минуты.</b> Тренажёр «Не перепутай» или карточки из «Карты звуков»: вы показываете ключевое слово, ученица называет звук.</li>
+<li><b>Повторение, 5 минут.</b> Столбик слов из прошлого урока.</li>
+<li><b>Новый материал, 10–15 минут.</b> Звук, правило, чтение слов, упражнение.</li>
+<li><b>Перерыв-движение, 1–2 минуты.</b> Встать, потянуться, «проплыть» руками стиль из текста.</li>
+<li><b>Текст и диктант, 10 минут.</b></li></ol>
+<p>Признаки усталости: ученица трёт глаза, начинает ошибаться в уже знакомом, отвлекается, читает наугад. В этот момент лучше остановиться. 20 минут свежей работы дают больше, чем 40 минут через силу.</p>
+<h2>Мультисенсорные приёмы</h2>
+<ul><li><b>Отстукивание звуков:</b> на каждый звук один палец или хлопок, потом «склеить» звуки в слово.</li>
+<li><b>Письмо крупно:</b> буквы пальцем на столе, в воздухе, на ладони, на песке или на запотевшем стекле.</li>
+<li><b>Проговори — напиши — прочитай:</b> при письме назвать звук, написать букву, в конце прочитать написанное.</li>
+<li><b>Зеркало</b> для трудных звуков: th, w/v, r.</li></ul>
+<h2>Против пропуска букв</h2>
+<ul><li>Палец или закладка под строкой. В настройках есть «линейка для чтения».</li>
+<li>Режим «По звукам» в блоке «Читаем слова»: буквы подсвечиваются по очереди, потом слово звучит целиком.</li>
+<li>Сначала медленно по звукам, потом то же слово быстро.</li>
+<li>Палец на последней букве перед чтением слова целиком.</li></ul>
+<h2>Путаница b, d, v, w, u, y</h2>
+<ul><li>b/d — «кровать» bed из двух кулаков; d пишется как c плюс палочка.</li>
+<li>v/w — один уголок или два, плюс разное произношение.</li>
+<li>u/y — чашка или чашка с хвостиком вниз.</li>
+<li>Возвращайтесь к тренажёру по 2 минуты в начале занятий, пока путаница не уйдёт.</li></ul>
+<h2>Обратная связь</h2>
+<ul><li>Хвалите конкретное усилие: «ты дочитала до последней буквы», «ты сама поделила слово на слоги».</li>
+<li>Вместо «неправильно» — «давай проверим»: попросите прочитать ещё раз, ведя пальцем.</li>
+<li>Не просите читать вслух при посторонних, если ученица этого не хочет.</li>
+<li>Дорожку можно считать проплытой, если ученица читает слова урока без подсказки примерно в 9 случаях из 10.</li></ul>
+<h2>Обозначения звуков</h2>
+<p>Вместо фонетической транскрипции звук записан в квадратных скобках с ключевым словом: [a] как в cat, [ay] как в cake, [ee] как в sea, [igh] как в night, [oa] как в boat, [oo] как в pool, [sh] как в ship, [th] как в thin. Все звуки собраны на странице «Звуки».</p>
+<h2>Технические замечания</h2>
+<ul><li>Озвучка встроена в браузер, и качество голоса зависит от устройства. Лучше всего звучит в Chrome или Edge на компьютере, где есть британские голоса. Проверить голос можно в «Настройках».</li>
+<li>Отметки о пройденных уроках сохраняются только в этом браузере на этом устройстве.</li>
+<li>В настройках можно выбрать шрифт (Lexend, Atkinson Hyperlegible, Verdana), размер текста, тёплый фон, выключить цветные буквы и включить линейку.</li></ul>`;
+
+</script>
+<script>
+{
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const PLAY='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7h3l5-4v14l-5-4H3z" fill="currentColor"/><path d="M14 6c1.5 1.2 1.5 6.8 0 8M16.5 4c3 2.5 3 9.5 0 12" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>';
+
+/* ---------- storage ---------- */
+let S={done:{},blk:{},can:{},set:{}};
+try{const r=localStorage.getItem('phon-book-v1');if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem('phon-book-v1',JSON.stringify(S))}catch(e){}};
+const SET=Object.assign({font:'Lexend',fs:'19px',bgc:'aqua',col:'on',rate:'0.85',rul:'off',pic:'on',voice:''},S.set);
+let tutor=!!S.tutor;
+
+/* ---------- graphemes ---------- */
+const GCLS={tion:'cc',ee:'vv',ea:'vv',ai:'vv',ay:'vv',oa:'vv',ow:'vv',oo:'vv',ou:'vv',oi:'vv',oy:'vv',igh:'vv',ie:'vv',ar:'vv',or:'vv',ore:'vv',er:'vv',ir:'vv',ur:'vv',aw:'vv',au:'vv',ew:'vv',ue:'vv',
+sh:'cc',ch:'cc',tch:'cc',th:'cc',ck:'cc',ng:'cc',nk:'cc',wh:'cc',ph:'cc',qu:'cc',dge:'cc',kn:'kn',wr:'wr',mb:'mb'};
+const LIDX={};L.forEach((l,i)=>LIDX[l.id]=i);
+const KNOWN=[];let acc=[];let magicFrom=LIDX['4-1'];
+L.forEach((l,i)=>{acc=acc.concat(l.g||[]);KNOWN[i]=[...new Set(acc)].filter(g=>g.length>1).sort((a,b)=>b.length-a.length)});
+const TRICKY=new Set(BASE_TRICKY);L.forEach(l=>(l.tr||[]).forEach(t=>TRICKY.add(t[0].toLowerCase())));
+const NOMAGIC=new Set(['have','give','live','love','come','some','done','gone','one','none','are','were','there','where','once','move','lose','whose','glove','above','sure','were']);
+function tokens(word,li,soft){
+  const w=word.toLowerCase(),known=KNOWN[li]||[],out=[];let i=0;
+  while(i<w.length){
+    let hit=null;for(const g of known){if(w.startsWith(g,i)){hit=g;break}}
+    if(hit){const s=word.substr(i,hit.length);let cls=GCLS[hit]||'cc';
+      if(cls==='kn'||cls==='wr'){out.push({s:s[0],c:'sil'},{s:s[1],c:hit==='kn'?'c':'c'});i+=2;continue}
+      if(cls==='mb'){out.push({s:s[0],c:'c'},{s:s[1],c:'sil'});i+=2;continue}
+      out.push({s,c:cls});i+=hit.length;continue}
+    const ch=w[i],o=word[i];let c;
+    if(/[aeiou]/.test(ch))c='v';else if(ch==='y')c=i===0?'c':'v';else if(/[a-z]/.test(ch))c='c';else c='';
+    if(soft&&(ch==='c'||ch==='g')&&/[eiy]/.test(w[i+1]||''))c='soft';
+    out.push({s:o,c});i++}
+  if(li>=magicFrom&&!NOMAGIC.has(w)&&out.length>=3){
+    const n=out.length,e=out[n-1],k=out[n-2],v=out[n-3];
+    if(e.s.toLowerCase()==='e'&&e.c==='v'&&k.c==='c'&&k.s.length===1&&!/[wxy]/i.test(k.s)&&v.c==='v'&&v.s.length===1&&(n===3||out[n-4].c!=='v')){e.c='me';v.c='vl'}}
+  return out}
+const pic=w=>{const e=EMO[String(w).toLowerCase()];return e?`<span class="pic" aria-hidden="true">${e}</span>`:''};
+function wordHTML(word,li,soft,np){
+  const lw=word.toLowerCase(),pp=np?'':pic(word);
+  if(TRICKY.has(lw))return `<button class="w" data-w="${esc(word)}"><span class="g tw">${esc(word)}</span>${pp}</button>`;
+  return `<button class="w" data-w="${esc(word)}">`+tokens(word,li,soft).map(t=>`<span class="g ${t.c}">${esc(t.s)}</span>`).join('')+pp+'</button>'}
+function textHTML(str,li,g){
+  const hi=(g||[]).map(x=>x.toLowerCase());
+  return str.split(/(\s+)/).map(p=>{
+    if(!p.trim())return /\n/.test(p)?'<br><br>':p;
+    const m=p.match(/^([^A-Za-z*']*)(\*?)([A-Za-z'’-]+)(\*?)([^A-Za-z]*)$/);
+    if(!m)return esc(p);
+    const [,pre,s1,core,,post]=m,lw=core.toLowerCase().replace(/’/g,"'");
+    let inner;
+    if(s1)inner=`<span class="pv" title="Это слово прочитает репетитор">${esc(core)}</span>`;
+    else if(TRICKY.has(lw))inner=`<span class="tw">${esc(core)}</span>`;
+    else if(hi.length){const mg=hi.includes('magic');inner=tokens(core,li).map(t=>(mg?(t.c==='vl'||t.c==='me'):hi.includes(t.s.toLowerCase()))&&(t.c!==''&&t.c!=='sil')?`<span class="hlg">${esc(t.s)}</span>`:esc(t.s)).join('')}
+    else inner=esc(core);
+    return esc(pre)+`<span class="tw2" data-w="${esc(core)}">${inner}</span>`+esc(post)}).join('')}
+
+/* ---------- speech ---------- */
+let voice=null,weak=false;
+function pickVoice(){
+  const vs=speechSynthesis?speechSynthesis.getVoices():[];
+  const gb=vs.filter(v=>/en[-_]GB/i.test(v.lang));
+  const chosen=SET.voice&&vs.find(v=>v.name===SET.voice);
+  const pref=gb.find(v=>/(sonia|libby|maisie|natural|online|neural)/i.test(v.name))||gb.find(v=>/google/i.test(v.name))||gb[0];
+  voice=chosen||pref||vs.find(v=>/^en/i.test(v.lang))||null;
+  const list=(gb.length?gb:vs.filter(v=>/^en/i.test(v.lang))).slice(0,14),box=$('#voices');
+  if(box)box.innerHTML=list.length?list.map(v=>`<button class="tg ${voice&&v.name===voice.name?'on':''}" data-voice="${esc(v.name)}">${esc(v.name)}</button>`).join(''):'<span class="small">Голоса не найдены.</span>';
+  const vn=$('#vname');if(vn)vn.textContent=voice?('Голос: '+voice.name):'';
+  weak=!!voice&&!/(natural|online|neural|google)/i.test(voice.name);
+  const hasGood=gb.some(v=>/(natural|online|neural|google)/i.test(v.name));
+  const vb=$('#vbanner');if(vb)vb.style.display=weak?'block':'none';
+  const vw=$('#vwarn');if(vw)vw.innerHTML=weak?`<div class="warn">${hasGood?'Сейчас выбран старый системный голос, он часто ошибается в произношении. Выберите выше голос со словами Natural, Online или Google.':'На этом устройстве есть только старые системные голоса, они часто ошибаются (например, читают muffin как «моффин»). Откройте учебник в браузере Microsoft Edge и выберите голос «Microsoft Sonia Online (Natural)» или «Libby». В Chrome подойдёт «Google UK English Female».'}</div>`:(!voice||!/en[-_]GB/i.test(voice.lang))?'<div class="warn">На этом устройстве не найден британский голос. Лучше открыть учебник в Chrome или Edge на компьютере, там обычно есть голоса «English (United Kingdom)».</div>':''}
+if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
+const SAYMAP={a:'a pool',the:'the pool',live:'we live',does:'she does'};
+const sayable=w=>/^[a-z]$/i.test(w)&&w!=='a'?w.toUpperCase():(SAYMAP[w]||w);
+function speak(text,rate,onend){
+  text=sayable(text);
+  if(!('speechSynthesis' in window)){toast('Озвучка не поддерживается этим браузером');return}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);if(voice)u.voice=voice;u.lang=voice?voice.lang:'en-GB';
+  u.rate=rate||parseFloat(SET.rate);if(onend)u.onend=onend;speechSynthesis.speak(u)}
+let stepMode=false;
+function sayWord(btn){
+  const w=btn.dataset.w;btn.classList.add('say');
+  if(stepMode&&btn.classList.contains('w')){
+    const gs=[...btn.querySelectorAll('.g')];let i=0;
+    const tick=()=>{gs.forEach(g=>g.classList.remove('on'));
+      if(i<gs.length){gs[i].classList.add('on');i++;setTimeout(tick,650)}
+      else speak(w,parseFloat(SET.rate),()=>btn.classList.remove('say'))};
+    tick()}
+  else speak(w,null,()=>btn.classList.remove('say'));
+  setTimeout(()=>btn.classList.remove('say'),2500)}
+function sayList(words,btns){
+  let i=0;const next=()=>{btns.forEach(b=>b.classList.remove('say'));if(i>=words.length)return;
+    const b=btns[i];b&&b.classList.add('say');speak(words[i],null,()=>setTimeout(next,450));i++};next()}
+
+/* ---------- helpers ---------- */
+function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',2600)}
+function shake(e){e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')}
+const mod=id=>M[id];
+const lessonsOf=m=>L.filter(l=>l.m===m);
+function medalSVG(level){
+  const col=['#c9d6da','#cd7f32','#b9c3c9','#f2b705'][level];
+  return `<svg viewBox="0 0 52 52" aria-label="${['нет медали','бронза','серебро','золото'][level]}"><path d="M16 2h8l4 14h-8zM36 2h-8l-4 14h8z" fill="${level?'#0d7f8c':'#9fb3b8'}"/><circle cx="26" cy="32" r="16" fill="${col}" stroke="#0a4d68" stroke-width="2.5"/><path d="M19 32c2.5-2.5 4.5-2.5 7 0s4.5 2.5 7 0" stroke="#0a4d68" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="${level?1:.35}"/></svg>`}
+function medalLevel(m){const ls=lessonsOf(m),d=ls.filter(l=>S.done[l.id]).length;if(!d)return 0;if(d===ls.length)return 3;return d/ls.length>=.5?2:1}
+
+/* ---------- views ---------- */
+function viewPool(){
+  const tot=L.length,d=L.filter(l=>S.done[l.id]).length;
+  let h=`<section class="hero"><div class="wrap"><div><h1>Читаю по‑английски</h1><p>Учебник по фонетике и чтению. Разминка, тренажёр и девять заплывов: от первых звуков до длинных слов. Каждый урок — это дорожка из коротких отрезков по 3–5 минут. Нажимай на любое английское слово, чтобы его услышать.</p>
+  <div class="big">${d}<span style="font-size:.45em;font-weight:500"> из ${tot} дорожек проплыто</span></div></div>
+  <svg viewBox="0 0 400 230" aria-hidden="true"><rect x="0" y="0" width="400" height="230" rx="18" fill="#0a4d68"/><rect x="10" y="10" width="380" height="210" rx="12" fill="#6fd0dc"/>
+  ${[0,1,2,3,4].map(i=>`<g transform="translate(0 ${10+i*42})"><path d="M10 21h380" stroke="#ffffff" stroke-opacity=".25" stroke-width="10"/>${i?`<g>${Array.from({length:27},(_,k)=>`<circle cx="${17+k*14}" cy="0" r="4.5" fill="${k%2?'#fff':'#e5484d'}"/>`).join('')}</g>`:''}</g>`).join('')}
+  <path d="M20 160c20-10 40 10 60 0s40 10 60 0 40 10 60 0 40 10 60 0 40 10 60 0 40 10 60 0" stroke="#fff" stroke-opacity=".45" stroke-width="3" fill="none"/>
+  <g transform="translate(${60+Math.round(280*d/tot)} 115)"><ellipse cx="0" cy="0" rx="26" ry="9" fill="#0a4d68" opacity=".25"/><circle cx="20" cy="-2" r="8" fill="#e5484d"/><path d="M-26 -2c10-8 30-8 40 0" stroke="#0a4d68" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M2 -4l-10 -12M-8 2l-12 10" stroke="#0a4d68" stroke-width="5" stroke-linecap="round"/></g>
+  <text x="372" y="34" text-anchor="end" font-size="16" font-family="Lexend,sans-serif" fill="#0a4d68" font-weight="700">финиш</text></svg></div></section>
+  <div class="wrap"><div class="pool">`;
+  M.forEach((m,mi)=>{
+    const ls=lessonsOf(mi);
+    h+=`<div class="lane"><div class="lnum">${m.n}</div><div class="linfo"><h3>${esc(m.t)}</h3><div class="sub">${esc(m.s)}</div><div class="dots">${ls.map((l,k)=>`<a class="dot ${S.done[l.id]?'done':''}" href="#lesson-${l.id}" title="${esc(l.t)}">${k+1}</a>`).join('')}</div></div><div class="medal">${medalSVG(medalLevel(mi))}</div></div>`});
+  h+=`</div><p class="small" style="margin-bottom:40px">Медаль за заплыв: бронза — пройден хотя бы один урок, серебро — половина, золото — все уроки. Отметки сохраняются только в этом браузере на этом устройстве.</p></div>`;
+  return h}
+
+function blockWrap(lid,n,title,min,body){
+  const k=lid+':'+n,d=S.blk[k];
+  return `<section class="block ${d?'isdone':''}" data-blk="${k}"><div class="bh"><span class="n">${n}</span><h2>${title}</h2>${min?`<span class="min">≈ ${min} мин</span>`:''}<button class="donebtn" data-act="blk">${d?'Готово ✓':'Отметить готовым'}</button></div>${body}</section>`}
+
+function exHTML(ex,li,l,ei){
+  const id=l.id+'-'+ei;
+  if(ex.type==='listen'){
+    return `<div class="ex"><h3>${ex.h||'Послушай и выбери'}</h3><p class="how">Нажми на динамик, послушай слово и выбери, какое из них прозвучало.</p>`+
+    ex.items.map(set=>{const opts=set.split(' '),t=opts[Math.floor(Math.random()*opts.length)];
+      return `<div class="row" data-t="${esc(t)}"><button class="play" data-act="lplay" aria-label="Послушать">${PLAY}</button>${shuf(opts).map(o=>`<button class="opt" data-act="lopt" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>`}).join('')+'</div>'}
+  if(ex.type==='fill'){
+    const items=ex.w.split(' ').map(s=>{const [w,a]=s.split('=');return{w,a}});
+    return `<div class="ex"><h3>${ex.h||'Вставь пропущенное'}</h3><p class="how">Послушай слово и выбери, каких букв не хватает.</p>`+
+    items.map(it=>{const full=it.w.replace('_',it.a);const [pre,post]=it.w.split('_');
+      return `<div class="row" data-a="${esc(it.a)}" data-full="${esc(full)}"><button class="play sm" data-act="fplay" aria-label="Послушать">${PLAY}</button><span class="fw">${esc(pre)}<span class="slot">&nbsp;</span>${esc(post)}${pic(full)}</span>${ex.opts.map(o=>`<button class="opt" data-act="fopt" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>`}).join('')+'</div>'}
+  if(ex.type==='sort'){
+    const chips=[];ex.cols.forEach((c,ci)=>c[1].split(' ').forEach(w=>chips.push({w,ci})));
+    return `<div class="ex" data-sort="${id}"><h3>${ex.h||'Разложи слова'}</h3><p class="how">Нажми на слово (оно прозвучит), потом на нужную колонку.</p><div class="sortpool">${shuf(chips).map(c=>`<button class="chip" data-act="chip" data-w="${esc(c.w)}" data-ci="${c.ci}">${esc(c.w)}${pic(c.w)}</button>`).join('')}</div><div class="sortcols">${ex.cols.map((c,ci)=>`<button class="scol" data-act="scol" data-ci="${ci}"><span class="lab">${esc(c[0])}</span></button>`).join('')}</div></div>`}
+  if(ex.type==='grid'){
+    const letters=ex.s.split('');const total=letters.filter(x=>x===ex.find).length;
+    return `<div class="ex" data-grid="${id}" data-total="${total}"><h3>${ex.h||('Найди все буквы '+ex.find)}</h3><p class="how">${ex.how||'Нажимай только на нужную букву. Не торопись: скорость не важна, важна точность.'}</p><div class="grid">${letters.map(x=>`<button class="gl" data-act="gl" data-ok="${x===ex.find?1:0}">${esc(x)}</button>`).join('')}</div><div class="cnt">Найдено: <span>0</span> из ${total}</div></div>`}
+  if(ex.type==='syll'){
+    return `<div class="ex"><h3>${ex.h||'Раздели на слоги'}</h3><p class="how">Нажимай между буквами, чтобы поставить черту. Потом нажми «Проверить».</p>`+
+    ex.w.split(' ').map(s=>{const plain=s.replace(/\|/g,'');let ans=[],p=0;for(const ch of s){if(ch==='|')ans.push(p);else p++}
+      return `<div class="row" data-ans="${ans.join(',')}"><button class="play sm" data-act="splay" data-w="${esc(plain)}" aria-label="Послушать">${PLAY}</button><span class="syl">${plain.split('').map((ch,i)=>(i?`<button class="cut" data-act="cut" data-i="${i}" aria-label="Разделить"></button>`:'')+`<span>${esc(ch)}</span>`).join('')}</span><button class="btn alt" data-act="scheck">Проверить</button><span class="res"></span></div>`}).join('')+'</div>'}
+  if(ex.type==='odd'){
+    return `<div class="ex"><h3>${ex.h||'Найди лишнее слово'}</h3><p class="how">${ex.how||'Три слова похожи по звуку, одно нет. Нажми на лишнее.'}</p>`+
+    ex.items.map(s=>{const ws=s.split(' ');return `<div class="row">${shuf(ws).map(w=>`<button class="opt" data-act="oopt" data-ok="${w[0]==='!'?1:0}" data-w="${esc(w.replace('!',''))}">${esc(w.replace('!',''))}</button>`).join('')}</div>`}).join('')+'</div>'}
+  return ''}
+
+function viewLesson(id){
+  const li=LIDX[id];if(li===undefined)return viewPool();
+  const l=L[li],m=M[l.m],ls=lessonsOf(l.m),pos=ls.indexOf(l)+1;
+  stepMode=false;
+  let n=0,blocks=[];
+  const B=(title,min,body)=>{n++;blocks.push(blockWrap(l.id,n,title,min,body))};
+  if(l.intro)l.intro.forEach(x=>B(x[0],x[1],`<div class="intro">${x[2]}</div>`));
+  if(l.k){
+    B('Звук',3,`<div class="keycard"><span class="snd">${esc(l.k[0])}</span><span class="kw">${wordHTML(l.k[1],li,l.soft,1)}</span><span class="em" aria-hidden="true">${l.k[2]}</span></div>
+    ${l.goal?`<div class="tip"><span class="ic">🎯</span><div>${l.goal}</div></div>`:''}
+    ${l.mouth?`<div class="tip"><span class="ic">👄</span><div>${l.mouth}</div></div>`:''}
+    ${l.mix?`<div class="tip"><span class="ic">⚠️</span><div>${l.mix}</div></div>`:''}
+    ${l.tu?`<div class="tutor">${l.tu}</div>`:''}`)}
+  else if(l.tu&&!l.intro){B('Цель',1,`<div class="tip"><span class="ic">🎯</span><div>${l.goal||''}</div></div><div class="tutor">${l.tu}</div>`)}
+  else if(l.tu){blocks.push(`<div class="tutor" style="margin:10px 0">${l.tu}</div>`)}
+  if(l.rule)B('Правило',2,`<div class="rule">${l.rule}</div>`);
+  if(l.words){
+    const cols=l.words.split('|').map(c=>c.trim().split(/\s+/));const mx=Math.max(...cols.flat().map(w=>w.length));
+    B('Читаем слова',5,`<div class="tools"><button class="tg" data-act="step">По звукам: выкл.</button><span class="small" style="align-self:center">Включи, чтобы слово подсвечивалось по звукам, а потом звучало целиком.</span></div>
+    <div class="cols" style="--mw:${Math.max(160,mx*20+95)}px;--mws:${Math.max(150,mx*17+78)}px">${cols.map(c=>`<div class="col"><button class="play sm" data-act="colplay" aria-label="Прочитать столбик">${PLAY}</button>${c.map(w=>wordHTML(w,li,l.soft)).join('')}</div>`).join('')}</div>
+    <p class="legend">Сначала прочитай столбик сама, потом проверь себя: нажми на слово или на динамик над столбиком.</p>`)}
+  (l.ex||[]).forEach((ex,ei)=>B(ei===0?'Тренируемся':'Ещё тренировка',4,exHTML(ex,li,l,ei)));
+  if(l.ph)B('Фразы',3,l.ph.map(p=>`<div class="phr"><button class="play sm" data-act="say" data-w="${esc(p.replace(/\*/g,''))}" aria-label="Послушать">${PLAY}</button><div>${textHTML(p,li,l.hl||l.g)}</div></div>`).join(''));
+  if(l.tx){
+    B('Читаем текст',5,`<h3 style="margin-bottom:10px">${textHTML(l.tx.t,li,l.hl||l.g)} <button class="play sm" data-act="say" data-w="${esc((l.tx.t+'. '+l.tx.b).replace(/\*/g,''))}" aria-label="Послушать весь текст">${PLAY}</button></h3><div class="tx">${textHTML(l.tx.b,li,l.hl||l.g)}</div>
+    <p class="legend">Нажми на слово, чтобы его услышать. <span class="tw">Фиолетовые</span> — хитрые слова, их запоминаем целиком. <span class="pv">Серые с пунктиром</span> — новые слова, их прочитает репетитор.</p>
+    ${l.tx.q?`<div class="ex"><h3>Ответь на вопросы</h3>${l.tx.q.map(q=>`<div class="row" data-a="${q[1]}"><button class="play sm" data-act="say" data-w="${esc(q[0])}" aria-label="Послушать">${PLAY}</button><span style="font-size:24px">${textHTML(q[0],li,[])}</span><button class="opt" data-act="yn" data-o="yes">Yes</button><button class="opt" data-act="yn" data-o="no">No</button></div>`).join('')}</div>`:''}
+    ${l.tx.tu?`<div class="tutor">${l.tx.tu}</div>`:''}`)}
+  if(l.dict){
+    const ws=l.dict.split(' ');
+    B('Диктант',4,`<p class="how">Послушай слово, произнеси его по звукам вслух и запиши в тетрадь или в поле. Потом проверь.</p><div class="dict">${ws.map((w,i)=>`<div class="row" data-w="${esc(w)}"><b>${i+1}.</b><button class="play sm" data-act="dplay" aria-label="Послушать">${PLAY}</button>${pic(w)}<input aria-label="Слово ${i+1}" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn alt" data-act="dcheck">Проверить</button><span class="res"></span></div>`).join('')}</div>
+    <div class="tutor">Метод «проговори — напиши»: ученица повторяет слово, называет звуки по очереди (не буквы), на каждый звук пишет букву или буквосочетание и в конце читает написанное. Если ошибка, не исправляйте сразу: попросите прочитать то, что написано, и сравнить с услышанным.</div>`)}
+  if(l.tr&&l.tr.length)B('Хитрые слова',3,`<p class="how">Эти слова читаются не по правилам. Запоминаем целиком: посмотри, произнеси, напиши пальцем на столе, назови буквы, напиши в тетрадь.</p><div class="trlist">${l.tr.map(t=>`<div class="tri"><button class="w" data-w="${esc(t[0])}"><span class="g tw">${esc(t[0])}</span></button><div class="small" style="margin-top:6px">${t[1]}</div></div>`).join('')}</div>`);
+  const cans=l.can||[];
+  B('Я умею',1,`<div class="can">${cans.map((c,i)=>{const k=l.id+':'+i;return `<label><input type="checkbox" data-act="can" data-k="${k}" ${S.can[k]?'checked':''}>${c}</label>`}).join('')}</div>
+  <p><button class="btn" data-act="finish">${S.done[l.id]?'Дорожка проплыта ✓':'Дорожка проплыта!'}</button></p>`);
+  const prev=L[li-1],next=L[li+1];
+  return `<section class="lhead"><div class="wrap"><div class="crumbs"><a href="#pool">Бассейн</a> · Заплыв ${m.n}: ${esc(m.t)} · дорожка ${pos} из ${ls.length}</div><h1>${esc(l.t)}</h1><div class="lprog">${blocks.filter(b=>b.startsWith('<section')).map((_,i)=>`<span class="${S.blk[l.id+':'+(i+1)]?'on':''}"></span>`).join('')}</div></div></section>
+  <div class="wrap">${blocks.join('')}<div class="finish">${prev?`<a class="btn alt" href="#lesson-${prev.id}" style="text-decoration:none">← ${esc(prev.t)}</a>`:'<span></span>'}${next?`<a class="btn" href="#lesson-${next.id}" style="text-decoration:none">${esc(next.t)} →</a>`:''}</div></div>`}
+
+function viewSounds(){
+  let h=`<div class="wrap page"><h1>Карта звуков</h1><p>Все звуки курса с ключевыми словами. Нажми на карточку, чтобы услышать слово, или на название урока, чтобы перейти к нему.</p>`;
+  M.forEach((m,mi)=>{const ls=lessonsOf(mi).filter(l=>l.k);if(!ls.length)return;
+    h+=`<div class="sgroup"><h2>Заплыв ${m.n}. ${esc(m.t)}</h2><div class="scards">${ls.map(l=>`<div class="scard"><span class="s">${esc(l.k[0])}</span><span class="k">${wordHTML(l.k[1],LIDX[l.id],l.soft,1)}</span><span aria-hidden="true">${l.k[2]}</span></div><a class="small" style="grid-column:span 1;align-self:center" href="#lesson-${l.id}">${esc(l.t)}</a>`).join('')}</div></div>`});
+  return h+'</div>'}
+function viewTricky(){
+  const all=[];L.forEach(l=>(l.tr||[]).forEach(t=>all.push([t[0],t[1],l])));
+  return `<div class="wrap page"><h1>Хитрые слова</h1><p>Слова, которые читаются не по правилам. Их немного, и они встречаются очень часто. Учим по 3–5 слов, повторяем каждый урок.</p><div class="trlist">${all.map(t=>`<div class="tri"><button class="w" data-w="${esc(t[0])}"><span class="g tw">${esc(t[0])}</span></button><div class="small" style="margin-top:6px">${t[1]}</div><a class="small" href="#lesson-${t[2].id}">урок: ${esc(t[2].t)}</a></div>`).join('')}</div></div>`}
+function viewGuide(){return `<div class="wrap page guide">${GUIDE}</div>`}
+
+/* ---------- router ---------- */
+function route(){
+  const h=location.hash.slice(1);let html;
+  if(h.startsWith('lesson-'))html=viewLesson(h.slice(7));
+  else if(h==='sounds')html=viewSounds();
+  else if(h==='tricky')html=viewTricky();
+  else if(h==='guide')html=viewGuide();
+  else html=viewPool();
+  $('#app').innerHTML=html;
+  document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('on',a.dataset.nav===(h.startsWith('lesson')?'pool':(h||'pool'))));
+  window.scrollTo(0,0);
+  if('speechSynthesis' in window)speechSynthesis.cancel()}
+window.addEventListener('hashchange',route);
+
+/* ---------- settings ---------- */
+function applySet(){
+  document.documentElement.style.setProperty('--font',`'${SET.font}'`);
+  document.documentElement.style.setProperty('--fs',SET.fs);
+  document.body.classList.toggle('warm',SET.bgc==='warm');
+  document.body.classList.toggle('nocol',SET.col==='off');
+  document.body.classList.toggle('rul',SET.rul==='on');document.body.classList.toggle('nopic',SET.pic==='off');
+  document.body.classList.toggle('tm',tutor);
+  $('[data-act=tutor]').classList.toggle('on',tutor);
+  document.querySelectorAll('[data-set]').forEach(g=>g.querySelectorAll('button').forEach(b=>b.classList.toggle('on',SET[g.dataset.set]===b.dataset.v)));
+  S.set=SET;S.tutor=tutor;save()}
+document.addEventListener('pointermove',e=>{if(SET.rul==='on')$('#ruler').style.top=(e.clientY-20)+'px'});
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+  const vb=e.target.closest('[data-voice]');
+  if(vb){SET.voice=vb.dataset.voice;applySet();pickVoice();speak('Hello! I like to swim.');return}
+  const sb=e.target.closest('[data-set] button');
+  if(sb){SET[sb.parentElement.dataset.set]=sb.dataset.v;applySet();return}
+  const t=e.target.closest('[data-act],.w,.tw2');if(!t)return;
+  const a=t.dataset.act;
+  if(!a&&(t.classList.contains('w')||t.classList.contains('tw2'))){sayWord(t);return}
+  const row=t.closest('.row');
+  switch(a){
+  case 'settings':$('#ov').classList.add('open');pickVoice();break;
+  case 'close':$('#ov').classList.remove('open');break;
+  case 'tutor':tutor=!tutor;applySet();toast(tutor?'Подсказки для репетитора показаны':'Подсказки для репетитора скрыты');break;
+  case 'testvoice':speak('Hello! I like to swim. This is my British voice.');break;
+  case 'reset':if(t.dataset.sure){S.done={};S.blk={};S.can={};save();t.dataset.sure='';$('#rsmsg').textContent='Прогресс сброшен.';route()}else{t.dataset.sure='1';$('#rsmsg').textContent='Нажми ещё раз, чтобы подтвердить.'}break;
+  case 'say':sayWord(t);break;
+  case 'step':stepMode=!stepMode;t.classList.toggle('on',stepMode);t.textContent='По звукам: '+(stepMode?'вкл.':'выкл.');break;
+  case 'colplay':{const bs=[...t.parentElement.querySelectorAll('.w')];sayList(bs.map(b=>b.dataset.w),bs);break}
+  case 'blk':{const s=t.closest('.block'),k=s.dataset.blk;S.blk[k]=!S.blk[k];save();s.classList.toggle('isdone',S.blk[k]);t.textContent=S.blk[k]?'Готово ✓':'Отметить готовым';
+    const bar=document.querySelectorAll('.lprog span'),i=parseInt(k.split(':').pop())-1;if(bar[i])bar[i].classList.toggle('on',S.blk[k]);
+    if(S.blk[k]){const nx=s.nextElementSibling;if(nx&&nx.classList.contains('block'))nx.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'})}break}
+  case 'can':S.can[t.dataset.k]=t.checked;save();break;
+  case 'finish':{const id=location.hash.slice(8);S.done[id]=true;save();t.textContent='Дорожка проплыта ✓';
+    const m=L[LIDX[id]].m,lv=medalLevel(m);toast(lv===3?'Заплыв завершён! Золотая медаль 🥇':'Отлично! Ещё одна дорожка позади.');break}
+  case 'lplay':speak(row.dataset.t);break;
+  case 'lopt':{const o=t.dataset.o;if(o===row.dataset.t){t.classList.add('ok');speak(o)}else{t.classList.add('no');shake(t);speak(o)}break}
+  case 'fplay':speak(row.dataset.full);break;
+  case 'fopt':{if(t.dataset.o===row.dataset.a){row.querySelector('.slot').textContent=t.dataset.o;t.classList.add('ok');speak(row.dataset.full)}else{t.classList.add('no');shake(t)}break}
+  case 'chip':{if(t.classList.contains('ok'))return;const ex=t.closest('.ex');ex.querySelectorAll('.chip.sel').forEach(c=>c.classList.remove('sel'));t.classList.add('sel');speak(t.dataset.w.length===1?t.dataset.w.toUpperCase():t.dataset.w);break}
+  case 'scol':{const ex=t.closest('.ex'),c=ex.querySelector('.chip.sel');if(!c){toast('Сначала нажми на слово');return}
+    if(c.dataset.ci===t.dataset.ci){c.classList.remove('sel');c.classList.add('ok');t.appendChild(c);if(!ex.querySelector('.sortpool .chip'))toast('Все слова на месте!')}else{shake(c);shake(t)}break}
+  case 'gl':{if(t.classList.contains('ok'))return;const ex=t.closest('.ex');if(t.dataset.ok==='1'){t.classList.add('ok');const f=ex.querySelectorAll('.gl.ok').length;ex.querySelector('.cnt span').textContent=f;if(f==ex.dataset.total)toast('Все нашла! Молодец.')}else shake(t);break}
+  case 'cut':t.classList.toggle('on');break;
+  case 'splay':speak(t.dataset.w);break;
+  case 'scheck':{const got=[...row.querySelectorAll('.cut.on')].map(c=>c.dataset.i).join(','),r=row.querySelector('.res');
+    if(got===row.dataset.ans){r.textContent='Верно!';r.className='res ok'}else{r.textContent='Попробуй ещё';r.className='res no'}break}
+  case 'oopt':{if(t.dataset.ok==='1'){t.classList.add('ok')}else{t.classList.add('no');shake(t)}speak(t.dataset.w);break}
+  case 'yn':{if(t.dataset.o===row.dataset.a)t.classList.add('ok');else{t.classList.add('no');shake(t)}break}
+  case 'dplay':speak(row.dataset.w);break;
+  case 'dcheck':{const inp=row.querySelector('input'),r=row.querySelector('.res'),w=row.dataset.w;
+    if(inp.value.trim().toLowerCase()===w.toLowerCase()){r.textContent='Верно!';r.className='res ok'}else{r.innerHTML='Правильно: '+wordHTML(w,LIDX[location.hash.slice(8)]||0);r.className='res'}break}
+  }
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#ov').classList.remove('open');if(e.key==='Enter'&&e.target.matches('.dict input')){e.target.parentElement.querySelector('[data-act=dcheck]').click()}});
+$('#ov').addEventListener('click',e=>{if(e.target.id==='ov')$('#ov').classList.remove('open')});
+applySet();route();
+}
+</script>
+</body>
+</html>

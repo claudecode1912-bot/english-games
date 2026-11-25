@@ -271,6 +271,7 @@ td .say{width:40px;height:40px}
 </div>
 <canvas id="confetti"></canvas>
 
+<script src="../voice.js"></script>
 <script>
 {
 const V = [
@@ -357,11 +358,7 @@ function feed() {
 
 /* ---------- speech ---------- */
 function speak(v) {
-  try {
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(v.slice(0, 3).map(s => s.replace('/', ' or ')).join(', '));
-    u.lang = 'en-US'; u.rate = .8; speechSynthesis.speak(u);
-  } catch (e) {}
+  window.VOICE && VOICE.speak(v.slice(0, 3).map(s => s.replace('/', ' or ')).join(', '));
 }
 
 /* ---------- answer options: only forms of the same verb ---------- */

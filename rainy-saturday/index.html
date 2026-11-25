@@ -151,7 +151,7 @@ footer{text-align:center;color:var(--mut);font-size:14px;padding:30px 16px 80px}
 
 <section class="band" id="words"><div class="in">
   <h2>Знакомимся со словами</h2>
-  <p class="lead">Посмотри на картинку и попробуй угадать перевод. Нажми на карточку: на обороте перевод и подсказка, как запомнить слово. Кнопка с динамиком произносит слово (британский вариант).</p>
+  <p class="lead">Посмотри на картинку и попробуй угадать перевод. Нажми на карточку: на обороте перевод и подсказка, как запомнить слово. Кнопка с динамиком произносит слово тем же британским голосом, что и в учебнике.</p>
   <div class="row" style="margin-bottom:16px"><button class="btn alt" id="flipAll">Перевернуть все</button><button class="btn alt" id="shuf">Перемешать</button></div>
   <div class="cards" id="cards"></div>
 </div></section>
@@ -240,6 +240,7 @@ footer{text-align:center;color:var(--mut);font-size:14px;padding:30px 16px 80px}
 <div class="gloss" id="gloss" role="status"><button class="spk" id="gSpk" aria-label="Произнести"></button><div><b id="gEn"></b> <span class="ipa" id="gIpa"></span><div class="ru" style="font-size:20px" id="gRu"></div></div></div>
 <div class="score" id="score">0 / 0</div>
 
+<script src="../voice.js"></script>
 <script>
 {
 const O='stroke="#2b2622" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
@@ -404,10 +405,7 @@ const TINT=['#ffe3a3','#cfe6f5','#ffd0c4','#d9efcf','#e6dcf5'];
 const S={ok:0,all:0};const scoreEl=document.getElementById('score');
 const mark=ok=>{S.all++;if(ok)S.ok++;scoreEl.textContent=`${S.ok} / ${S.all}`};
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-let voice=null;
-const pickVoice=()=>{try{const v=speechSynthesis.getVoices();voice=v.find(x=>x.lang==='en-GB')||v.find(x=>x.lang&&x.lang.startsWith('en'))||null}catch(e){}};
-try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
-const say=(t,r=.9)=>{try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';if(voice)u.voice=voice;u.rate=r;speechSynthesis.speak(u)}catch(e){}};
+const say=t=>{window.VOICE&&VOICE.speak(t)};
 const spoken=en=>en.replace(' / ',', ');
 
 /* hero + scenes */
@@ -435,9 +433,9 @@ document.getElementById('gSpk').onclick=()=>say(spoken(D[gl.dataset.k][1]));
 const rb=document.getElementById('recallBtn');rb.onclick=()=>{const on=document.body.classList.toggle('recall');rb.textContent=on?'Показать английские слова':'Режим «Вспомни»'};
 const tb=document.getElementById('tenseBtn');tb.onclick=()=>{const on=document.body.classList.toggle('tense');document.getElementById('legend').hidden=!on;tb.textContent=on?'Убрать подсветку':'Подсветить времена'};
 let reading=false;const rd=document.getElementById('readBtn');
-rd.onclick=()=>{try{if(reading){speechSynthesis.cancel();reading=false;rd.textContent='Слушать текст';return}
+rd.onclick=()=>{try{if(reading){VOICE.stop();reading=false;rd.textContent='Слушать текст';return}
 const txt=[...document.querySelectorAll('.story p')].map(p=>{const c=p.cloneNode(true);c.querySelectorAll('.w').forEach(w=>{w.textContent=w.querySelector('.e').textContent});return c.textContent}).join(' ');
-speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang='en-GB';if(voice)u.voice=voice;u.rate=.85;u.onend=()=>{reading=false;rd.textContent='Слушать текст'};speechSynthesis.speak(u);reading=true;rd.textContent='Остановить'}catch(e){}};
+VOICE.speak(txt,()=>{reading=false;rd.textContent='Слушать текст'});reading=true;rd.textContent='Остановить'}catch(e){}};
 
 /* generic MCQ */
 const mcq=(el,items)=>{el.innerHTML=items.map((it,i)=>`<div class="q" data-i="${i}">${it.pic?`<div class="pq"><div class="pic">${sv(it.pic)}</div><div>`:''}<p class="qt">${it.q}</p><div class="opts">${(it.keep?it.o:shuffle(it.o)).map(o=>`<button class="opt">${o}</button>`).join('')}</div><p class="fb"></p>${it.pic?'</div></div>':''}</div>`).join('');
@@ -495,7 +493,7 @@ const DW=['tips','empty','dirty','clean','need','bake','wooden','suitable','stic
 const dEl=document.getElementById('dict');
 const newDict=()=>{const set=shuffle(DW).slice(0,6);typed(dEl,set.map(k=>({s:`<button class="spk" data-say="${k}" aria-label="Послушать">${SPK}</button> ___`,a:k==='neighbor'?['neighbor','neighbour']:[k],ru:D[k][2]})),()=>'');
 dEl.querySelectorAll('.q').forEach((q,i)=>{const r=document.createElement('span');r.className='fb';r.style.flexBasis='100%';r.textContent='подсказка: '+D[set[i]][2];q.appendChild(r)})};
-dEl.addEventListener('click',e=>{const s=e.target.closest('[data-say]');if(s)say(D[s.dataset.say][1],.8)});
+dEl.addEventListener('click',e=>{const s=e.target.closest('[data-say]');if(s)say(D[s.dataset.say][1])});
 document.getElementById('dictNew').onclick=newDict;newDict();
 
 /* grammar */
