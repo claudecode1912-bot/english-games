@@ -1053,7 +1053,7 @@ function textHTML(str,li,g){
     return esc(pre)+`<span class="tw2" data-w="${esc(core)}">${inner}</span>`+esc(post)}).join('')}
 
 /* ---------- speech ---------- */
-let voice=null,weak=false;
+let voice=null,weak=false,AUD={},curA=null;
 function pickVoice(){
   const vs=speechSynthesis?speechSynthesis.getVoices():[];
   const gb=vs.filter(v=>/en[-_]GB/i.test(v.lang));
@@ -1065,12 +1065,22 @@ function pickVoice(){
   const vn=$('#vname');if(vn)vn.textContent=voice?('Голос: '+voice.name):'';
   weak=!!voice&&!/(natural|online|neural|google)/i.test(voice.name);
   const hasGood=gb.some(v=>/(natural|online|neural|google)/i.test(v.name));
-  const vb=$('#vbanner');if(vb)vb.style.display=weak?'block':'none';
+  if(Object.keys(AUD).length>50)weak=false;const vb=$('#vbanner');if(vb)vb.style.display=weak?'block':'none';
   const vw=$('#vwarn');if(vw)vw.innerHTML=weak?`<div class="warn">${hasGood?'Сейчас выбран старый системный голос, он часто ошибается в произношении. Выберите выше голос со словами Natural, Online или Google.':'На этом устройстве есть только старые системные голоса, они часто ошибаются (например, читают muffin как «моффин»). Откройте учебник в браузере Microsoft Edge и выберите голос «Microsoft Sonia Online (Natural)» или «Libby». В Chrome подойдёт «Google UK English Female».'}</div>`:(!voice||!/en[-_]GB/i.test(voice.lang))?'<div class="warn">На этом устройстве не найден британский голос. Лучше открыть учебник в Chrome или Edge на компьютере, там обычно есть голоса «English (United Kingdom)».</div>':''}
 if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
 const SAYMAP={a:'a pool',the:'the pool',live:'we live',does:'she does'};
 const sayable=w=>/^[a-z]$/i.test(w)&&w!=='a'?w.toUpperCase():(SAYMAP[w]||w);
+function akey(t){t=String(t).replace(/\*/g,'').replace(/\s+/g,' ').trim();if(/^[A-Z]$/.test(t))return 'letter-'+t.toLowerCase();const n=t.toLowerCase();let h=0x811c9dc5;for(const c of n){h^=c.codePointAt(0);h=Math.imul(h,16777619)>>>0}const s=n.normalize('NFKD').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);return (s||'x')+'-'+h.toString(36)}
+fetch('audio/manifest.json').then(r=>r.ok?r.json():{}).then(j=>{AUD=j||{};if(Object.keys(AUD).length>50){weak=false;const vb=document.getElementById('vbanner');if(vb)vb.remove()}}).catch(()=>{});
+function stopAudio(){if(curA){curA.pause();curA=null}}
 function speak(text,rate,onend){
+  const ak=akey(text);
+  if(AUD[ak]){
+    if('speechSynthesis' in window)speechSynthesis.cancel();stopAudio();
+    const a=new Audio('audio/'+ak+'.'+AUD[ak]);const r=rate||parseFloat(SET.rate);
+    a.playbackRate=r<0.7?0.75:1;a.preservesPitch=true;if(onend)a.onended=onend;curA=a;
+    a.play().catch(()=>{delete AUD[ak];speak(text,rate,onend)});return}
+  stopAudio();
   text=sayable(text);
   if(!('speechSynthesis' in window)){toast('Озвучка не поддерживается этим браузером');return}
   speechSynthesis.cancel();
@@ -1209,7 +1219,7 @@ function route(){
   $('#app').innerHTML=html;
   document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('on',a.dataset.nav===(h.startsWith('lesson')?'pool':(h||'pool'))));
   window.scrollTo(0,0);
-  if('speechSynthesis' in window)speechSynthesis.cancel()}
+  if('speechSynthesis' in window)speechSynthesis.cancel();stopAudio()}
 window.addEventListener('hashchange',route);
 
 /* ---------- settings ---------- */
