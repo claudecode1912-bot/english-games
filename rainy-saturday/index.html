@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Rainy Saturday</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: warm, playful, tidy — a cosy picture-book lesson for a teen learner
+   IDEA: a rainy Saturday at the neighbour's house, told like an illustrated storybook
+   PICTURE: hand-drawn SVG scenes — rainy window, kitchen, workshop, evening walk — plus a drawn picture for each concrete word
+   COLOUR and TYPE: rain blue dominant, cookie yellow support, raincoat red accent; Baloo 2 + Nunito
+   LAYOUT: hero scene, word cards, story, tasks, grammar, speaking — one column of full-width bands */
+:root{color-scheme:light dark;
+--bg:light-dark(#fbfaf7,#11171c);--ink:light-dark(#1d2329,#e9eef2);--mut:light-dark(#5c6670,#9fb0bd);
+--card:light-dark(#ffffff,#1a232b);--line:light-dark(#e4e0d6,#2b3742);--soft:light-dark(#eef4f9,#18242e);
+--rain:#2f6690;--rain2:light-dark(#2f6690,#7fb2db);--sun:#f4b942;--red:#e2513a;--ok:#2e9e5b;--bad:#d1453b;
+--ps:light-dark(#2f6690,#8cc0e8);--pc:light-dark(#c2410c,#ffa36b)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Nunito,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Baloo 2",Nunito,sans-serif;line-height:1.05;text-wrap:balance;margin:0}
+h2{font-size:clamp(30px,4vw,44px);margin-bottom:8px}
+h3{font-size:22px;margin:28px 0 6px}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
+.in{max-width:1080px;margin:0 auto}
+.lead{color:var(--mut);max-width:62ch;margin:0 0 18px}
+html{scroll-padding-top:72px;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+/* hero */
+.hero{background:var(--rain);color:#fff;padding-bottom:0}
+.hero h1{font-size:clamp(40px,7vw,72px);text-align:center}
+.hero p{text-align:center;margin:10px auto 22px;max-width:56ch;opacity:.92}
+.hero .art{max-width:1000px;margin:0 auto;border-radius:22px 22px 0 0;overflow:hidden;line-height:0}
+.hero svg{width:100%;height:auto;display:block}
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .scroll{display:flex;gap:6px;overflow-x:auto;padding:10px max(5vw,16px);max-width:1180px;margin:0 auto;scrollbar-width:none}
+nav a{flex:none;text-decoration:none;color:var(--ink);font-weight:800;font-size:15px;padding:8px 14px;border-radius:99px;background:var(--soft)}
+nav a:hover{background:var(--sun);color:#1d2329}
+/* buttons */
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+.btn{background:var(--rain);color:#fff;font-weight:800;border-radius:12px;padding:10px 18px;min-height:44px}
+.btn.alt{background:var(--soft);color:var(--ink)}
+.btn.y{background:var(--sun);color:#1d2329}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.spk{width:40px;height:40px;border-radius:50%;background:var(--soft);display:inline-grid;place-items:center;flex:none}
+.spk svg{width:20px;height:20px;fill:var(--rain2)}
+/* word cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:14px}
+.card{perspective:900px;height:250px;background:none;padding:0;text-align:left}
+.card .fl{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.card.on .fl{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;border:1px solid var(--line);background:var(--card);padding:12px;display:flex;flex-direction:column;overflow:hidden}
+.face.b{transform:rotateY(180deg);background:var(--soft)}
+.pic{flex:1;border-radius:12px;background:#fff6e2;display:grid;place-items:center;overflow:hidden}
+.pic svg{width:100%;height:100%;max-height:150px}
+.pic.t{font-family:"Baloo 2";font-size:30px;font-weight:800;color:#1d2329;text-align:center;padding:8px;line-height:1.05}
+.en{font-weight:800;font-size:19px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.ipa{color:var(--mut);font-size:14px}
+.ru{font-family:"Baloo 2";font-size:26px;font-weight:800;color:var(--red);line-height:1.1}
+.hook{font-size:15px;margin-top:8px}
+.ex{font-size:14px;color:var(--mut);margin-top:auto;font-style:italic}
+/* story */
+.story{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;max-width:760px;margin:0 auto}
+.story p{margin:0;font-size:18px}
+.scene{border-radius:18px;overflow:hidden;line-height:0;border:1px solid var(--line)}
+.scene svg{width:100%;height:auto}
+.w{background:color-mix(in srgb,var(--sun) 35%,transparent);border-radius:6px;padding:0 3px;cursor:pointer;font-weight:800;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.w:hover{background:var(--sun);color:#1d2329}
+body.recall .w{color:var(--red);background:color-mix(in srgb,var(--red) 14%,transparent)}
+body.recall .w>.e{display:none}
+body.recall .w::after{content:attr(data-ru)}
+body.tense i.ps{font-style:normal;color:var(--ps);text-decoration:underline 3px;text-underline-offset:4px}
+body.tense i.pc{font-style:normal;color:var(--pc);text-decoration:underline wavy 2px;text-underline-offset:5px}
+i.ps,i.pc{font-style:normal}
+.tools{position:sticky;top:58px;z-index:5;background:var(--bg);padding:8px 0;max-width:760px;margin:0 auto 10px}
+.gloss{position:fixed;left:50%;bottom:16px;transform:translateX(-50%) translateY(140%);transition:transform .25s;z-index:30;background:var(--card);border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.18);border-radius:16px;padding:12px 16px;display:flex;gap:12px;align-items:center;width:min(92vw,460px)}
+.gloss{visibility:hidden}.gloss.on{transform:translateX(-50%) translateY(0);visibility:visible}
+.gloss b{font-size:20px}
+.legend{font-size:14px;color:var(--mut)}
+.legend .a{color:var(--ps);font-weight:800}.legend .c{color:var(--pc);font-weight:800}
+/* tasks */
+.task{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(16px,3vw,28px);margin-bottom:22px}
+.task h3{margin-top:0}
+.task .how{color:var(--mut);margin:0 0 14px}
+.q{padding:12px 0;border-top:1px dashed var(--line)}
+.q:first-of-type{border-top:0}
+.qt{margin:0 0 8px;font-weight:600}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{background:var(--soft);border-radius:12px;padding:9px 16px;min-height:44px;font-weight:700;border:2px solid transparent}
+.opt:hover:not(:disabled){border-color:var(--rain2)}
+.opt.ok{background:var(--ok);color:#fff}
+.opt.no{background:var(--bad);color:#fff}
+.opt:disabled{cursor:default}
+.fb{font-size:15px;margin:6px 0 0;color:var(--mut)}
+.fb.good{color:var(--ok)}.fb.badc{color:var(--bad)}
+.pq{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:center}
+.pq .pic{height:130px}
+@media(max-width:520px){.pq{grid-template-columns:minmax(0,1fr)}}
+.match{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.match .col{display:grid;gap:8px}
+.mt{background:var(--soft);border-radius:12px;padding:10px;min-height:48px;font-weight:800;border:2px solid transparent;text-align:center}
+.mt.sel{border-color:var(--rain2)}
+.mt.done{background:var(--ok);color:#fff;opacity:.55;cursor:default}
+.mt.shake{animation:sh .35s}
+@keyframes sh{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.gap{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.gap input{font:inherit;font-size:16px;padding:6px 10px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);width:170px;min-height:42px}
+.gap input.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,var(--bg))}
+.gap input.no{border-color:var(--bad)}
+.chk{background:var(--soft);border-radius:10px;padding:6px 12px;min-height:42px;font-weight:800}
+.ans{font-size:14px;color:var(--bad)}
+/* grammar */
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px;margin-bottom:22px}
+.rule{border-radius:20px;padding:22px;color:#fff}
+.rule.s{background:var(--rain)}.rule.c{background:#c2410c}
+.rule h3{margin:0 0 6px;font-size:26px}
+.rule p{margin:6px 0}
+.rule .f{background:rgba(255,255,255,.16);border-radius:10px;padding:8px 12px;font-weight:800}
+.trap{border:2px dashed var(--red);border-radius:16px;padding:14px 18px;margin-bottom:22px}
+/* speaking */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tab{background:var(--soft);border-radius:99px;padding:8px 16px;font-weight:800;min-height:44px}
+.tab.on{background:var(--rain);color:#fff}
+.talk{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:760px){.talk{grid-template-columns:minmax(0,1fr)}}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{background:var(--soft);border-radius:99px;padding:6px 12px;font-weight:700;font-size:15px;min-height:36px}
+.chip.used{background:var(--ok);color:#fff;text-decoration:line-through}
+.big{font-family:"Baloo 2";font-size:clamp(24px,3.4vw,34px);font-weight:800;line-height:1.15;margin:8px 0}
+.qcard{background:var(--soft);border-radius:20px;padding:24px;min-height:200px;display:flex;flex-direction:column;justify-content:center}
+.timer{font-family:"Baloo 2";font-size:28px;font-weight:800;color:var(--red);min-width:70px}
+.score{position:fixed;right:14px;bottom:14px;z-index:25;background:var(--sun);color:#1d2329;font-weight:800;border-radius:99px;padding:8px 16px;box-shadow:0 6px 18px rgba(0,0,0,.18);font-size:15px}
+footer{text-align:center;color:var(--mut);font-size:14px;padding:30px 16px 80px}
+</style>
+</head>
+<body>
+
+<header class="band hero">
+  <h1>A Rainy Saturday</h1>
+  <p>Урок-история: 38 новых слов, Present Simple и Present Continuous. Нажимай на картинки, слушай слова, играй и говори.</p>
+  <div class="art" id="hero"></div>
+</header>
+
+<nav><div class="scroll">
+  <a href="#words">Слова</a><a href="#story">Текст</a><a href="#tasks">Задания</a><a href="#grammar">Грамматика</a><a href="#speak">Говорение</a>
+</div></nav>
+
+<section class="band" id="words"><div class="in">
+  <h2>Знакомимся со словами</h2>
+  <p class="lead">Посмотри на картинку и попробуй угадать перевод. Нажми на карточку: на обороте перевод и подсказка, как запомнить слово. Кнопка с динамиком произносит слово (британский вариант).</p>
+  <div class="row" style="margin-bottom:16px"><button class="btn alt" id="flipAll">Перевернуть все</button><button class="btn alt" id="shuf">Перемешать</button></div>
+  <div class="cards" id="cards"></div>
+</div></section>
+
+<section class="band" id="story" style="background:var(--soft)"><div class="in">
+  <h2 style="text-align:center">Читаем историю</h2>
+  <p class="lead" style="margin:0 auto 14px;text-align:center">Нажми на выделенное слово, чтобы увидеть перевод. Потом включи режим «Вспомни»: вместо английских слов будут русские. Читай вслух и называй их по-английски.</p>
+  <div class="tools row">
+    <button class="btn" id="recallBtn">Режим «Вспомни»</button>
+    <button class="btn alt" id="tenseBtn">Подсветить времена</button>
+    <button class="btn alt" id="readBtn">Слушать текст</button>
+    <span class="legend" id="legend" hidden><span class="a">прямая линия</span>: Present Simple · <span class="c">волна</span>: Present Continuous</span>
+  </div>
+  <article class="story">
+    <div class="scene" data-scene="hero2"></div>
+    <p>Hi! My name is Lily, and <span class="w" data-k="this"><span class="e">this</span></span> is my brother Tom. We are <span class="w" data-k="twins"><span class="e">twins</span></span>. Every Saturday we <i class="ps">help</i> <span class="w" data-k="our"><span class="e">our</span></span> <span class="w" data-k="neighbor"><span class="e">neighbor</span></span>, Mrs Brown. She is old and she <i class="ps"><span class="w" data-k="need"><span class="e">needs</span></span></i> help with the house. She always <i class="ps">gives</i> us <span class="w" data-k="tips"><span class="e">tips</span></span>, a little money for our work.</p>
+    <p>Today <i class="pc"><span class="w" data-k="itsraining"><span class="e">it's raining</span></span></i>. I can <i class="ps"><span class="w" data-k="hear"><span class="e">hear</span></span></i> the <span class="w" data-k="rain"><span class="e">rain</span></span> <span class="w" data-k="clearly"><span class="e">clearly</span></span> on the window. "No problem," Mrs Brown says. "I <i class="ps"><span class="w" data-k="know"><span class="e">know</span></span></i> <span class="w" data-k="something"><span class="e">something</span></span> we can do inside."</p>
+    <p>Right now we <i class="pc">are <span class="w" data-k="getready"><span class="e">getting ready</span></span></i>. Tom <i class="pc">is <span class="w" data-k="puton"><span class="e">putting on</span></span></i> his old <span class="w" data-k="clothes"><span class="e">clothes</span></span>, because our work is often <span class="w" data-k="dirty"><span class="e">dirty</span></span>. I <i class="pc">am <span class="w" data-k="choose"><span class="e">choosing</span></span></i> a <span class="w" data-k="suitable"><span class="e">suitable</span></span> jumper. Not my new one!</p>
+    <div class="scene" data-scene="workshop"></div>
+    <p>Mrs Brown has an old <span class="w" data-k="wooden"><span class="e">wooden</span></span> chair. One leg is broken. Tom <i class="ps">loves</i> to <span class="w" data-k="fix"><span class="e">fix</span></span> things, so at the moment he <i class="pc">is <span class="w" data-k="fix"><span class="e">repairing</span></span></i> the chair. He <i class="pc">is <span class="w" data-k="stick"><span class="e">sticking</span></span></i> the leg back with strong glue. "Don't <span class="w" data-k="break"><span class="e">break</span></span> it again!" I laugh.</p>
+    <div class="scene" data-scene="kitchen"></div>
+    <p>I <i class="pc">am helping</i> Mrs Brown in the kitchen. We <i class="ps"><span class="w" data-k="bake"><span class="e">bake</span></span></i> cookies every Saturday, and today we <i class="pc">are baking</i> chocolate ones. The table is <span class="w" data-k="clean"><span class="e">clean</span></span>, but the bowls are dirty and the cookie jar is <span class="w" data-k="empty"><span class="e">empty</span></span>. We make thirty cookies. That's <span class="w" data-k="enough"><span class="e">enough</span></span> for <span class="w" data-k="eachofus"><span class="e">each of us</span></span>!</p>
+    <p>Then we <i class="ps"><span class="w" data-k="start"><span class="e">start</span></span></i> a new project. Mrs Brown <i class="ps">gives</i> us <span class="w" data-k="brushes"><span class="e">brushes</span></span> and paper, and we paint <span class="w" data-k="atthesametime"><span class="e">at the same time</span></span>. Tom <i class="pc">is painting</i> a dog, and I <i class="pc">am painting</i> the rain. Each of us <i class="ps">paints</i> <span class="w" data-k="ourown"><span class="e">our own</span></span> picture, and we <span class="w" data-k="all"><span class="e">all</span></span> <i class="ps"><span class="w" data-k="enjoy"><span class="e">enjoy</span></span></i> it.</p>
+    <div class="scene" data-scene="walk"></div>
+    <p>In the evening the rain <i class="ps">stops</i>, and the sky is <span class="w" data-k="clear"><span class="e">clear</span></span>. Biscuit, Mrs Brown's dog, <i class="pc">is waiting</i> at the door with his <span class="w" data-k="lead"><span class="e">lead</span></span> in his mouth. We <i class="ps">take</i> him for a walk. When we come back, Biscuit is wet, so we <i class="ps"><span class="w" data-k="dry"><span class="e">dry</span></span></i> him with an old <span class="w" data-k="blanket"><span class="e">blanket</span></span>.</p>
+    <p>Before we go home, Mrs Brown <i class="ps"><span class="w" data-k="packin"><span class="e">packs</span></span></i> the cookies <span class="w" data-k="packin"><span class="e">in</span></span> a box. "<span class="w" data-k="this"><span class="e">This</span></span> is for your mum," she says. We know it: Saturday is the best day of the week!</p>
+  </article>
+</div></section>
+
+<section class="band" id="tasks"><div class="in">
+  <h2>Задания</h2>
+  <p class="lead">Сначала по тексту, потом на сами слова. Счёт правильных ответов внизу справа.</p>
+
+  <div class="task"><h3>True or False?</h3><p class="how">Правда или нет? Если нет, подумай, как будет правильно, и скажи вслух.</p><div id="tf"></div></div>
+
+  <div class="task"><h3>Найди пару</h3><p class="how">Нажми на английское слово, потом на его перевод. Постарайся без ошибок!</p>
+    <div class="match" id="match"></div>
+    <div class="row" style="margin-top:14px"><button class="btn alt" id="matchNew">Новый раунд</button><span id="matchMsg" class="fb"></span></div></div>
+
+  <div class="task"><h3>Что на картинке?</h3><p class="how">Выбери слово, которое подходит к картинке.</p><div id="picq"></div>
+    <button class="btn alt" id="picNew" style="margin-top:10px">Другие картинки</button></div>
+
+  <div class="task"><h3>Противоположности</h3><p class="how">Слова легче запомнить парами. Выбери противоположность.</p><div id="opp"></div></div>
+
+  <div class="task"><h3>Вставь слово</h3><p class="how">Новые ситуации, те же слова. Первая буква подсказана. Нажми «Проверить» или Enter.</p><div id="gaps"></div></div>
+
+  <div class="task"><h3>Диктант</h3><p class="how">Нажми на динамик, послушай слово и напиши его. Под полем есть перевод на случай, если звук не работает.</p><div id="dict"></div>
+    <button class="btn alt" id="dictNew" style="margin-top:10px">Другие слова</button></div>
+</div></section>
+
+<section class="band" id="grammar" style="background:var(--soft)"><div class="in">
+  <h2>Present Simple или Present Continuous?</h2>
+  <p class="lead">В истории есть оба времени: что Лили и Том делают <b>обычно</b> и что происходит <b>прямо сейчас</b>.</p>
+  <div class="rules">
+    <div class="rule s"><h3>Present Simple</h3><p>Обычно, всегда, каждую субботу: привычки, расписание, факты.</p><p class="f">I / we / they bake · he / she / it bakes</p><p>Маркеры: always, usually, often, sometimes, never, every Saturday</p><p><i>We bake cookies every Saturday.</i></p></div>
+    <div class="rule c"><h3>Present Continuous</h3><p>Прямо сейчас, в этот момент, сегодня: действие идёт.</p><p class="f">am / is / are + глагол-ing</p><p>Маркеры: now, right now, at the moment, today, Look!, Listen!</p><p><i>Today we are baking chocolate cookies.</i></p></div>
+  </div>
+  <div class="trap"><b>Ловушка из нашего списка слов.</b> Глаголы <b>know</b>, <b>need</b>, <b>hear</b> описывают состояние, а не действие, поэтому в Continuous их обычно не ставят, даже со словом now. Говорим <i>I know</i>, <i>she needs help now</i>, <i>I can hear the rain</i>. А <b>enjoy</b> можно: <i>We are enjoying the walk!</i></div>
+
+  <div class="task"><h3>Обычно или сейчас?</h3><p class="how">Определи время. Ищи слова-маркеры.</p><div id="sort"></div></div>
+  <div class="task"><h3>Выбери правильную форму</h3><p class="how">Будь внимателен к ловушкам!</p><div id="form"></div></div>
+  <div class="task"><h3>Раскрой скобки</h3><p class="how">Напиши глагол в нужном времени. Сокращения (is → 's) тоже подходят.</p><div id="open"></div></div>
+</div></section>
+
+<section class="band" id="speak"><div class="in">
+  <h2>Говорим</h2>
+  <p class="lead">Задания для урока с преподавателем. Говори полными предложениями, нажимай на слова, которые уже использовал.</p>
+
+  <div class="task"><h3>Что происходит на картинке?</h3>
+    <div class="tabs" id="stabs"></div>
+    <div class="talk"><div class="scene" id="sScene"></div>
+      <div><p class="big" id="sQ"></p><p class="how" id="sQ2"></p><div class="chips" id="sChips"></div>
+      <div class="row"><button class="btn y" id="tBtn">Старт: 60 секунд</button><span class="timer" id="tOut"></span></div></div></div></div>
+
+  <div class="task"><h3>Вопросы-карточки</h3><p class="how">Сначала ответь, что ты делаешь <b>обычно</b> (Present Simple), потом, что происходит <b>сейчас</b> (Present Continuous).</p>
+    <div class="qcard"><p class="big" id="qc"></p><div class="chips" id="qcw"></div></div>
+    <div class="row" style="margin-top:12px"><button class="btn" id="qcNext">Следующий вопрос</button><span class="fb" id="qcN"></span></div></div>
+
+  <div class="task"><h3>Покажи без слов</h3><p class="how">Один показывает действие жестами, второй угадывает: <i>You are …ing!</i> Потом наоборот: <i>Do you … every day?</i></p>
+    <div class="qcard"><p class="big" id="mime">Нажми «Новая карточка», чтобы получить действие</p></div>
+    <div class="row" style="margin-top:12px"><button class="btn" id="mimeNew">Новая карточка</button><button class="btn alt" id="mimeHide">Спрятать</button></div></div>
+</div></section>
+
+<footer>A Rainy Saturday · интерактивный урок</footer>
+
+<div class="gloss" id="gloss" role="status"><button class="spk" id="gSpk" aria-label="Произнести"></button><div><b id="gEn"></b> <span class="ipa" id="gIpa"></span><div class="ru" style="font-size:20px" id="gRu"></div></div></div>
+<div class="score" id="score">0 / 0</div>
+
+<script>
+{
+const O='stroke="#2b2622" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
+const SPK='<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+const sv=(b,vb='0 0 120 120')=>`<svg viewBox="${vb}" role="img" aria-hidden="true">${b}</svg>`;
+const os=(d,c,w=7)=>`<path d="${d}" fill="none" stroke="#2b2622" stroke-width="${w+4}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+const spark=(x,y,s,c='#f4b942')=>`<path d="M${x} ${y-s}Q${x} ${y} ${x+s} ${y}Q${x} ${y} ${x} ${y+s}Q${x} ${y} ${x-s} ${y}Q${x} ${y} ${x} ${y-s}z" fill="${c}"/>`;
+const drop=(x,y,c='#4a90c2')=>`<path d="M${x} ${y}c-4 6-7 9-7 13a7 7 0 0 0 14 0c0-4-3-7-7-13z" fill="${c}" ${O}/>`;
+const cookie=(x,y,r=13)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#e0a458" ${O}/><circle cx="${x-4}" cy="${y-3}" r="2.4" fill="#5b3a29"/><circle cx="${x+5}" cy="${y-1}" r="2.2" fill="#5b3a29"/><circle cx="${x}" cy="${y+5}" r="2" fill="#5b3a29"/>`;
+const plate=`<ellipse cx="60" cy="72" rx="47" ry="34" fill="#d5dde3"/><ellipse cx="60" cy="66" rx="47" ry="34" fill="#fff" ${O}/><ellipse cx="60" cy="66" rx="30" ry="21" fill="#f1efe9"/>`;
+const jar=(x,y,s=1,fill='')=>`<g transform="translate(${x} ${y}) scale(${s})"><rect x="-26" y="-88" width="52" height="12" rx="4" fill="#e2513a" ${O}/><path d="M-22 -76h44v8c8 4 10 10 10 18v38c0 8-6 12-14 12h-40c-8 0-14-4-14-12v-38c0-8 2-14 10-18z" fill="#d8ecf5" fill-opacity=".85" ${O}/>${fill}<path d="M-24 -48v30" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8"/></g>`;
+const house=(x,c)=>`<rect x="${x}" y="58" width="40" height="40" fill="${c}" ${O}/><path d="M${x-5} 60L${x+20} 34L${x+45} 60z" fill="#e2513a" ${O}/><rect x="${x+15}" y="76" width="11" height="22" fill="#5b3a29" ${O}/><rect x="${x+5}" y="64" width="9" height="9" fill="#cfe6f5" ${O}/>`;
+const dog=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M-55 -32q-28-14-22-42" fill="none" stroke="#2b2622" stroke-width="13" stroke-linecap="round"/><path d="M-55 -32q-28-14-22-42" fill="none" stroke="#d39a5c" stroke-width="8" stroke-linecap="round"/>${[-46,-26,20,38].map(l=>`<rect x="${l}" y="-14" width="14" height="44" rx="6" fill="#c98a4b" ${O}/>`).join('')}<ellipse cx="0" cy="-24" rx="60" ry="30" fill="#d39a5c" ${O}/><ellipse cx="4" cy="-12" rx="30" ry="12" fill="#f1d2a8"/><circle cx="56" cy="-56" r="27" fill="#d39a5c" ${O}/><ellipse cx="78" cy="-48" rx="15" ry="11" fill="#f1d2a8" ${O}/><circle cx="91" cy="-51" r="5" fill="#2b2622"/><circle cx="62" cy="-63" r="3.8" fill="#2b2622"/><ellipse cx="42" cy="-60" rx="10" ry="21" transform="rotate(22 42 -60)" fill="#8a5a32" ${O}/>${os('M34 -38q14 9 32 0','#e2513a',6)}</g>`;
+const ICON={
+tips:plate.replace(/66/g,'84').replace(/72/g,'90').replace('ry="34"','ry="16"').replace('ry="34"','ry="16"').replace('ry="21"','ry="9"')+[0,1,2,3].map(i=>`<ellipse cx="46" cy="${82-i*7}" rx="15" ry="5.5" fill="#f4b942" ${O}/>`).join('')+`<circle cx="78" cy="64" r="17" fill="#f7cb5f" ${O}/><text x="78" y="71" font-size="20" text-anchor="middle" font-weight="800" fill="#9c6a12" font-family="Nunito">£</text>`,
+empty:jar(60,108,1,`<circle cx="-2" cy="-4" r="2" fill="#a8741a"/><circle cx="7" cy="-3" r="1.6" fill="#a8741a"/>`)+`<path d="M90 30c6 2 8 8 6 12M98 22c9 3 12 12 9 20" stroke="#9fb0bd" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+dirty:plate+`<path d="M40 56c6-7 15-3 13 4s-9 11-15 7-2-7 2-11z" fill="#8a5a32" opacity=".8"/><circle cx="72" cy="72" r="7" fill="#a0522d" opacity=".75"/><circle cx="80" cy="57" r="3.5" fill="#8a5a32" opacity=".6"/><path d="M50 28c-4-6 4-8 0-14M64 30c-4-6 4-8 0-14M78 28c-4-6 4-8 0-14" stroke="#8aa05a" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+clean:plate+spark(30,26,10)+spark(92,30,8)+spark(98,96,7)+spark(60,62,9,'#fff')+`<path d="M44 56q8-10 22-8" stroke="#cfe6f5" stroke-width="4" fill="none" stroke-linecap="round"/>`,
+neighbor:`<rect x="6" y="96" width="108" height="10" rx="4" fill="#8cbf6a"/>`+house(12,'#f4b942')+house(68,'#7fb2db')+[54,60].map(x=>`<rect x="${x}" y="80" width="4" height="18" fill="#fff" stroke="#2b2622" stroke-width="2"/>`).join(''),
+bake:`<path d="M42 40c-4-8 4-10 0-18M60 38c-4-8 4-10 0-18M78 40c-4-8 4-10 0-18" stroke="#b9c3cb" stroke-width="3.5" fill="none" stroke-linecap="round"/><rect x="12" y="74" width="96" height="13" rx="4" fill="#9aa5ad" ${O}/>`+cookie(34,64)+cookie(60,61)+cookie(86,64),
+fix:`<g transform="rotate(-35 60 60)"><rect x="55" y="34" width="11" height="72" rx="4" fill="#c98a4b" ${O}/><rect x="36" y="18" width="48" height="20" rx="5" fill="#8d99a6" ${O}/></g><g transform="rotate(38 60 60)"><rect x="57" y="18" width="6" height="40" fill="#c5ccd3" ${O}/><rect x="53" y="56" width="14" height="46" rx="6" fill="#e2513a" ${O}/></g>`,
+wooden:`<rect x="34" y="14" width="9" height="58" rx="3" fill="#b5763b" ${O}/><rect x="77" y="14" width="9" height="58" rx="3" fill="#b5763b" ${O}/><rect x="34" y="20" width="52" height="9" rx="3" fill="#c98a4b" ${O}/><rect x="34" y="36" width="52" height="9" rx="3" fill="#c98a4b" ${O}/><rect x="36" y="74" width="9" height="34" rx="3" fill="#a5672f" ${O}/><rect x="75" y="74" width="9" height="34" rx="3" fill="#a5672f" ${O}/><rect x="26" y="62" width="68" height="13" rx="4" fill="#d39a5c" ${O}/><path d="M34 68q12-3 22 0t24 0" stroke="#a5672f" stroke-width="2" fill="none"/>`,
+rain:`<path d="M30 70c-12 0-18-10-14-20 3-8 12-11 18-8 2-12 14-20 27-18 11 2 18 10 19 20 10-2 20 6 20 16 0 6-6 10-12 10z" fill="#e3ebf1" ${O}/>`+drop(36,82)+drop(60,90)+drop(84,82),
+lead:`<ellipse cx="32" cy="28" rx="15" ry="11" fill="none" stroke="#2b2622" stroke-width="11"/><ellipse cx="32" cy="28" rx="15" ry="11" fill="none" stroke="#e2513a" stroke-width="6"/>`+os('M42 36C66 64 24 78 66 90','#e2513a',6)+`<rect x="64" y="84" width="12" height="14" rx="3" fill="#c5ccd3" ${O}/><ellipse cx="90" cy="98" rx="20" ry="9" fill="none" stroke="#2b2622" stroke-width="11"/><ellipse cx="90" cy="98" rx="20" ry="9" fill="none" stroke="#2f6690" stroke-width="6"/><circle cx="92" cy="110" r="5" fill="#f4b942" ${O}/>`,
+break:`<path d="M60 26A42 42 0 0 0 60 110L52 92L62 76L50 60L58 42Z" fill="#fff" ${O}/><g transform="translate(10 -4) rotate(9 60 68)"><path d="M60 26L58 42L50 60L62 76L52 92L60 110A42 42 0 0 0 60 26Z" fill="#fff" ${O}/></g><path d="M40 50a28 28 0 0 0 0 36" stroke="#7fb2db" stroke-width="4" fill="none"/><path d="M28 104l-8 6M94 112l6 4M100 24l6-6" stroke="#2b2622" stroke-width="3" stroke-linecap="round"/>`,
+dry:`<circle cx="94" cy="24" r="12" fill="#f4b942" ${O}/>${[0,45,90,135,180,225,270,315].map(a=>`<path d="M94 24m${(18*Math.cos(a*Math.PI/180)).toFixed(1)} ${(18*Math.sin(a*Math.PI/180)).toFixed(1)}l${(5*Math.cos(a*Math.PI/180)).toFixed(1)} ${(5*Math.sin(a*Math.PI/180)).toFixed(1)}" stroke="#f4b942" stroke-width="3" stroke-linecap="round"/>`).join('')}<path d="M6 46Q60 58 114 46" stroke="#2b2622" stroke-width="2.5" fill="none"/><rect x="30" y="50" width="42" height="52" rx="3" fill="#4a90c2" ${O}/><rect x="30" y="86" width="42" height="7" fill="#fff" opacity=".8"/><rect x="34" y="44" width="6" height="12" rx="2" fill="#f4b942" ${O}/><rect x="62" y="45" width="6" height="12" rx="2" fill="#f4b942" ${O}/>`,
+blanket:`<rect x="16" y="38" width="88" height="24" rx="9" fill="#e2513a" ${O}/><rect x="16" y="62" width="88" height="22" rx="9" fill="#f4b942" ${O}/><rect x="16" y="84" width="88" height="22" rx="9" fill="#2f6690" ${O}/>${[34,52,70,88].map(x=>`<rect x="${x}" y="40" width="5" height="64" fill="#fff" opacity=".35"/>`).join('')}${[44,52,90,98].map(y=>`<path d="M104 ${y}h7" stroke="#2b2622" stroke-width="2.5" stroke-linecap="round"/>`).join('')}`,
+clothes:`<path d="M40 22L20 32L12 54L30 60L34 50V102H86V50L90 60L108 54L100 32L80 22C76 32 44 32 40 22Z" fill="#2f9e8f" ${O}/><path d="M34 70H86M34 80H86" stroke="#fff" stroke-width="5" opacity=".7"/><path d="M44 24c4 8 28 8 32 0" stroke="#2b2622" stroke-width="3" fill="none"/>`,
+twins:[0,40].map(d=>`<circle cx="${40+d}" cy="66" r="22" fill="#f2c9a0" ${O}/><path d="M${18+d} 62c0-18 12-28 22-28s22 10 22 28c-6-8-14-12-22-10-8-2-16 2-22 10z" fill="#6b4226" ${O}/><circle cx="${33+d}" cy="66" r="2.6" fill="#2b2622"/><circle cx="${47+d}" cy="66" r="2.6" fill="#2b2622"/><path d="M${33+d} 76q7 6 14 0" stroke="#2b2622" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="${29+d}" cy="73" r="3" fill="#f0a08a" opacity=".7"/><circle cx="${51+d}" cy="73" r="3" fill="#f0a08a" opacity=".7"/>`).join('')+`<rect x="22" y="88" width="76" height="22" rx="10" fill="#e2513a" ${O}/>`,
+brushes:[[-18,'#e2513a'],[0,'#f4b942'],[16,'#2f6690']].map(([a,c])=>`<g transform="rotate(${a} 60 96)"><rect x="56.5" y="30" width="7" height="60" rx="3" fill="#c98a4b" ${O}/><rect x="55.5" y="22" width="9" height="10" fill="#c5ccd3" ${O}/><path d="M55.5 22q4.5-18 9 0z" fill="${c}" ${O}/></g>`).join('')+`<path d="M34 66h52l-5 42H39z" fill="#d8ecf5" fill-opacity=".9" ${O}/>`,
+hear:`<path d="M68 20c-20 0-34 14-34 34 0 10 4 16 9 22 4 5 3 14 11 19 8 5 18 0 18-9 0-6 5-9 9-14 6-7 9-13 9-20 0-19-10-32-22-32z" fill="#f2c9a0" ${O}/><path d="M58 46c4-9 20-7 19 6-1 8-9 10-8 18" stroke="#2b2622" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M22 44q-8 14 0 28M12 34q-14 24 0 48" stroke="#2f6690" stroke-width="4" fill="none" stroke-linecap="round"/>`,
+packin:`<path d="M26 58L12 38H52L60 58z" fill="#d9aa72" ${O}/><path d="M94 58L108 38H68L60 58z" fill="#d9aa72" ${O}/><rect x="26" y="58" width="68" height="48" fill="#c9965f" ${O}/><rect x="54" y="58" width="12" height="48" fill="#e8d3a8" opacity=".8"/>`+cookie(46,40,10)+cookie(70,30,10)+`<path d="M58 14v14m-6-6l6 6 6-6" stroke="#2b2622" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`
+};
+ICON.itsraining=ICON.rain;
+Object.assign(ICON,{
+need:`<rect x="14" y="40" width="84" height="44" rx="8" fill="#fff" ${O}/><rect x="98" y="52" width="10" height="20" rx="3" fill="#2b2622"/><rect x="20" y="46" width="16" height="32" rx="3" fill="#e2513a"/><path d="M62 46L50 64h12L54 80l18-22H60l8-12z" fill="#f4b942" ${O}/><text x="60" y="106" font-size="15" text-anchor="middle" font-weight="800" fill="#e2513a" font-family="Nunito">5%</text>`,
+stick:`<rect x="14" y="70" width="40" height="30" rx="4" fill="#7fb2db" ${O}/><rect x="56" y="70" width="40" height="30" rx="4" fill="#f4b942" ${O}/><g transform="rotate(30 70 36)"><rect x="50" y="24" width="44" height="22" rx="6" fill="#fff" ${O}/><path d="M50 30h-10v10h10" fill="#e2513a" ${O}/><path d="M60 35h26" stroke="#2f6690" stroke-width="4"/></g><path d="M55 56c-3 5-5 7-5 10a5 5 0 0 0 10 0c0-3-2-5-5-10z" fill="#fff" ${O}/>`,
+suitable:`<rect x="58" y="34" width="44" height="50" rx="4" fill="#2f6690" ${O}/><rect x="16" y="34" width="44" height="50" rx="4" fill="#f4b942" ${O}/><circle cx="62" cy="59" r="10" fill="#f4b942" ${O}/><rect x="50" y="50" width="11" height="18" fill="#f4b942"/><path d="M40 96l8 8 16-16" stroke="#2e9e5b" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+start:`<rect x="26" y="14" width="7" height="96" rx="3" fill="#8a5a32" ${O}/><rect x="33" y="18" width="64" height="44" fill="#fff" ${O}/>${[0,1,2,3].map(c=>[0,1,2].map(r=>((c+r)%2?'':`<rect x="${33+c*16}" y="${18+r*14.7}" width="16" height="14.7" fill="#2b2622"/>`)).join('')).join('')}<rect x="33" y="18" width="64" height="44" fill="none" ${O}/>`,
+atthesametime:[30,90].map(x=>`<circle cx="${x}" cy="60" r="24" fill="#fff" ${O}/><circle cx="${x}" cy="60" r="24" fill="none" stroke="${x<60?'#e2513a':'#2f6690'}" stroke-width="5"/><path d="M${x} 60V44M${x} 60h11" stroke="#2b2622" stroke-width="3.5" stroke-linecap="round"/><circle cx="${x}" cy="60" r="2.5" fill="#2b2622"/>`).join('')+`<path d="M56 96h8" stroke="#2b2622" stroke-width="4" stroke-linecap="round"/><path d="M56 102h8" stroke="#2b2622" stroke-width="4" stroke-linecap="round"/>`,
+something:`<rect x="22" y="50" width="76" height="56" rx="4" fill="#e2513a" ${O}/><rect x="16" y="38" width="88" height="16" rx="4" fill="#ef6a51" ${O}/><rect x="54" y="38" width="12" height="68" fill="#f4b942" ${O}/><path d="M60 38c-12-18-28-10-20 0M60 38c12-18 28-10 20 0" fill="none" stroke="#f4b942" stroke-width="6"/><text x="84" y="34" font-size="28" font-weight="800" fill="#2f6690" font-family="Baloo 2">?</text>`,
+eachofus:[24,60,96].map(x=>`<ellipse cx="${x}" cy="84" rx="18" ry="8" fill="#fff" ${O}/>${cookie(x,74,10)}<circle cx="${x}" cy="34" r="10" fill="#f2c9a0" ${O}/><path d="M${x-12} 56q12-16 24 0" fill="#2f6690" ${O}/>`).join(''),
+clearly:`<text x="60" y="44" font-size="26" font-weight="800" text-anchor="middle" fill="#2b2622" font-family="Nunito">ABC</text><circle cx="38" cy="80" r="18" fill="#cfe6f5" ${O}/><circle cx="82" cy="80" r="18" fill="#cfe6f5" ${O}/><path d="M56 78q4-4 8 0M20 76L8 70M100 76l12-6" stroke="#2b2622" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M30 72l6-4M74 72l6-4" stroke="#fff" stroke-width="3" stroke-linecap="round"/>`,
+clear:`<rect x="10" y="14" width="100" height="92" rx="14" fill="#8ec5e8" ${O}/><circle cx="60" cy="60" r="18" fill="#f4b942" ${O}/>${[0,60,120,180,240,300].map(a=>`<path d="M60 60m${(26*Math.cos(a*Math.PI/180)).toFixed(1)} ${(26*Math.sin(a*Math.PI/180)).toFixed(1)}l${(8*Math.cos(a*Math.PI/180)).toFixed(1)} ${(8*Math.sin(a*Math.PI/180)).toFixed(1)}" stroke="#f4b942" stroke-width="4" stroke-linecap="round"/>`).join('')}`,
+getready:`<path d="M42 30q0-14 18-14t18 14" fill="none" stroke="#2b2622" stroke-width="5"/><rect x="28" y="28" width="64" height="80" rx="16" fill="#2f9e8f" ${O}/><rect x="38" y="66" width="44" height="30" rx="6" fill="#26857a" ${O}/><path d="M38 76h44" stroke="#2b2622" stroke-width="3"/><circle cx="60" cy="50" r="6" fill="#f4b942" ${O}/><path d="M96 46l6-4m-6 14h8m-8 10l6 4" stroke="#2b2622" stroke-width="3" stroke-linecap="round"/>`,
+this:cookie(84,74,18)+os('M14 34Q40 20 58 52','#e2513a',7)+`<path d="M50 40l12 16-18 2z" fill="#e2513a" ${O}/>`,
+enough:`<path d="M30 22h60l-8 84H38z" fill="#d8ecf5" fill-opacity=".8" ${O}/><path d="M33 40h54l-6.5 64H39.5z" fill="#f4f1ea"/><path d="M33 40h54" stroke="#9fb0bd" stroke-width="2"/><circle cx="92" cy="90" r="16" fill="#2e9e5b" ${O}/><path d="M85 90l5 5 9-10" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+puton:`<path d="M40 20L18 34L12 100H36V60H84V100H108L102 34L80 20C74 32 46 32 40 20Z" fill="#f4b942" ${O}/><path d="M60 30V100" stroke="#2b2622" stroke-width="3"/>${[48,64,80].map(y=>`<circle cx="66" cy="${y}" r="2.6" fill="#2b2622"/>`).join('')}<path d="M36 100h48" stroke="#2b2622" stroke-width="3"/><path d="M60 4v12m-6-6l6 6 6-6" stroke="#2b2622" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+choose:[[8,'#e2513a'],[62,'#2f6690']].map(([x,c])=>`<path d="M${x+14} 34L${x} 42L${x+4} 58L${x+12} 56V96H${x+40}V56L${x+48} 58L${x+52} 42L${x+38} 34C${x+34} 40 ${x+18} 40 ${x+14} 34Z" fill="${c}" ${O}/>`).join('')+`<circle cx="88" cy="22" r="13" fill="#2e9e5b" ${O}/><path d="M82 22l4 4 8-8" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+know:`<path d="M60 14c-20 0-32 15-32 31 0 12 8 19 12 25 3 5 4 9 4 14h32c0-5 1-9 4-14 4-6 12-13 12-25 0-16-12-31-32-31z" fill="#ffe08a" ${O}/><rect x="44" y="84" width="32" height="10" rx="3" fill="#c5ccd3" ${O}/><rect x="46" y="94" width="28" height="9" rx="3" fill="#c5ccd3" ${O}/><path d="M50 60q10-12 20 0" stroke="#e2a63a" stroke-width="3.5" fill="none"/><path d="M12 30l-8-4M108 30l8-4M14 56H4M106 56h10" stroke="#f4b942" stroke-width="4" stroke-linecap="round"/>`,
+all:[16,40,64,88].map((x,i)=>`<circle cx="${x+8}" cy="46" r="10" fill="#f2c9a0" ${O}/><path d="M${x-4} 82q12-30 24 0z" fill="${['#e2513a','#f4b942','#2f9e8f','#2f6690'][i]}" ${O}/>`).join('')+`<path d="M10 96q50 18 100 0" stroke="#2b2622" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+enjoy:`<path d="M94 64c16 0 16 26 0 26" fill="none" stroke="#2b2622" stroke-width="10"/><path d="M94 64c16 0 16 26 0 26" fill="none" stroke="#e2513a" stroke-width="5"/><path d="M24 56h72v34c0 10-8 18-18 18H42c-10 0-18-8-18-18z" fill="#e2513a" ${O}/><ellipse cx="60" cy="56" rx="36" ry="6" fill="#7a4a2a" ${O}/><path d="M60 42c-10-8-18-16-10-22 4-3 8-1 10 3 2-4 6-6 10-3 8 6 0 14-10 22z" fill="#ff8fa3" ${O}/>`,
+our:house(40,'#f4b942').replace(/y="58"/,'y="58"')+`<rect x="4" y="96" width="112" height="10" rx="4" fill="#8cbf6a"/><circle cx="20" cy="78" r="9" fill="#f2c9a0" ${O}/><path d="M10 98q10-20 20 0z" fill="#2f6690" ${O}/><circle cx="100" cy="78" r="9" fill="#f2c9a0" ${O}/><path d="M90 98q10-20 20 0z" fill="#2f6690" ${O}/>`,
+ourown:[[10,'#e2513a','L'],[64,'#2f6690','T']].map(([x,c,l])=>`<path d="M${x+40} 52c14 0 14 22 0 22" fill="none" stroke="#2b2622" stroke-width="8"/><rect x="${x}" y="40" width="42" height="54" rx="7" fill="${c}" ${O}/><text x="${x+21}" y="76" font-size="24" font-weight="800" text-anchor="middle" fill="#fff" font-family="Baloo 2">${l}</text>`).join('')
+});
+
+
+/* scenes */
+const rainPat=(id)=>`<pattern id="${id}" width="36" height="56" patternUnits="userSpaceOnUse"><path d="M8 0l-4 14M26 26l-4 14" stroke="#e6f1fa" stroke-width="2.4" stroke-linecap="round" opacity=".8"/><animateTransform attributeName="patternTransform" type="translate" from="0 0" to="-9 56" dur=".7s" repeatCount="indefinite"/></pattern>`;
+const mug=(x,c)=>`<path d="M${x+36} 296c14 0 14 22 0 22" fill="none" stroke="#2b2622" stroke-width="9"/><path d="M${x+36} 296c14 0 14 22 0 22" fill="none" stroke="${c}" stroke-width="5"/><rect x="${x}" y="284" width="40" height="44" rx="6" fill="${c}" ${O}/><path d="M${x+12} 276c-5-9 5-12 0-22M${x+26} 276c-5-9 5-12 0-22" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".85"/>`;
+const boots=(x,c)=>[0,30].map(d=>`<path d="M${x+d} 352h22v40h16q8 0 8 10v6h-46z" fill="${c}" ${O}/><path d="M${x+d} 362h22" stroke="#fff" stroke-width="3" opacity=".6"/>`).join('');
+const SC={};
+SC.hero=sv(`<defs><linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7aa7cb"/><stop offset="1" stop-color="#2d5a80"/></linearGradient>${rainPat('hr')}<clipPath id="hc"><rect x="292" y="52" width="198" height="256"/><rect x="510" y="52" width="198" height="256"/></clipPath></defs>
+<rect width="1000" height="420" fill="#f3cf7a"/>
+${[...Array(14)].map((_,i)=>`<circle cx="${40+i*72}" cy="${20+(i%2)*22}" r="3" fill="#e2b257"/>`).join('')}
+<rect x="270" y="30" width="460" height="300" rx="14" fill="#fff" ${O}/>
+<g clip-path="url(#hc)"><rect x="280" y="40" width="440" height="280" fill="url(#hg)"/><path d="M280 250q80-50 170-20t150-10 120 20v80H280z" fill="#3f6f5b"/><path d="M280 280q100-30 220-10t220-6v60H280z" fill="#2f5848"/><circle cx="370" cy="210" r="34" fill="#2f5848"/><rect x="366" y="236" width="8" height="40" fill="#2b2622"/><rect x="280" y="40" width="440" height="280" fill="url(#hr)"/>${[[330,90],[420,140],[560,110],[650,170],[600,230],[350,180]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4" fill="#fff" opacity=".55"/>`).join('')}</g>
+<rect x="292" y="52" width="198" height="256" fill="none" ${O}/><rect x="510" y="52" width="198" height="256" fill="none" ${O}/>
+<path d="M190 18h110c-10 60 14 140-6 220-6 30 6 60 16 92H190z" fill="#e2513a" ${O}/><path d="M220 30c6 90-4 180 6 290M262 30c-4 90 8 190 0 290" stroke="#b83a26" stroke-width="4" fill="none"/>
+<path d="M810 18H700c10 60-14 140 6 220 6 30-6 60-16 92h120z" fill="#e2513a" ${O}/><path d="M780 30c-6 90 4 180-6 290M738 30c4 90-8 190 0 290" stroke="#b83a26" stroke-width="4" fill="none"/>
+<rect x="170" y="10" width="660" height="12" rx="6" fill="#8a5a32" ${O}/>
+<rect x="230" y="326" width="540" height="22" rx="6" fill="#b5763b" ${O}/><rect x="240" y="348" width="520" height="8" fill="#000" opacity=".08"/>
+${jar(340,326,.95)}${mug(450,'#e2513a')}${mug(510,'#2f6690')}
+<path d="M630 326l-8-44h56l-8 44z" fill="#c9653f" ${O}/><path d="M650 282c-30-30-10-60 0-70 10 10 30 40 0 70z" fill="#5a9e5a" ${O}/><path d="M650 282c20-30 50-30 60-22-6 14-30 30-60 22zM650 282c-24-20-50-14-58-6 8 12 34 18 58 6z" fill="#6fb46a" ${O}/>
+<rect x="30" y="372" width="230" height="40" rx="10" fill="#2f6690" ${O}/>${[60,100,140,180,220].map(x=>`<rect x="${x}" y="374" width="8" height="36" fill="#fff" opacity=".3"/>`).join('')}
+<ellipse cx="130" cy="366" rx="66" ry="26" fill="#d39a5c" ${O}/><circle cx="196" cy="368" r="22" fill="#d39a5c" ${O}/><ellipse cx="186" cy="362" rx="9" ry="18" transform="rotate(40 186 362)" fill="#8a5a32" ${O}/><ellipse cx="214" cy="374" rx="10" ry="8" fill="#f1d2a8" ${O}/><circle cx="222" cy="372" r="4" fill="#2b2622"/><path d="M196 364q5 4 10 0" stroke="#2b2622" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+${boots(820,'#e2513a')}${boots(900,'#f4b942')}
+`,'0 0 1000 420');
+SC.hero2=SC.hero.replace(/id="hg"/,'id="hg2"').replace(/url\(#hg\)/,'url(#hg2)').replace(/id="hr"/,'id="hr2"').replace(/url\(#hr\)/,'url(#hr2)').replace(/id="hc"/,'id="hc2"').replace(/url\(#hc\)/,'url(#hc2)');
+SC.kitchen=sv(`<defs>${rainPat('kr')}<linearGradient id="ov" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffcf7a"/><stop offset="1" stop-color="#e2713a"/></linearGradient></defs>
+<rect width="600" height="380" fill="#f7d9a0"/>
+<rect x="0" y="150" width="600" height="84" fill="#fff"/>${[...Array(16)].map((_,i)=>`<path d="M${i*40} 150v84" stroke="#e7e2d6" stroke-width="2"/>`).join('')}<path d="M0 192h600" stroke="#e7e2d6" stroke-width="2"/>
+<rect x="40" y="26" width="150" height="106" rx="8" fill="#fff" ${O}/><rect x="52" y="38" width="126" height="82" fill="#5f8fb5"/><rect x="52" y="38" width="126" height="82" fill="url(#kr)"/><path d="M115 38v82M52 79h126" stroke="#fff" stroke-width="6"/><rect x="52" y="38" width="126" height="82" fill="none" ${O}/>
+<rect x="250" y="40" width="140" height="70" rx="6" fill="#2f6690" ${O}/><path d="M270 60h40M270 76h60M270 92h30" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+<rect x="430" y="150" width="150" height="230" rx="10" fill="#8d99a6" ${O}/><rect x="448" y="200" width="114" height="80" rx="10" fill="url(#ov)" ${O}/>${[455,485,515,545].map(x=>`<circle cx="${x}" cy="174" r="8" fill="#2b2622"/>`).join('')}<rect x="448" y="296" width="114" height="10" rx="5" fill="#c5ccd3" ${O}/>
+<rect x="0" y="232" width="430" height="18" fill="#b5763b" ${O}/><rect x="0" y="250" width="430" height="130" fill="#2f6690" ${O}/><rect x="16" y="266" width="190" height="100" rx="6" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/><rect x="222" y="266" width="190" height="100" rx="6" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/><circle cx="196" cy="316" r="5" fill="#f4b942"/><circle cx="232" cy="316" r="5" fill="#f4b942"/>
+<rect x="128" y="160" width="10" height="64" rx="4" fill="#c98a4b" transform="rotate(25 133 192)" ${O}/>
+<path d="M50 196h110q-6 38-55 38q-49 0-55-38z" fill="#fff" ${O}/><path d="M60 198q10 12 22 2t26 4 30-4" stroke="#8a5a32" stroke-width="7" fill="none" stroke-linecap="round" opacity=".75"/><circle cx="130" cy="218" r="5" fill="#8a5a32" opacity=".6"/>
+<rect x="178" y="222" width="150" height="12" rx="4" fill="#9aa5ad" ${O}/>${cookie(200,212,12)}${cookie(230,210,12)}${cookie(260,212,12)}${cookie(290,210,12)}${cookie(316,213,11)}
+<path d="M230 190c-4-8 4-10 0-18M262 186c-4-8 4-10 0-18M292 190c-4-8 4-10 0-18" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+${jar(380,232,.9)}`,'0 0 600 380');
+SC.workshop=sv(`<rect width="600" height="380" fill="#d9e6ef"/><rect y="290" width="600" height="90" fill="#c9965f"/>${[0,1,2,3].map(i=>`<path d="M0 ${300+i*22}H600" stroke="#a87a48" stroke-width="2"/>`).join('')}
+<rect x="30" y="30" width="230" height="140" rx="8" fill="#e8d3a8" ${O}/>${[...Array(40)].map((_,i)=>`<circle cx="${48+(i%10)*22}" cy="${48+Math.floor(i/10)*30}" r="2.5" fill="#b08a5a"/>`).join('')}
+<g transform="translate(40 40) scale(.8)">${ICON.fix}</g>
+<g transform="translate(150 50) rotate(-20) scale(.9)"><rect x="0" y="0" width="16" height="70" rx="6" fill="#2f9e8f" ${O}/><rect x="4" y="-30" width="8" height="32" fill="#c5ccd3" ${O}/></g>
+<path d="M200 60h40v30a20 20 0 0 1-40 0z" fill="#f4b942" ${O}/>
+<g transform="translate(110 150) scale(1.5)"><rect x="34" y="14" width="9" height="58" rx="3" fill="#b5763b" ${O}/><rect x="77" y="14" width="9" height="58" rx="3" fill="#b5763b" ${O}/><rect x="34" y="20" width="52" height="9" rx="3" fill="#c98a4b" ${O}/><rect x="34" y="36" width="52" height="9" rx="3" fill="#c98a4b" ${O}/><rect x="36" y="74" width="9" height="34" rx="3" fill="#a5672f" ${O}/><rect x="26" y="62" width="68" height="13" rx="4" fill="#d39a5c" ${O}/></g>
+<rect x="210" y="330" width="51" height="13" rx="4" fill="#a5672f" transform="rotate(-12 236 336)" ${O}/>
+<g transform="translate(300 316) rotate(-8)"><rect x="0" y="0" width="56" height="20" rx="6" fill="#fff" ${O}/><rect x="56" y="5" width="14" height="10" fill="#e2513a" ${O}/><path d="M10 10h30" stroke="#2f6690" stroke-width="4"/></g>
+<path d="M440 120L410 330M520 120L550 330M480 110v220" stroke="#8a5a32" stroke-width="9" stroke-linecap="round"/><rect x="415" y="110" width="130" height="110" rx="4" fill="#fff" ${O}/><rect x="425" y="120" width="110" height="90" fill="#cfe2f0"/>${[[440,140],[470,130],[500,150],[455,175],[515,180],[485,195]].map(([x,y])=>`<path d="M${x} ${y}l-5 12" stroke="#2f6690" stroke-width="3" stroke-linecap="round"/>`).join('')}<path d="M425 196q40-20 110 0v14H425z" fill="#6fb46a"/>
+<rect x="408" y="222" width="144" height="10" rx="4" fill="#8a5a32" ${O}/>
+<g transform="translate(470 228) scale(.7)">${ICON.brushes}</g>`,'0 0 600 380');
+SC.walk=sv(`<defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ec5e8"/><stop offset="1" stop-color="#ffdcae"/></linearGradient></defs>
+<rect width="600" height="380" fill="url(#sk)"/>
+${['#e2513a','#f4b942','#8cbf6a','#4a90c2','#7b5ea7'].map((c,i)=>`<path d="M80 300A${230-i*13} ${230-i*13} 0 0 1 ${540-i*26} 300" transform="translate(${i*13} 0)" fill="none" stroke="${c}" stroke-width="13" opacity=".55"/>`).join('')}
+<circle cx="520" cy="90" r="30" fill="#ffe08a"/>
+<path d="M0 250q150-40 300-10t300-20v160H0z" fill="#8cbf6a"/><path d="M220 380q40-80 120-130h60q-40 60-20 130z" fill="#ead2a8"/>
+<ellipse cx="300" cy="350" rx="56" ry="12" fill="#9cc6e4" ${O}/><ellipse cx="290" cy="347" rx="20" ry="3" fill="#fff" opacity=".7"/><ellipse cx="120" cy="320" rx="40" ry="9" fill="#9cc6e4" ${O}/>
+<rect x="64" y="150" width="16" height="110" fill="#8a5a32" ${O}/><circle cx="72" cy="130" r="52" fill="#5a9e5a" ${O}/><circle cx="46" cy="150" r="30" fill="#6fb46a" ${O}/><circle cx="100" cy="146" r="28" fill="#6fb46a" ${O}/>
+<rect x="440" y="240" width="130" height="14" rx="4" fill="#b5763b" ${O}/><rect x="450" y="254" width="10" height="40" fill="#8a5a32" ${O}/><rect x="550" y="254" width="10" height="40" fill="#8a5a32" ${O}/><rect x="440" y="214" width="130" height="10" rx="4" fill="#b5763b" ${O}/>
+<rect x="462" y="226" width="80" height="14" rx="6" fill="#e2513a" ${O}/><rect x="462" y="212" width="80" height="14" rx="6" fill="#2f6690" ${O}/>
+${dog(270,330,.95)}
+${os('M325 296C380 240 420 160 600 60','#e2513a',6)}
+<g transform="translate(600 40)"><rect x="-70" y="-14" width="90" height="34" rx="14" fill="#f4b942" transform="rotate(-28)" ${O}/><circle cx="-64" cy="28" r="13" fill="#f2c9a0" ${O}/></g>
+${drop(160,40,'#cfe6f5')}`,'0 0 600 380');
+
+/* words */
+const W=[
+['tips','tips','чаевые','/tɪps/','Tips: маленькие деньги «на чай» сверху счёта.','She always gives us tips.'],
+['empty','empty','пустой','/ˈempti/','В пустой банке гуляет эхо: em-pty, em-pty.','The cookie jar is empty.'],
+['dirty','dirty','грязный','/ˈdɜːti/','dirt (грязь) → dirty, как sun → sunny.','Our work is often dirty.'],
+['clean','clean','чистый','/kliːn/','Пара: clean ↔ dirty. Clean: всё сияет.','The table is clean.'],
+['neighbor','neighbor','сосед','/ˈneɪbə/','gh не читается: «нэйбэ». В британском: neighbour.','We help our neighbor.'],
+['need','need','нужно, нуждаться','/niːd/','I need help = мне нужна помощь. «Нид» похоже на «надо».','She needs help with the house.'],
+['bake','bake','печь (выпекать)','/beɪk/','bakery = пекарня. Bake a cake: рифма!','We bake cookies every Saturday.'],
+['packin','pack in','упаковать','/pæk ɪn/','Pack похоже на «пакет»: кладём в пакет.','She packs the cookies in a box.'],
+['fix','fix / repair','чинить','/fɪks/ /rɪˈpeə/','Fix: зафиксировать сломанное. Repair: ремонт.','Tom is repairing the chair.'],
+['wooden','wooden','деревянный','/ˈwʊdn/','wood (дерево) + -en, как gold → golden.','an old wooden chair'],
+['suitable','suitable','подходящий','/ˈsuːtəbl/','suit = костюм. Костюм, который подходит, suitable.','I am choosing a suitable jumper.'],
+['stick','stick','соединить, приклеить','/stɪk/','Стикер: то, что клеится. Stick!','He is sticking the leg back.'],
+['our','our','наш, наши','/ˈaʊə/','Звучит как hour (час): «ауэ».','We help our neighbor.'],
+['start','start','начинать','/stɑːt/','Старт! Знакомо по спорту.','We start a new project.'],
+['atthesametime','at the same time','в одно и то же время','/ət ðə seɪm taɪm/','same (тот же самый) + time (время).','We paint at the same time.'],
+['something','something','что-то','/ˈsʌmθɪŋ/','some + thing (вещь) = какая-то вещь.','I know something we can do.'],
+['eachofus','each of us','каждому из нас','/iːtʃ əv ʌs/','each: каждый по отдельности, по одному.','enough for each of us'],
+['hear','hear','слышать','/hɪə/','Внутри hear спряталось ear: ухо!','I can hear the rain.'],
+['ourown','our own','наш собственный','/ˈaʊər əʊn/','own: свой собственный. My own room.','Each of us paints our own picture.'],
+['clearly','clearly','чётко, ясно','/ˈklɪəli/','clear + -ly: отвечает на вопрос «как?».','I can hear the rain clearly.'],
+['clear','clear','понятный, ясный, чистый','/klɪə/','clear sky: ясное небо. It is clear: понятно.','The sky is clear.'],
+['getready','get ready','собираться, готовиться','/ɡet ˈredi/','ready = готов. Get ready: становиться готовым.','We are getting ready.'],
+['rain','rain','дождь','/reɪn/','rain + bow (дуга) = rainbow, радуга.','I can hear the rain.'],
+['itsraining','it\'s raining','идёт дождь','/ɪts ˈreɪnɪŋ/','Дождь не «идёт», а «дождит» прямо сейчас: is raining.','Today it\'s raining.'],
+['lead','lead','поводок','/liːd/','lead = вести. Поводок ведёт собаку.','Biscuit has his lead in his mouth.'],
+['break','break','ломать','/breɪk/','breakfast: «ломаем» ночной пост. Break: ломать.','Don\'t break it again!'],
+['dry','dry','сухой; сушить','/draɪ/','dry ↔ wet. Dry cleaning: химчистка.','We dry him with a blanket.'],
+['blanket','blanket','одеяло, плед','/ˈblæŋkɪt/','Бланкет: тёплый «блин», в который заворачиваются.','an old blanket'],
+['this','this','это, этот','/ðɪs/','Язык между зубами: th!','This is for your mum.'],
+['enough','enough','достаточно','/ɪˈnʌf/','gh читается как f: «инАф». Enough is enough!','That\'s enough for each of us.'],
+['clothes','clothes','одежда','/kləʊðz/','Только множественное число: my clothes are dirty.','Tom is putting on his old clothes.'],
+['twins','twins','близнецы','/twɪnz/','tw- как в two: двое одинаковых.','We are twins.'],
+['brushes','brushes','кисточки','/ˈbrʌʃɪz/','brush: щётка, кисть. Toothbrush: зубная щётка.','She gives us brushes.'],
+['puton','put on','надевать','/pʊt ɒn/','put on ↔ take off (снимать).','Tom is putting on his clothes.'],
+['choose','choose','выбирать','/tʃuːz/','«Чуз»: choice (выбор) из той же семьи.','I am choosing a jumper.'],
+['know','know','знать','/nəʊ/','k не читается: know звучит как no.','I know something.'],
+['all','all','все, всё','/ɔːl/','all of us = все мы.','We all enjoy it.'],
+['enjoy','enjoy','наслаждаться, получать удовольствие','/ɪnˈdʒɔɪ/','joy = радость. Enjoy: получать радость.','We all enjoy it.']
+];
+const D={};W.forEach(w=>D[w[0]]=w);
+const TINT=['#ffe3a3','#cfe6f5','#ffd0c4','#d9efcf','#e6dcf5'];
+
+const S={ok:0,all:0};const scoreEl=document.getElementById('score');
+const mark=ok=>{S.all++;if(ok)S.ok++;scoreEl.textContent=`${S.ok} / ${S.all}`};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let voice=null;
+const pickVoice=()=>{try{const v=speechSynthesis.getVoices();voice=v.find(x=>x.lang==='en-GB')||v.find(x=>x.lang&&x.lang.startsWith('en'))||null}catch(e){}};
+try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
+const say=(t,r=.9)=>{try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';if(voice)u.voice=voice;u.rate=r;speechSynthesis.speak(u)}catch(e){}};
+const spoken=en=>en.replace(' / ',', ');
+
+/* hero + scenes */
+document.getElementById('hero').innerHTML=SC.hero;
+document.querySelectorAll('.scene[data-scene]').forEach(el=>el.innerHTML=SC[el.dataset.scene]);
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.querySelectorAll('animateTransform').forEach(a=>a.remove());
+
+/* cards */
+const cardsEl=document.getElementById('cards');
+const drawCards=list=>{cardsEl.innerHTML=list.map((w,i)=>{const[k,en,ru,ipa,hook,ex]=w;const pic=ICON[k]?`<div class="pic">${sv(ICON[k])}</div>`:`<div class="pic t" style="background:${TINT[i%5]}">${en}</div>`;
+return `<button class="card" data-k="${k}" aria-label="${en}"><div class="fl"><div class="face">${pic}<div class="en"><span>${en}</span><span class="spk" data-say="${k}" role="button" aria-label="Произнести">${SPK}</span></div><div class="ipa">${ipa}</div></div><div class="face b"><div class="ru">${ru}</div><div class="en" style="margin-top:4px"><span>${en}</span><span class="spk" data-say="${k}" role="button" aria-label="Произнести">${SPK}</span></div><div class="hook">${hook}</div><div class="ex">${ex}</div></div></div></button>`}).join('')};
+drawCards(W);
+cardsEl.addEventListener('click',e=>{const s=e.target.closest('[data-say]');if(s){e.stopPropagation();say(spoken(D[s.dataset.say][1]));return}const c=e.target.closest('.card');if(c)c.classList.toggle('on')});
+let allOn=false;document.getElementById('flipAll').onclick=()=>{allOn=!allOn;cardsEl.querySelectorAll('.card').forEach(c=>c.classList.toggle('on',allOn))};
+document.getElementById('shuf').onclick=()=>{allOn=false;drawCards(shuffle(W))};
+
+/* story */
+document.querySelectorAll('.w').forEach(el=>el.dataset.ru=D[el.dataset.k][2]);
+const gl=document.getElementById('gloss');let glT;
+document.getElementById('gSpk').innerHTML=SPK;
+document.querySelector('.story').addEventListener('click',e=>{const w=e.target.closest('.w');if(!w)return;const d=D[w.dataset.k];
+document.getElementById('gEn').textContent=d[1];document.getElementById('gIpa').textContent=d[3];document.getElementById('gRu').textContent=d[2];
+gl.dataset.k=d[0];gl.classList.add('on');say(spoken(d[1]));clearTimeout(glT);glT=setTimeout(()=>gl.classList.remove('on'),4500)});
+document.getElementById('gSpk').onclick=()=>say(spoken(D[gl.dataset.k][1]));
+const rb=document.getElementById('recallBtn');rb.onclick=()=>{const on=document.body.classList.toggle('recall');rb.textContent=on?'Показать английские слова':'Режим «Вспомни»'};
+const tb=document.getElementById('tenseBtn');tb.onclick=()=>{const on=document.body.classList.toggle('tense');document.getElementById('legend').hidden=!on;tb.textContent=on?'Убрать подсветку':'Подсветить времена'};
+let reading=false;const rd=document.getElementById('readBtn');
+rd.onclick=()=>{try{if(reading){speechSynthesis.cancel();reading=false;rd.textContent='Слушать текст';return}
+const txt=[...document.querySelectorAll('.story p')].map(p=>{const c=p.cloneNode(true);c.querySelectorAll('.w').forEach(w=>{w.textContent=w.querySelector('.e').textContent});return c.textContent}).join(' ');
+speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang='en-GB';if(voice)u.voice=voice;u.rate=.85;u.onend=()=>{reading=false;rd.textContent='Слушать текст'};speechSynthesis.speak(u);reading=true;rd.textContent='Остановить'}catch(e){}};
+
+/* generic MCQ */
+const mcq=(el,items)=>{el.innerHTML=items.map((it,i)=>`<div class="q" data-i="${i}">${it.pic?`<div class="pq"><div class="pic">${sv(it.pic)}</div><div>`:''}<p class="qt">${it.q}</p><div class="opts">${(it.keep?it.o:shuffle(it.o)).map(o=>`<button class="opt">${o}</button>`).join('')}</div><p class="fb"></p>${it.pic?'</div></div>':''}</div>`).join('');
+el.onclick=e=>{const b=e.target.closest('.opt');if(!b||b.disabled)return;const q=b.closest('.q');const it=items[q.dataset.i];const ok=b.textContent===it.a;
+q.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(x.textContent===it.a)x.classList.add('ok')});if(!ok)b.classList.add('no');
+const fb=q.querySelector('.fb');fb.textContent=(ok?'Верно! ':'Не совсем. ')+(it.n||'');fb.className='fb '+(ok?'good':'badc');mark(ok);if(it.say)say(it.say)}};
+
+mcq(document.getElementById('tf'),[
+['Lily and Tom are twins.','True'],['Mrs Brown never gives them money.','False','She always gives them tips.'],
+['It is sunny on this Saturday.','False','It\'s raining.'],['Tom is fixing a wooden chair.','True'],
+['The cookie jar is full.','False','The cookie jar is empty.'],['Lily and Tom paint the same picture.','False','Each of them paints their own picture.'],
+['They dry the dog with an old blanket.','True'],['Mrs Brown packs the cookies in a box.','True']
+].map(([q,a,n])=>({q,a,n,o:['True','False'],keep:true})));
+
+/* match */
+const mEl=document.getElementById('match'),mMsg=document.getElementById('matchMsg');let mSel=null,mLeft=0,mErr=0;
+const newMatch=()=>{const set=shuffle(W).slice(0,7);mLeft=set.length;mErr=0;mSel=null;mMsg.textContent='';mMsg.className='fb';
+mEl.innerHTML=`<div class="col">${shuffle(set).map(w=>`<button class="mt" data-k="${w[0]}" data-s="en">${w[1]}</button>`).join('')}</div><div class="col">${shuffle(set).map(w=>`<button class="mt" data-k="${w[0]}" data-s="ru">${w[2]}</button>`).join('')}</div>`};
+mEl.onclick=e=>{const b=e.target.closest('.mt');if(!b||b.classList.contains('done'))return;
+if(!mSel||mSel.dataset.s===b.dataset.s){if(mSel)mSel.classList.remove('sel');mSel=b;b.classList.add('sel');if(b.dataset.s==='en')say(spoken(D[b.dataset.k][1]));return}
+const ok=mSel.dataset.k===b.dataset.k;mark(ok);
+if(ok){mSel.classList.add('done');b.classList.add('done');mSel.classList.remove('sel');mSel.disabled=b.disabled=true;mLeft--;if(!mLeft){mMsg.textContent=mErr?`Готово! Ошибок: ${mErr}. Попробуй ещё раунд.`:'Идеально, ни одной ошибки!';mMsg.className='fb good'}}
+else{mErr++;[mSel,b].forEach(x=>{x.classList.remove('shake');void x.offsetWidth;x.classList.add('shake')});mSel.classList.remove('sel')}mSel=null};
+document.getElementById('matchNew').onclick=newMatch;newMatch();
+
+/* picture quiz */
+const IK=Object.keys(ICON).filter(k=>!['itsraining','ourown','our','this','all'].includes(k));
+const newPic=()=>mcq(document.getElementById('picq'),shuffle(IK).slice(0,6).map(k=>({pic:ICON[k],q:'What is it?',a:D[k][1],o:[D[k][1],...shuffle(IK.filter(x=>x!==k)).slice(0,3).map(x=>D[x][1])],n:`${D[k][1]}: ${D[k][2]}`,say:spoken(D[k][1])})));
+document.getElementById('picNew').onclick=newPic;newPic();
+
+mcq(document.getElementById('opp'),[
+['clean','dirty',['dirty','empty','clear']],['empty','full',['full','dry','enough']],['dry','wet',['wet','clean','cold']],
+['break','fix',['fix','bake','stick']],['start','finish',['finish','choose','enjoy']],['put on','take off',['take off','pack in','get ready']]
+].map(([w,a,o])=>({q:`The opposite of <b>${w}</b> is…`,a,o,n:`${w} ↔ ${a}`})));
+
+/* typed answers */
+const norm=s=>s.toLowerCase().replace(/[’`]/g,"'").replace(/\s+/g,' ').trim().replace(/[.!?]+$/,'');
+const typed=(el,items,ph)=>{el.innerHTML=items.map((it,i)=>{const[pre,post]=it.s.split('___');return `<div class="q gap" data-i="${i}"><span>${i+1}. ${pre}</span><input aria-label="ответ ${i+1}" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${ph(it)}"><span>${post||''}</span><button class="chk">Проверить</button><span class="ans"></span></div>`}).join('');
+const check=q=>{const it=items[q.dataset.i];const inp=q.querySelector('input');if(inp.disabled||!inp.value.trim())return;const ok=it.a.some(a=>norm(a)===norm(inp.value));
+inp.classList.toggle('ok',ok);inp.classList.toggle('no',!ok);if(ok){inp.disabled=true;q.querySelector('.ans').textContent='';mark(true)}else{if(!q.dataset.miss){q.dataset.miss=1;mark(false)}q.querySelector('.ans').textContent='Правильно: '+it.a[0]}};
+el.onclick=e=>{const b=e.target.closest('.chk');if(b)check(b.closest('.q'))};
+el.onkeydown=e=>{if(e.key==='Enter'&&e.target.tagName==='INPUT')check(e.target.closest('.q'))}};
+
+typed(document.getElementById('gaps'),[
+['My little brother can\'t find his shoes. He ___ help.',['needs']],['The glass is ___. Can you give me some water?',['empty']],
+['Your hands are ___ after the garden. Wash them!',['dirty']],['We ___ a cake for Mum\'s birthday every year.',['bake']],
+['This jacket is not ___ for winter. It\'s too thin.',['suitable']],['I can\'t ___ you. The music is too loud!',['hear']],
+['Don\'t sit on that old chair, you can ___ it!',['break']],['It\'s cold. Take a ___ and sit by the fire.',['blanket']],
+['Is there ___ milk for everyone?',['enough']],['The ___ next door has a big black dog.',['neighbor','neighbour']],
+['Put your ___ in the wardrobe, please.',['clothes']],['Our dog is pulling the ___. He wants to go out!',['lead']],
+['Tom and Tim look the same. They are ___.',['twins']],['Look outside! It\'s ___. Take an umbrella.',['raining']]
+].map(([s,a])=>({s,a})),it=>it.a[0][0]+'…');
+
+const DW=['tips','empty','dirty','clean','need','bake','wooden','suitable','stick','start','something','hear','clearly','clear','rain','lead','break','dry','blanket','enough','clothes','twins','brushes','choose','know','enjoy','neighbor'];
+const dEl=document.getElementById('dict');
+const newDict=()=>{const set=shuffle(DW).slice(0,6);typed(dEl,set.map(k=>({s:`<button class="spk" data-say="${k}" aria-label="Послушать">${SPK}</button> ___`,a:k==='neighbor'?['neighbor','neighbour']:[k],ru:D[k][2]})),()=>'');
+dEl.querySelectorAll('.q').forEach((q,i)=>{const r=document.createElement('span');r.className='fb';r.style.flexBasis='100%';r.textContent='подсказка: '+D[set[i]][2];q.appendChild(r)})};
+dEl.addEventListener('click',e=>{const s=e.target.closest('[data-say]');if(s)say(D[s.dataset.say][1],.8)});
+document.getElementById('dictNew').onclick=newDict;newDict();
+
+/* grammar */
+const PS='Present Simple',PC='Present Continuous';
+mcq(document.getElementById('sort'),[
+['We help our neighbor every Saturday.',PS,'every Saturday: привычка'],['Look! It\'s raining.',PC,'Look!: происходит сейчас'],
+['Tom is putting on his old clothes.',PC,'is + putting'],['Mrs Brown always gives us tips.',PS,'always: всегда'],
+['I am choosing a suitable jumper now.',PC,'now: сейчас'],['Biscuit needs a walk every evening.',PS,'every evening + need (глагол состояния)'],
+['At the moment Tom is repairing the chair.',PC,'at the moment: в данный момент'],['We often start a new project after lunch.',PS,'often: часто']
+].map(([q,a,n])=>({q,a,n,o:[PS,PC],keep:true})));
+mcq(document.getElementById('form'),[
+['Look! The twins ___ cookies.','are baking',['bake','are baking'],'Look! = сейчас'],
+['My mum usually ___ our clothes on Sundays.','washes',['washes','is washing'],'usually = обычно'],
+['I ___ the answer. It\'s clear!','know',['know','am knowing'],'know: глагол состояния, без -ing'],
+['Shh! Dad ___ ready for work right now.','is getting',['gets','is getting'],'right now = прямо сейчас'],
+['Our cat often ___ my brushes.','breaks',['breaks','is breaking'],'often = часто'],
+['She ___ a blanket. She is cold.','needs',['needs','is needing'],'need: глагол состояния'],
+['Today Tom ___ his own bike.','is fixing',['fixes','is fixing'],'today = сегодня, временно'],
+['___ it raining now?','Is',['Is','Does'],'Continuous: вопрос с am / is / are'],
+['___ you enjoy baking?','Do',['Do','Are'],'Simple: вопрос с do / does']
+].map(([q,a,o,n])=>({q:q.replace('___','<b>___</b>'),a,o,n,keep:true})));
+typed(document.getElementById('open'),[
+['Every morning I ___ (put on) clean clothes.',['put on']],
+['Right now my sister ___ (choose) a suitable dress.',['is choosing',"'s choosing"]],
+['Our neighbor ___ (not / have) enough time on Mondays.',["doesn't have",'does not have']],
+['Be quiet! The baby ___ (sleep).',['is sleeping',"'s sleeping"]],
+['Each of us ___ (pack) our own bag before a trip.',['packs']],
+['Why ___ (you / dry) the dog? Is it wet?',['are you drying']],
+['Listen! Somebody ___ (play) the piano clearly.',['is playing',"'s playing"]],
+['We all ___ (enjoy) rainy Saturdays.',['enjoy']]
+].map(([s,a])=>({s,a})),()=>'…');
+
+/* speaking: pictures */
+const TALK=[
+['kitchen','Кухня','What is happening in the kitchen right now?','Потом: What do Lily and Mrs Brown usually do on Saturdays?',['bake','clean','dirty','empty','enough','each of us','cookies','is baking']],
+['workshop','Мастерская','What is Tom doing at the moment?','Потом: What does Tom love to do? What do you fix at home?',['wooden','fix / repair','stick','break','brushes','is repairing','is sticking']],
+['walk','Прогулка','What is happening in the picture now?','Потом: Who usually walks your dog / your neighbor\'s dog?',['lead','clear','rain','dry','blanket','is walking','is pulling']],
+['hero2','Окно','What is the weather like? What is the dog doing?','Потом: What do you usually do when it\'s raining?',['it\'s raining','hear','clearly','twins','our own','is sleeping','is falling']]
+];
+const st=document.getElementById('stabs');
+st.innerHTML=TALK.map((t,i)=>`<button class="tab" data-i="${i}">${t[1]}</button>`).join('');
+const showTalk=i=>{const t=TALK[i];st.querySelectorAll('.tab').forEach((b,j)=>b.classList.toggle('on',j===i));
+document.getElementById('sScene').innerHTML=SC[t[0]].replace(/id="(\w+)"/g,'id="$1s"').replace(/url\(#(\w+)\)/g,'url(#$1s)');
+document.getElementById('sQ').textContent=t[2];document.getElementById('sQ2').textContent=t[3];
+document.getElementById('sChips').innerHTML=t[4].map(c=>`<button class="chip">${c}</button>`).join('')};
+st.onclick=e=>{const b=e.target.closest('.tab');if(b)showTalk(+b.dataset.i)};
+document.getElementById('sChips').onclick=e=>{const c=e.target.closest('.chip');if(c)c.classList.toggle('used')};
+showTalk(0);
+let tI=null;const tOut=document.getElementById('tOut'),tBtn=document.getElementById('tBtn');
+tBtn.onclick=()=>{if(tI){clearInterval(tI);tI=null;tOut.textContent='';tBtn.textContent='Старт: 60 секунд';return}let n=60;tOut.textContent=n;tBtn.textContent='Стоп';
+tI=setInterval(()=>{n--;tOut.textContent=n>0?n:'Время!';if(n<=0){clearInterval(tI);tI=null;tBtn.textContent='Ещё раз: 60 секунд'}},1000)};
+
+/* question cards */
+const QC=shuffle([
+['What clothes do you usually wear at weekends? What are you wearing now?',['clothes','put on','usually','am wearing']],
+['Who cleans the house in your family? Is anybody cleaning right now?',['clean','dirty','each of us']],
+['Do you know your neighbors? What are they doing now, do you think?',['neighbor','know','I think they are…']],
+['How often do you bake something? What do you need for cookies?',['bake','something','need','enough']],
+['What do you do when it\'s raining? Is it raining now?',['rain','it\'s raining','blanket']],
+['What clothes are suitable for a rainy day? Why?',['suitable','clothes','dry','put on']],
+['What do you enjoy doing at weekends? What are you enjoying this week?',['enjoy','all','at the same time']],
+['Do you have your own room? What is happening in your room right now?',['our own / my own','clean','dirty']],
+['How do you usually get ready for school? Are you getting ready for something now?',['get ready','put on','choose']],
+['Do you fix things when they break? What is broken at home now?',['fix','repair','break','stick']],
+['Is it easy to choose a present for a friend? What are you choosing these days?',['choose','something','suitable']],
+['What can you hear right now? Can you hear it clearly?',['hear','clearly','I can hear… (не I am hearing!)']],
+['Do you tip in cafés in your country? How much?',['tips','enough','usually']],
+['Do you know any twins? What do they usually do at the same time?',['twins','at the same time','each of them']]
+]);
+let qi=-1;const qNext=()=>{qi=(qi+1)%QC.length;document.getElementById('qc').textContent=QC[qi][0];document.getElementById('qcw').innerHTML=QC[qi][1].map(c=>`<button class="chip">${c}</button>`).join('');document.getElementById('qcN').textContent=`${qi+1} из ${QC.length}`};
+document.getElementById('qcw').onclick=e=>{const c=e.target.closest('.chip');if(c)c.classList.toggle('used')};
+document.getElementById('qcNext').onclick=qNext;qNext();
+
+/* mime */
+const MIME=shuffle(['baking cookies','putting on a jacket','drying a dog with a blanket','fixing a chair','painting with brushes','packing a box','walking a dog on a lead','choosing clothes','sticking two things together','hearing a strange sound','cleaning a dirty window','getting ready for a party','breaking a cookie in two','eating cookies at the same time (вдвоём)']);
+let mi=-1;const mimeEl=document.getElementById('mime');
+document.getElementById('mimeNew').onclick=()=>{mi=(mi+1)%MIME.length;mimeEl.textContent=MIME[mi]};
+document.getElementById('mimeHide').onclick=()=>{mimeEl.textContent='Карточка спрятана. Угадывай!'};
+}
+</script>
+</body>
+</html>
