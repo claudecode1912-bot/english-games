@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Змейка в бассейне</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/*
+VOICE: летний, бодрый, но аккуратный — как свежепокрашенный муниципальный бассейн.
+IDEA: поле — дно бассейна из плитки, змейка — разделительная дорожка из красно-белых поплавков, еда — резиновая уточка.
+PICTURE: сама игра в «чаше» с бортиком и бетонным парапетом, счёт нанесён на бортик как отметка глубины.
+COLOUR and TYPE: бирюза воды доминирует, бетон поддерживает, красный поплавок — акцент, жёлтая уточка; Barlow Condensed как трафаретные цифры глубины.
+LAYOUT: узкая колонна по центру: заголовок, отметки на бортике, чаша, кнопки; на телефоне снизу крестовина.
+*/
+:root{color-scheme:light dark;
+  --deck:light-dark(#d5d9d6,#23292c);
+  --coping:light-dark(#f4f5f1,#3a4247);
+  --ink:light-dark(#0e3a5b,#e3f3f5);
+  --soft:light-dark(#3f6378,#9fc4cc);
+  --tile:light-dark(#86d7dc,#1d6c80);
+  --grout:light-dark(#62bfc9,#175a6b);
+  --rope:#e3372b;--float:#fbfaf4;--duck:#ffc83a;
+  --btn:light-dark(#0e3a5b,#e3f3f5);--btnInk:light-dark(#ffffff,#0e3a5b)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--deck);color:var(--ink);font:16px/1.55 Barlow,"Segoe UI",system-ui,sans-serif;overflow-x:clip;
+  background-image:radial-gradient(light-dark(#0000000d,#ffffff08) 1px,transparent 1.2px);background-size:7px 7px}
+main{max-width:620px;margin:0 auto;padding:clamp(20px,4vw,48px) max(4vw,14px) 40px}
+h1{font:800 clamp(34px,7vw,52px)/1.05 "Barlow Condensed",Impact,sans-serif;margin:0 0 4px;text-wrap:balance}
+.lede{margin:0 0 20px;color:var(--soft);max-width:60ch}
+.marks{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:0 6px 8px}
+.mark{display:flex;align-items:baseline;gap:8px;font-family:"Barlow Condensed",Impact,sans-serif}
+.mark b{font-size:clamp(40px,9vw,60px);line-height:.9;font-weight:800;font-variant-numeric:tabular-nums}
+.mark span{font-size:17px;font-weight:600;color:var(--soft)}
+.mark.best b{color:var(--rope)}
+.pool{position:relative;background:var(--coping);padding:clamp(8px,2vw,14px);border-radius:18px;
+  box-shadow:inset 0 -4px 0 light-dark(#c5cac6,#2c3337),0 10px 24px -14px #0e3a5b88}
+.water{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;box-shadow:inset 0 0 0 3px light-dark(#4fb0bb,#124a59)}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.veil{position:absolute;inset:0;display:grid;place-content:center;gap:14px;text-align:center;padding:20px;
+  background:light-dark(#e9fbfcd9,#0b2d38d9);transition:opacity .25s}
+.veil[hidden]{display:grid;opacity:0;pointer-events:none}
+.veil h2{font:800 clamp(28px,6vw,40px)/1.05 "Barlow Condensed",Impact,sans-serif;margin:0}
+.veil p{margin:0;color:var(--soft);max-width:34ch}
+button{font:600 17px Barlow,system-ui,sans-serif;min-height:48px;padding:0 24px;border-radius:999px;border:0;cursor:pointer;
+  background:var(--btn);color:var(--btnInk)}
+button:focus-visible{outline:3px solid var(--rope);outline-offset:3px}
+.veil button{justify-self:center}
+.bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-top:16px}
+.bar .ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.keys{color:var(--soft);font-size:15px;margin:0}
+kbd{font:600 14px Barlow,sans-serif;padding:1px 7px;border-radius:5px;background:var(--coping);box-shadow:inset 0 -2px 0 light-dark(#c5cac6,#2c3337)}
+.pad{display:none;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,64px);gap:8px;justify-content:center;margin-top:18px}
+.pad button{padding:0;min-height:0;border-radius:16px;font-size:24px;background:var(--coping);color:var(--ink);box-shadow:inset 0 -3px 0 light-dark(#c5cac6,#2c3337)}
+.pad .u{grid-column:2}.pad .l{grid-column:1;grid-row:2}.pad .d{grid-column:2;grid-row:2}.pad .r{grid-column:3;grid-row:2}
+@media (pointer:coarse),(max-width:600px){.pad{display:grid}.keys{display:none}}
+@media (prefers-reduced-motion:reduce){.veil{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Змейка в бассейне</h1>
+  <p class="lede">Ведите дорожку из поплавков к уточкам. Каждая уточка удлиняет дорожку и чуть ускоряет её. Бортик и собственный хвост — конец заплыва.</p>
+
+  <div class="marks" aria-live="polite">
+    <div class="mark"><b id="score">0</b><span>уточек</span></div>
+    <div class="mark best"><span>рекорд</span><b id="best">0</b></div>
+  </div>
+
+  <div class="pool">
+    <div class="water">
+      <canvas id="c" aria-label="Игровое поле" role="img"></canvas>
+      <div class="veil" id="veil">
+        <h2 id="vTitle">Готовы к заплыву?</h2>
+        <p id="vText">Стрелки или WASD — поворот, пробел — пауза. На телефоне смахивайте по воде или жмите крестовину.</p>
+        <button id="vBtn">Начать заплыв</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <p class="keys"><kbd>←</kbd> <kbd>↑</kbd> <kbd>→</kbd> <kbd>↓</kbd> поворот · <kbd>Пробел</kbd> пауза</p>
+    <button class="ghost" id="pauseBtn" disabled>Пауза</button>
+  </div>
+
+  <div class="pad" aria-label="Управление">
+    <button class="u" data-d="up" aria-label="Вверх">▲</button>
+    <button class="l" data-d="left" aria-label="Влево">◀</button>
+    <button class="d" data-d="down" aria-label="Вниз">▼</button>
+    <button class="r" data-d="right" aria-label="Вправо">▶</button>
+  </div>
+</main>
+
+<script>
+{
+const N = 18;
+const DIRS = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
+const OPP = {up:'down',down:'up',left:'right',right:'left'};
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+const $ = id => document.getElementById(id);
+const veil = $('veil'), vTitle = $('vTitle'), vText = $('vText'), vBtn = $('vBtn'), pauseBtn = $('pauseBtn');
+
+let snake, dir, queue, food, score, best = 0, state = 'ready', tickMs, acc = 0, last = 0, cell = 20, bob = 0;
+try { best = +localStorage.getItem('pool-snake-best') || 0; } catch (e) {}
+$('best').textContent = best;
+
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+function reset() {
+  snake = [[7,9],[6,9],[5,9],[4,9]];
+  dir = 'right'; queue = []; score = 0; tickMs = 150;
+  $('score').textContent = 0;
+  placeFood();
+}
+function placeFood() {
+  const free = [];
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++)
+    if (!snake.some(s => s[0] === x && s[1] === y)) free.push([x, y]);
+  food = free[Math.floor(Math.random() * free.length)];
+}
+
+function resize() {
+  const r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+  cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  cell = r.width / N;
+  draw();
+}
+const ro = new ResizeObserver(resize); ro.observe(cv);
+
+function turn(d) {
+  if (state === 'ready' || state === 'over') { start(); }
+  if (state !== 'run') return;
+  const lastDir = queue.length ? queue[queue.length - 1] : dir;
+  if (d === lastDir || d === OPP[lastDir] || queue.length > 2) return;
+  queue.push(d);
+}
+
+function step() {
+  if (queue.length) dir = queue.shift();
+  const [dx, dy] = DIRS[dir];
+  const head = [snake[0][0] + dx, snake[0][1] + dy];
+  const eating = head[0] === food[0] && head[1] === food[1];
+  const body = eating ? snake : snake.slice(0, -1);
+  if (head[0] < 0 || head[1] < 0 || head[0] >= N || head[1] >= N) return over('Дорожка упёрлась в бортик.');
+  if (body.some(s => s[0] === head[0] && s[1] === head[1])) return over('Дорожка запуталась в себе.');
+  snake.unshift(head);
+  if (eating) {
+    score++; $('score').textContent = score;
+    tickMs = Math.max(70, tickMs - 4);
+    if (snake.length === N * N) return over('Весь бассейн в поплавках. Идеальный заплыв.');
+    placeFood();
+  } else snake.pop();
+}
+
+function over(msg) {
+  state = 'over';
+  if (score > best) {
+    best = score; $('best').textContent = best;
+    try { localStorage.setItem('pool-snake-best', best); } catch (e) {}
+    msg += ' Новый рекорд!';
+  }
+  show('Заплыв окончен', `${msg} Поймано уточек: ${score}.`, 'Плыть ещё раз');
+  pauseBtn.disabled = true;
+}
+function show(t, p, b) { vTitle.textContent = t; vText.textContent = p; vBtn.textContent = b; veil.hidden = false; vBtn.focus({preventScroll:true}); }
+function start() {
+  if (state !== 'paused') reset();
+  state = 'run'; veil.hidden = true; pauseBtn.disabled = false; pauseBtn.textContent = 'Пауза';
+  last = performance.now(); acc = 0;
+}
+function pause() {
+  if (state === 'run') { state = 'paused'; pauseBtn.textContent = 'Продолжить'; show('Пауза', 'Дорожка ждёт у бортика.', 'Продолжить'); }
+  else if (state === 'paused') start();
+}
+
+function loop(t) {
+  const dt = Math.min(t - last, 250); last = t; bob += dt;
+  if (state === 'run') { acc += dt; while (acc >= tickMs && state === 'run') { acc -= tickMs; step(); } }
+  draw();
+  requestAnimationFrame(loop);
+}
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+function draw() {
+  const W = cell * N;
+  ctx.fillStyle = css('--tile'); ctx.fillRect(0, 0, W, W);
+  // плитка: затирка
+  ctx.strokeStyle = css('--grout'); ctx.lineWidth = 1;
+  ctx.beginPath();
+  for (let i = 1; i < N; i++) { const p = Math.round(i * cell) + .5; ctx.moveTo(p, 0); ctx.lineTo(p, W); ctx.moveTo(0, p); ctx.lineTo(W, p); }
+  ctx.stroke();
+  // солнечные блики на дне
+  const g = ctx.createLinearGradient(0, 0, W, W);
+  g.addColorStop(0, 'rgba(255,255,255,.22)'); g.addColorStop(.5, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(0,40,60,.12)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, W);
+  if (!snake) return;
+
+  // уточка
+  const wob = reduce.matches ? 0 : Math.sin(bob / 300) * cell * .04;
+  drawDuck((food[0] + .5) * cell, (food[1] + .52) * cell + wob, cell);
+
+  // дорожка из поплавков — с хвоста к голове
+  for (let i = snake.length - 1; i >= 0; i--) {
+    const [x, y] = snake[i], cx = (x + .5) * cell, cy = (y + .5) * cell;
+    if (i < snake.length - 1) { // верёвка
+      const [nx, ny] = snake[i + 1];
+      ctx.strokeStyle = 'rgba(14,58,91,.55)'; ctx.lineWidth = Math.max(1.5, cell * .1);
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo((nx + .5) * cell, (ny + .5) * cell); ctx.stroke();
+    }
+    if (i === 0) drawHead(cx, cy); else drawFloat(cx, cy, Math.floor(i / 2) % 2 ? css('--float') : css('--rope'));
+  }
+}
+
+function shadow(cx, cy, r) {
+  ctx.fillStyle = 'rgba(10,50,70,.22)';
+  ctx.beginPath(); ctx.ellipse(cx + r * .25, cy + r * .45, r * .95, r * .55, 0, 0, 7); ctx.fill();
+}
+function drawFloat(cx, cy, col) {
+  const r = cell * .4;
+  shadow(cx, cy, r);
+  const g = ctx.createRadialGradient(cx - r * .4, cy - r * .45, r * .1, cx, cy, r);
+  g.addColorStop(0, '#ffffff'); g.addColorStop(.35, col); g.addColorStop(1, shade(col));
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.fill();
+}
+function shade(col) { return col.toLowerCase() === '#fbfaf4' ? '#c9cfcc' : '#a3211a'; }
+function drawHead(cx, cy) {
+  const r = cell * .47;
+  shadow(cx, cy, r);
+  const g = ctx.createRadialGradient(cx - r * .4, cy - r * .45, r * .1, cx, cy, r);
+  g.addColorStop(0, '#5f8fb0'); g.addColorStop(.4, '#0e3a5b'); g.addColorStop(1, '#06233a');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.fill();
+  const [dx, dy] = DIRS[queue[0] && state === 'run' ? dir : dir];
+  const px = -dy, py = dx; // перпендикуляр
+  for (const s of [-1, 1]) {
+    const ex = cx + dx * r * .38 + px * s * r * .38, ey = cy + dy * r * .38 + py * s * r * .38;
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(ex, ey, r * .24, 0, 7); ctx.fill();
+    ctx.fillStyle = '#06233a'; ctx.beginPath(); ctx.arc(ex + dx * r * .08, ey + dy * r * .08, r * .12, 0, 7); ctx.fill();
+  }
+}
+function drawDuck(cx, cy, c) {
+  const r = c * .36;
+  ctx.fillStyle = 'rgba(10,50,70,.22)';
+  ctx.beginPath(); ctx.ellipse(cx + r * .2, cy + r * .75, r * 1.15, r * .4, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = css('--duck');
+  ctx.beginPath(); ctx.ellipse(cx, cy + r * .3, r * 1.05, r * .62, 0, 0, 7); ctx.fill();          // тело
+  ctx.beginPath(); ctx.moveTo(cx - r * 1.05, cy + r * .2); ctx.lineTo(cx - r * 1.35, cy - r * .2); ctx.lineTo(cx - r * .7, cy); ctx.fill(); // хвост
+  ctx.beginPath(); ctx.arc(cx + r * .35, cy - r * .45, r * .52, 0, 7); ctx.fill();                 // голова
+  ctx.fillStyle = '#f07a1e';
+  ctx.beginPath(); ctx.ellipse(cx + r * .95, cy - r * .35, r * .32, r * .14, 0, 0, 7); ctx.fill();  // клюв
+  ctx.fillStyle = '#0e3a5b';
+  ctx.beginPath(); ctx.arc(cx + r * .5, cy - r * .58, r * .09, 0, 7); ctx.fill();                  // глаз
+  ctx.fillStyle = 'rgba(255,255,255,.55)';
+  ctx.beginPath(); ctx.ellipse(cx - r * .3, cy + r * .1, r * .35, r * .15, -.3, 0, 7); ctx.fill();  // блик
+}
+
+// управление
+const KEYS = {ArrowUp:'up',KeyW:'up',ArrowDown:'down',KeyS:'down',ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right'};
+addEventListener('keydown', e => {
+  if (KEYS[e.code]) { e.preventDefault(); if (state !== 'paused') turn(KEYS[e.code]); }
+  else if (e.code === 'Space' && e.target.tagName !== 'BUTTON') { e.preventDefault(); state === 'run' || state === 'paused' ? pause() : start(); }
+  else if (e.code === 'KeyP' || e.code === 'Escape') { pause(); }
+});
+vBtn.addEventListener('click', () => state === 'paused' ? pause() : start());
+pauseBtn.addEventListener('click', pause);
+document.querySelectorAll('.pad button').forEach(b => b.addEventListener('pointerdown', e => { e.preventDefault(); turn(b.dataset.d); }));
+let sx = null, sy = null;
+cv.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; });
+cv.addEventListener('pointerup', e => {
+  if (sx === null) return;
+  const dx = e.clientX - sx, dy = e.clientY - sy; sx = null;
+  if (Math.max(Math.abs(dx), Math.abs(dy)) < 18) return;
+  turn(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'));
+});
+document.addEventListener('visibilitychange', () => { if (document.hidden && state === 'run') pause(); });
+
+reset();
+requestAnimationFrame(t => { last = t; loop(t); });
+}
+</script>
+</body>
+</html>
