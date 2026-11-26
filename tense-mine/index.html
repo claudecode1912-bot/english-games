@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tense Mine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Nunito+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a chunky survival game for teens: dig, craft, survive, all in English
+   IDEA: a block world you mine downwards; grammar is the pickaxe
+   PICTURE: pixel sky over a cut-away of earth layers, then the mine grid itself
+   COLOUR and TYPE: sky blue, grass green, cave purple-black; gold for wins; amber = Present Perfect, cyan = Continuous; Pixelify Sans + Nunito Sans
+   LAYOUT: sky header with tabs, then one bevelled stone panel per stage; stacks on phones */
+:root{color-scheme:dark;--cave:#1c1820;--panel:#2b2631;--hi:#4b4455;--lo:#141118;--ink:#f3efe6;--muted:#b9b0c4;--grass:#5fa83b;--grassd:#3d7a22;--gold:#ffcf3a;--pp:#ffbe3d;--ppc:#5fd8ff;--red:#ff5a4a;--ok:#7be36b}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--cave);color:var(--ink);font:16.5px/1.55 "Nunito Sans",system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3,.px{font-family:"Pixelify Sans",monospace;font-weight:700;line-height:1.05;margin:0 0 .4em;text-wrap:balance}
+h1{font-size:clamp(38px,7vw,60px);text-shadow:4px 4px 0 #0005}h2{font-size:clamp(28px,4.5vw,40px)}h3{font-size:23px}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}.wrap{max-width:1180px;margin:0 auto}
+.muted{color:var(--muted)}.ru{color:var(--muted);font-size:14px;font-style:italic}.pp{color:var(--pp)}.ppc{color:var(--ppc)}
+.tex{image-rendering:pixelated;background-size:100% 100%}
+header{position:relative;background:linear-gradient(#5aa7e8,#8fd0f7 70%);color:#14202b;padding-bottom:0}
+header .wrap{position:relative;z-index:1}
+header p.lead{max-width:600px;font-weight:700;font-size:18px}
+.sun{position:absolute;right:8%;top:28px;width:64px;height:64px;background:#fff3a0;box-shadow:0 0 0 8px #ffe15a55}
+.cloud{position:absolute;height:22px;background:#fff;opacity:.9}
+.ground{height:84px;margin-top:26px;background-repeat:repeat-x;background-size:42px 42px;image-rendering:pixelated;display:flex;align-items:flex-start}
+nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+nav a{display:flex;align-items:center;gap:10px;padding:10px 16px;min-height:48px;text-decoration:none;font-family:"Pixelify Sans",monospace;font-size:19px;color:#fff;background:#6b6372;box-shadow:inset 3px 3px 0 #8e8697,inset -3px -3px 0 #3f3945;border:3px solid #111}
+nav a.on{background:var(--grass);box-shadow:inset 3px 3px 0 #87cf5e,inset -3px -3px 0 var(--grassd)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+section.view{display:none}section.view.on{display:block}
+.panel{background:var(--panel);border:4px solid #0c0a0e;box-shadow:inset 4px 4px 0 var(--hi),inset -4px -4px 0 var(--lo);padding:clamp(16px,3vw,26px)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.recipe{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:8px 0 16px}
+.slot{min-width:72px;min-height:58px;padding:6px 10px;display:grid;place-items:center;background:#8b8b8b;color:#1a1a1a;font-family:"Pixelify Sans",monospace;font-size:20px;box-shadow:inset 3px 3px 0 #555,inset -3px -3px 0 #c9c9c9}
+.slot.out{background:var(--pp);min-width:140px}.ppcb .slot.out{background:var(--ppc)}
+.op{font-family:"Pixelify Sans",monospace;font-size:28px}
+ul.uses{list-style:none;padding:0;margin:0}ul.uses li{padding:10px 0;border-top:2px dashed #47404f}ul.uses b{display:block}ul.uses i{color:#fff}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.tags span{padding:3px 10px;background:#15121a;font-weight:800;font-size:14px}
+table{width:100%;border-collapse:collapse}td,th{padding:10px;border-bottom:2px solid #3e3846;text-align:left;vertical-align:top}th{font-family:"Pixelify Sans",monospace;font-size:19px}
+.warn{margin-top:18px;padding:14px 18px;background:#3d1c1c;border-left:8px solid var(--red)}
+button{font:inherit;font-weight:800;min-height:46px;padding:8px 16px;cursor:pointer;color:#fff;background:#6b6372;border:3px solid #111;box-shadow:inset 3px 3px 0 #8e8697,inset -3px -3px 0 #3f3945}
+button:hover:not(:disabled){filter:brightness(1.12)}button:disabled{opacity:.45;cursor:default}
+button.go{background:var(--grass);box-shadow:inset 3px 3px 0 #87cf5e,inset -3px -3px 0 var(--grassd)}
+button.gold{background:#d9a514;color:#231a00;box-shadow:inset 3px 3px 0 #ffe27a,inset -3px -3px 0 #8c6a00}
+button.bad{background:#a8332a;box-shadow:inset 3px 3px 0 #d9584d,inset -3px -3px 0 #6b1d17}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.q{font-size:clamp(20px,3vw,26px);font-weight:800;margin:14px 0}.q u{text-decoration:none;border-bottom:4px solid var(--pp);padding:0 2em}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.opts button{min-height:62px;font-size:19px;color:#fff;text-shadow:2px 2px 0 #000;background-size:64px 64px;image-rendering:pixelated}
+.opts button.right{outline:4px solid var(--ok)}.opts button.wrong{filter:grayscale(1) brightness(.6)}
+.fb{min-height:48px;margin-top:12px;font-size:17px}
+.loot{display:flex;flex-wrap:wrap;gap:4px;min-height:36px}
+.deck{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:16px}
+.blockcard{position:relative;min-height:120px;padding:18px;text-align:left;font-size:18px;line-height:1.35;color:#fff;text-shadow:2px 2px 0 #000;background-size:96px 96px;image-rendering:pixelated}
+.blockcard span{display:block;background:#000a;padding:8px 10px}
+.blockcard.cracked{outline:4px solid var(--red)}.blockcard.cracked::after{content:"";position:absolute;inset:0;background:var(--crack) 0 0/100% 100%;image-rendering:pixelated;pointer-events:none}
+.blockcard.clean{opacity:.5}.shake{animation:sh .3s}@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+/* game */
+.hud{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px;align-items:start}
+.sky{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;margin-bottom:10px;background:linear-gradient(90deg,#5aa7e8,#8fd0f7);color:#13202b;border:4px solid #0c0a0e;font-family:"Pixelify Sans",monospace;font-size:20px}
+.sky.night{background:linear-gradient(90deg,#141a3a,#2a2257);color:#fff}
+.mine{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;background:#0c0a0e;border:4px solid #0c0a0e}
+.blk{position:relative;aspect-ratio:1;border:0;padding:0;min-height:0;box-shadow:inset 3px 3px 0 #fff3,inset -3px -3px 0 #0005;background-size:100% 100%;image-rendering:pixelated}
+.blk.mined{background:var(--t-cave) 0 0/100% 100%!important;box-shadow:inset 6px 6px 0 #0008;cursor:default}
+.blk.crk::after{content:"";position:absolute;inset:0;background:var(--crack) 0 0/100% 100%;image-rendering:pixelated}
+.blk.lock,.blk.lock:hover{filter:brightness(.35)!important;cursor:not-allowed}
+.layers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:8px;font-size:13px;color:var(--muted)}
+.bar{display:flex;flex-wrap:wrap;gap:6px}
+.inv{display:flex;align-items:center;gap:6px;padding:6px 10px;background:#8b8b8b;color:#111;font-family:"Pixelify Sans",monospace;font-size:22px;box-shadow:inset 3px 3px 0 #555,inset -3px -3px 0 #c9c9c9}
+.hearts{display:flex;gap:3px;margin:10px 0}
+.rec{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:8px 0;border-top:2px dashed #47404f}
+.rec .cost{display:flex;align-items:center;gap:4px;font-weight:800;color:var(--muted);font-size:14px}
+.rec b{display:block}.owned{color:var(--ok);font-family:"Pixelify Sans",monospace;font-size:18px}
+.ov{position:fixed;inset:0;z-index:20;background:#000b;display:none;place-items:center;padding:16px;overflow:auto}
+.ov.on{display:grid}.ov .panel{width:min(720px,100%)}
+.ov.dark{background:radial-gradient(circle at 50% 40%,#1d1640e6,#050310f2)}
+.big{font-family:"Pixelify Sans",monospace;font-size:clamp(26px,4.6vw,40px);line-height:1.12}
+.chip{display:inline-block;padding:4px 10px;font-weight:800;font-size:14px;background:#15121a}
+.example{margin-top:10px;padding:10px 14px;background:#15121a;border-left:6px solid var(--gold);display:none}.example.on{display:block}
+.timer{height:14px;background:#15121a;border:3px solid #000;margin:12px 0}.timer i{display:block;height:100%;background:var(--gold);transition:width 1s linear}
+.hp{display:flex;gap:4px;justify-content:center;margin:6px 0}.hp i{width:22px;height:14px;background:var(--red);border:2px solid #000}.hp i.off{background:#333}
+.float{animation:fl 1.6s ease-in-out infinite}@keyframes fl{50%{transform:translateY(-6px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(max-width:820px){.grid2,.hud{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.cloud{display:none}.ground{height:56px;background-size:28px 28px}.sun{width:40px;height:40px}table{font-size:14px}}
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="sun" aria-hidden="true"></div>
+  <div class="cloud" style="left:12%;top:40px;width:110px" aria-hidden="true"></div><div class="cloud" style="left:16%;top:22px;width:50px" aria-hidden="true"></div>
+  <div class="cloud" style="left:55%;top:70px;width:140px" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="px" style="font-size:18px;margin:0 0 6px">English survival mode</p>
+    <h1>Tense Mine: dig, craft, survive</h1>
+    <p class="lead">Your pickaxe is <span style="background:#14202b;color:var(--pp);padding:0 6px">Present Perfect</span> and <span style="background:#14202b;color:var(--ppc);padding:0 6px">Present Perfect Continuous</span>. Read the recipes, warm up, then dig to the diamonds.</p>
+    <nav id="nav">
+      <a href="#recipes" data-v="recipes">1 · Recipe book</a>
+      <a href="#warmup" data-v="warmup">2 · Cracked blocks</a>
+      <a href="#mine" data-v="mine">3 · The Mine</a>
+    </nav>
+  </div>
+  <div class="ground tex" id="ground" aria-hidden="true"></div>
+</header>
+
+<!-- 1. RULES -->
+<section class="view band" id="recipes"><div class="wrap">
+  <h2>Recipe book</h2>
+  <p class="muted" style="max-width:700px">Both tenses link the past with <b>now</b>. Present Perfect crafts a <b>result</b>: what we have now. Continuous crafts a <b>process</b>: what has been going on and for how long.</p>
+  <div class="grid2">
+    <div class="panel">
+      <h3 class="pp">Present Perfect · the result</h3>
+      <div class="recipe"><span class="slot">have / has</span><span class="op">+</span><span class="slot">V3</span><span class="op">=</span><span class="slot out">I have finished</span></div>
+      <p style="margin:0">− She <b>hasn't called</b>. &nbsp; ? <b>Have</b> you <b>seen</b> it?</p>
+      <ul class="uses" style="margin-top:12px">
+        <li><b>Result now</b><i>I've lost my phone.</i> (I don't have it now) <div class="ru">результат важен сейчас</div></li>
+        <li><b>Life experience</b><i>Have you ever been to London? I've never tried sushi.</i> <div class="ru">опыт в жизни, без точного времени</div></li>
+        <li><b>Fresh news</b><i>The match has just started. I haven't done it yet.</i> <div class="ru">только что / уже / ещё не</div></li>
+        <li><b>How many so far</b><i>I've watched three episodes today.</i> <div class="ru">сколько уже сделано</div></li>
+        <li><b>States up to now</b><i>I've known Max since 2019.</i> <div class="ru">глаголы состояния не бывают Continuous</div></li>
+      </ul>
+      <div class="tags"><span>ever</span><span>never</span><span>just</span><span>already</span><span>yet</span><span>so far</span><span>today / this week</span></div>
+    </div>
+    <div class="panel ppcb">
+      <h3 class="ppc">Present Perfect Continuous · the process</h3>
+      <div class="recipe"><span class="slot">have / has</span><span class="op">+</span><span class="slot">been</span><span class="op">+</span><span class="slot">V-ing</span><span class="op">=</span><span class="slot out">I've been waiting</span></div>
+      <p style="margin:0">− He <b>hasn't been sleeping</b>. &nbsp; ? How long <b>have</b> you <b>been learning</b>?</p>
+      <ul class="uses" style="margin-top:12px">
+        <li><b>Started in the past, still going</b><i>I've been learning English for five years.</i> <div class="ru">действие длится до сих пор</div></li>
+        <li><b>Recent activity, visible traces</b><i>Your eyes are red. Have you been crying?</i> <div class="ru">видны следы недавнего действия</div></li>
+        <li><b>Repeated or temporary lately</b><i>I've been going to the gym a lot recently.</i> <div class="ru">в последнее время</div></li>
+        <li><b>How long, not how many</b><i>She's been texting all evening.</i> <div class="ru">важен процесс и длительность</div></li>
+      </ul>
+      <div class="tags"><span>for</span><span>since</span><span>how long</span><span>all day</span><span>lately</span><span>recently</span></div>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:18px">
+    <h3>Same verb, different item</h3>
+    <table><thead><tr><th class="pp">Present Perfect: result</th><th class="ppc">Continuous: activity</th></tr></thead><tbody>
+      <tr><td>I've <b>built</b> a house. Come and see it! <span class="muted">(finished)</span></td><td>I've <b>been building</b> a house. That's why I'm tired. <span class="muted">(maybe not finished)</span></td></tr>
+      <tr><td>I've <b>found</b> three diamonds. <span class="muted">(how many)</span></td><td>I've <b>been digging</b> all morning. <span class="muted">(how long)</span></td></tr>
+      <tr><td>She's <b>read</b> the book. <span class="muted">(she knows the ending)</span></td><td>She's <b>been reading</b> the book. <span class="muted">(she's in the middle)</span></td></tr>
+    </tbody></table>
+    <p style="margin:14px 0 0"><b>for</b> + a period: for two hours, for ages · <b>since</b> + a starting point: since Monday, since 2020, since I was ten.</p>
+    <div class="warn"><b>Two traps that break your pickaxe.</b> 1) State verbs (know, like, love, want, believe, understand, have = own, be) don't take Continuous: <i>I've known her</i>, not <s>I've been knowing</s>. 2) A finished time (yesterday, last week, in 2020) means Past Simple: <i>I saw it yesterday</i>, not <s>I've seen it yesterday</s>.</div>
+  </div>
+  <div class="panel" style="margin-top:22px">
+    <div class="row" style="justify-content:space-between"><h3 style="margin:0">Test mine: hit the right block</h3><span class="chip" id="qCount"></span></div>
+    <div class="row" style="margin-top:8px"><span class="muted">Loot:</span><div class="loot" id="qLoot"></div></div>
+    <div id="quiz"></div>
+  </div>
+</div></section>
+
+<!-- 2. WARM-UP -->
+<section class="view band" id="warmup"><div class="wrap">
+  <div class="row" style="justify-content:space-between;align-items:end">
+    <div><h2>Find the cracked block</h2><p class="muted" style="margin:0;max-width:640px">Three blocks are solid. One sentence has a crack: a mistake. Tap it, then <b>say the fixed sentence out loud</b> before you check.</p></div>
+    <span class="chip" id="wCount"></span>
+  </div>
+  <div class="deck" id="wDeck"></div>
+  <div class="fb" id="wFb"></div>
+  <div class="row"><button id="wReveal" hidden>I said it, show the answer</button><button class="go" id="wNext" hidden>Next round</button></div>
+</div></section>
+
+<!-- 3. GAME -->
+<section class="view band" id="mine"><div class="wrap">
+  <h2>The Mine</h2>
+  <p class="muted" style="max-width:780px">A game for a student and a teacher. The student taps a block and does the speaking task; the teacher judges. Good answers drop resources. Craft pickaxes to dig deeper. Every 6 blocks night falls and a monster attacks. Craft the <b>diamond trophy</b> to win.</p>
+  <div class="hud">
+    <div>
+      <div class="sky" id="sky"></div>
+      <div class="mine" id="grid"></div>
+      <div class="layers"><span>Row 1 · grass: Present Perfect</span><span>Row 2 · stone: Continuous</span><span>Row 3 · iron: both tenses</span><span>Row 4 · diamond: free speaking</span></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-bottom:8px">Inventory</h3>
+      <div class="bar" id="inv"></div>
+      <div class="hearts" id="hearts"></div>
+      <h3 style="margin:16px 0 4px">Crafting table</h3>
+      <div id="craft"></div>
+      <div class="row" style="margin-top:14px"><button id="reset">New world</button></div>
+    </div>
+  </div>
+  <details class="panel" style="margin-top:18px"><summary style="cursor:pointer;font-weight:800">Rules for the teacher</summary>
+    <ul style="margin-bottom:0"><li><b>Correct</b> = right tense, understandable: +1 resource. <b>Perfect</b> = right tense, full sentences, no mistakes: +2. <b>Try again</b> cracks the block, and it can be mined later.</li>
+    <li>Each task has a model answer behind the <b>Teacher: show example</b> button.</li>
+    <li>Night: read the prompt, the student builds the sentence out loud before the timer runs out. Correct = hit the monster. Wrong = lose a heart. If you lose all hearts you faint and drop half your stuff.</li>
+    <li>Progress saves in this browser, so you can continue next lesson.</li></ul>
+  </details>
+</div></section>
+
+<div class="ov" id="taskOv" role="dialog" aria-modal="true"><div class="panel" id="taskBox"></div></div>
+<div class="ov dark" id="nightOv" role="dialog" aria-modal="true"><div class="panel" id="nightBox" style="text-align:center"></div></div>
+
+<script>
+{
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+/* ---------- pixel textures ---------- */
+const rng=s=>()=>(s=(s*16807)%2147483647)/2147483647;
+const PAL={dirt:["#8a5a2b","#7a4e24","#996633","#6e4520"],stone:["#8a8a8a","#7b7b7b","#969696","#6c6c6c"],grass:["#5fa83b","#6dbb45","#4f9530","#58a035"],
+ cave:["#2a2430","#231e28","#302935"],planks:["#b8894f","#a97b45","#c4955a"],deep:["#4a4a50","#3e3e44","#55555c"]};
+function tex(kind,seed=11){const c=document.createElement("canvas");c.width=c.height=16;const x=c.getContext("2d"),r=rng(seed),px=(i,j,col)=>{x.fillStyle=col;x.fillRect(i,j,1,1)},pick=a=>a[Math.floor(r()*a.length)];
+ const base={grass:"dirt",dirt:"dirt",stone:"stone",iron:"stone",diamond:"deep",cave:"cave",planks:"planks",gold:"stone"}[kind];
+ if(kind==="crack"){x.clearRect(0,0,16,16);[[3,2],[4,3],[5,4],[5,5],[6,6],[7,7],[8,7],[9,8],[10,9],[10,10],[11,11],[7,8],[6,9],[5,10],[9,6],[10,5],[11,4],[12,4]].forEach(([i,j])=>px(i,j,"#000c"));return c.toDataURL()}
+ for(let i=0;i<16;i++)for(let j=0;j<16;j++)px(i,j,pick(PAL[base]));
+ if(kind==="grass")for(let i=0;i<16;i++){const d=3+Math.floor(r()*3);for(let j=0;j<d;j++)px(i,j,pick(PAL.grass))}
+ if(kind==="planks"){for(let i=0;i<16;i++){px(i,3,"#7d5a2e");px(i,7,"#7d5a2e");px(i,11,"#7d5a2e");px(i,15,"#7d5a2e")}[[5,0],[12,4],[3,8],[10,12]].forEach(([i,j])=>{for(let k=0;k<3;k++)px(i,j+k,"#8f6a38")})}
+ const ore={iron:["#e2c0a2","#c99c7a","#f1dcc6"],diamond:["#5ff0e6","#2cc2c4","#b8fffa"],gold:["#ffd84a","#e0a91c","#fff09a"]}[kind];
+ if(ore)for(let k=0;k<5;k++){const ci=1+Math.floor(r()*13),cj=1+Math.floor(r()*13);[[0,0],[1,0],[0,1],[1,1],[2,1]].forEach(([a,b])=>{if(r()>.25)px(ci+a,cj+b,pick(ore))})}
+ return c.toDataURL()}
+const T={};["grass","stone","iron","diamond","cave","planks","gold","crack"].forEach((k,i)=>{T[k]=tex(k,7+i*13);document.documentElement.style.setProperty("--t-"+k,`url(${T[k]})`)});
+document.documentElement.style.setProperty("--crack",`url(${T.crack})`);
+const bg=k=>`background-image:url(${T[k]})`;
+$("ground").style.backgroundImage=`url(${T.grass})`;
+
+/* pixel maps -> svg */
+const pix=(map,col,s=3)=>{const h=map.length,w=map[0].length;let r="";map.forEach((row,j)=>[...row].forEach((ch,i)=>{if(col[ch])r+=`<rect x="${i}" y="${j}" width="1.02" height="1.02" fill="${col[ch]}"/>`}));
+ return `<svg viewBox="0 0 ${w} ${h}" width="${w*s}" height="${h*s}" shape-rendering="crispEdges" aria-hidden="true">${r}</svg>`};
+const M={
+ pick:["...HHHHHH...","..HhhhhhhH..",".HH..ww..HH.","HH...ww...HH","H....ww....H",".....ww.....",".....ww.....",".....ww.....",".....ww.....",".....ww....."],
+ gem:["..DDDD..",".DdDDdD.","DDdDDDDD",".DDDDDD.","..DDDD..","...DD..."],
+ ingot:["..IIIIII","IIiiiiII","IIIIII.."],
+ heart:[".HH.HH.","HhHHHHH","HHHHHHH",".HHHHH.","..HHH..","...H..."],
+ torch:["..f..",".fFf.","..w..","..w..","..w..","..w.."],
+ trophy:["GGGGGGGG","GgGGGGGG","GGGGGGGG",".GGGGGG.","..GGGG..","...GG...","...GG...",".GGGGGG."],
+ monster:["MMMMMMMMMMMM","MmmmmmmmmmmM","MmEEmmmmEEmM","MmEYmmmmYEmM","MmmmmmmmmmmM","MmmmmmmmmmmM","MmTmTmTmTmmM","MmTTTTTTTTmM","MmmmmmmmmmmM","MMMMMMMMMMMM"]
+};
+const TIER={wood:"#b8894f",stone:"#9a9a9a",iron:"#e6e0da",diamond:"#5ff0e6"};
+const icon={
+ wood:(s=3)=>`<span class="tex" style="display:inline-block;width:${s*8}px;height:${s*8}px;${bg("planks")}"></span>`,
+ stone:(s=3)=>`<span class="tex" style="display:inline-block;width:${s*8}px;height:${s*8}px;${bg("stone")}"></span>`,
+ iron:(s=3)=>pix(M.ingot,{I:"#d9d2cb",i:"#fff"},s*1.2),
+ diamond:(s=3)=>pix(M.gem,{D:"#3fd6d0",d:"#c8fffb"},s),
+ torch:(s=3)=>pix(M.torch,{f:"#ffcf3a",F:"#ff7a1a",w:"#8a5a2b"},s),
+ pick:(t,s=3)=>pix(M.pick,{H:TIER[t],h:"#ffffff88",w:"#7a4e24"},s),
+ heart:(on,s=3)=>pix(M.heart,{H:on?"#ff4a3d":"#3a3340",h:on?"#ffb0a8":"#4a4252"},s)
+};
+const RES=["wood","stone","iron","diamond"];
+
+/* ---------- routing ---------- */
+const views=["recipes","warmup","mine"];
+const route=()=>{const v=views.includes(location.hash.slice(1))?location.hash.slice(1):"recipes";views.forEach(x=>$(x).classList.toggle("on",x===v));document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===v))};
+addEventListener("hashchange",route);route();
+
+/* ---------- 1. quiz ---------- */
+const QUIZ=[
+ ["I ___ my keys, so I can't open the door.",["have lost","have been losing"],0,"A result you can see now: no keys. Present Perfect."],
+ ["Tom is red and out of breath. He ___.",["has run","has been running"],1,"Visible traces of a recent activity: Continuous."],
+ ["How many levels ___ today?",["have you finished","have you been finishing"],0,"How many = a number of finished things. Present Perfect."],
+ ["I ___ Anna for ten years.",["have known","have been knowing"],0,"Know is a state verb: no Continuous."],
+ ["It ___ all day. The streets are wet.",["has rained","has been raining"],1,"All day + wet streets: a long activity with traces."],
+ ["___ you ever ___ snails?",["Have … eaten","Have … been eating"],0,"Ever = life experience. Present Perfect."],
+ ["I've been learning English ___ 2019.",["for","since"],1,"2019 is a starting point: since."],
+ ["She hasn't finished her project ___.",["already","yet"],1,"Negatives and questions take yet."],
+ ["Why are your hands dirty? — I ___ in the garden.",["'ve worked","'ve been working"],1,"Explaining traces: the activity, Continuous."],
+ ["I ___ this film last Saturday.",["have seen","saw"],1,"Last Saturday is a finished time: Past Simple. Trap!"]
+];
+let qi=0,qScore=0,qLock=false;const lootOrder=["wood","wood","stone","stone","stone","iron","iron","iron","diamond","diamond"];
+const drawQ=()=>{$("qCount").textContent=`Block ${Math.min(qi+1,QUIZ.length)} / ${QUIZ.length}`;$("qLoot").innerHTML=lootOrder.slice(0,qScore).map(k=>icon[k](3)).join("")||'<span class="muted">nothing yet</span>';
+ if(qi>=QUIZ.length){$("quiz").innerHTML=`<p class="q">${qScore} / ${QUIZ.length}. ${qScore>=8?"Great haul! You're ready to dig.":"Your pickaxe is a bit blunt. Re-read the recipes and try again."}</p><div class="row"><button id="qAgain">Mine again</button><a href="#warmup"><button class="go">Go to warm-up</button></a></div>`;$("qAgain").onclick=()=>{qi=0;qScore=0;drawQ()};return}
+ const [t,o,c]=QUIZ[qi];qLock=false;
+ $("quiz").innerHTML=`<p class="q">${t.replace("___","<u></u>")}</p><div class="opts">${o.map((x,i)=>`<button data-i="${i}" style="${bg(i?"stone":"planks")}">${x}</button>`).join("")}</div><div class="fb" id="qFb"></div>`;
+ $("quiz").querySelectorAll(".opts button").forEach(b=>b.onclick=()=>{if(qLock)return;qLock=true;const ok=+b.dataset.i===c;if(ok)qScore++;
+  $("quiz").querySelectorAll(".opts button")[c].classList.add("right");if(!ok)b.classList.add("wrong");
+  $("qFb").innerHTML=`<b style="color:${ok?"var(--ok)":"var(--red)"}">${ok?"Mined!":"Clang! Wrong block."}</b> ${QUIZ[qi][3]} <button class="go" id="qNext" style="margin-left:8px">Next</button>`;
+  $("qLoot").innerHTML=lootOrder.slice(0,qScore).map(k=>icon[k](3)).join("")||'<span class="muted">nothing yet</span>';$("qNext").onclick=()=>{qi++;drawQ()};$("qNext").focus()})};
+drawQ();
+
+/* ---------- 2. warm-up ---------- */
+const WARM=[
+ [["I've known Max since 2020.","She has been reading for two hours.","We have been knowing each other for years.","Have you ever been to Minsk?"],2,"We have known each other for years.","Know is a state verb."],
+ [["They've just arrived.","I have seen this film last week.","He's been playing football all afternoon.","Has she called you yet?"],1,"I saw this film last week.","Last week = finished time = Past Simple."],
+ [["I've lived here for three years.","He's been playing games since three hours.","We haven't eaten yet.","She's already done it."],1,"He's been playing games for three hours.","Three hours is a period: for."],
+ [["Look! I've broke my phone.","I've been waiting for ages.","Have you finished?","My dad has never flown."],0,"Look! I've broken my phone.","V3 of break is broken."],
+ [["She have been studying all day.","It's been snowing since morning.","I've never met a celebrity.","They've bought a new car."],0,"She has been studying all day.","She → has."],
+ [["I've already finished my essay.","I haven't finished my project already.","Have you been crying?","We've been friends since school."],1,"I haven't finished my project yet.","Negatives take yet."],
+ [["How long have you been waiting?","How long are you learning English?","I've had this phone for a year.","She's just woken up."],1,"How long have you been learning English?","How long + up to now = Present Perfect Continuous."],
+ [["I've been writing three essays today.","I've been running, I'm so hot.","Have you ever tried karaoke?","He hasn't texted me yet."],0,"I've written three essays today.","Three essays = how many: Present Perfect."],
+ [["Have you ever ate snails?","We've been chatting for an hour.","I've just seen a ghost!","Mum hasn't been feeling well lately."],0,"Have you ever eaten snails?","V3 of eat is eaten."],
+ [["I've been liking this song since I first heard it.","They've been arguing all morning.","She's lost her bag.","Have you done your homework?"],0,"I've liked this song since I first heard it.","Like is a state verb."]
+];
+let wOrder=shuffle(WARM.map((_,i)=>i)),wi=0,wDone=false;const wTex=["grass","stone","iron","diamond","planks","gold"];
+const drawW=()=>{const r=WARM[wOrder[wi]];wDone=false;$("wCount").textContent=`Round ${wi+1} / ${WARM.length}`;const tx=shuffle(wTex);
+ $("wDeck").innerHTML=r[0].map((s,i)=>`<button class="blockcard" data-i="${i}" style="${bg(tx[i])}"><span>${s}</span></button>`).join("");
+ $("wFb").textContent="";$("wReveal").hidden=$("wNext").hidden=true;
+ $("wDeck").querySelectorAll(".blockcard").forEach(b=>b.onclick=()=>{if(wDone)return;
+  if(+b.dataset.i===r[1]){wDone=true;b.classList.add("cracked");$("wDeck").querySelectorAll(".blockcard").forEach(x=>{if(x!==b)x.classList.add("clean")});$("wFb").innerHTML=`<b style="color:var(--gold)">Crack found!</b> Now fix it out loud.`;$("wReveal").hidden=false;$("wReveal").focus()}
+  else{b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");$("wFb").textContent="Solid block. That sentence is correct. Look again."}})};
+$("wReveal").onclick=()=>{const r=WARM[wOrder[wi]];$("wFb").innerHTML=`✔ <b>${r[2]}</b> <span class="muted">${r[3]}</span>`;$("wReveal").hidden=true;$("wNext").hidden=false;$("wNext").textContent=wi<WARM.length-1?"Next round":"Play again";$("wNext").focus()};
+$("wNext").onclick=()=>{wi++;if(wi>=WARM.length){wi=0;wOrder=shuffle(wOrder)}drawW()};
+drawW();
+
+/* ---------- 3. the mine ---------- */
+const LAYERS=[
+ {res:"wood",tex:"grass",name:"Grass",need:null,tense:["Present Perfect","var(--pp)"],tasks:[
+  ["Tell me three things you've already done today.","I've already had breakfast, I've checked my phone and I've walked the dog."],
+  ["Name two things you haven't done yet this week but must do.","I haven't cleaned my room yet and I haven't done my maths homework."],
+  ["Ask me a 'Have you ever…?' question. Then answer it yourself.","Have you ever ridden a horse? — I have never ridden a horse, but I've ridden a camel."],
+  ["What's the most exciting thing you've ever done?","The most exciting thing I've ever done is a bungee jump. I've never been so scared!"],
+  ["Name two countries you've never been to and why you want to go.","I've never been to Japan or Iceland. I've always wanted to see…"],
+  ["What have you just done before this lesson?","I've just eaten a sandwich and I've just finished a game."],
+  ["How many films or episodes have you watched this month?","I've watched about ten episodes of… and I've seen two films."],
+  ["Tell me about something you've had for a long time.","I've had this backpack for three years. I've had my cat since I was eight."]]},
+ {res:"stone",tex:"stone",name:"Stone",need:"wood",tense:["Present Perfect Continuous","var(--ppc)"],tasks:[
+  ["How long have you been learning English? Say it with for and with since.","I've been learning English for seven years. I've been learning it since 2019."],
+  ["What have you been doing lately in your free time?","Lately I've been playing basketball and I've been watching a lot of anime."],
+  ["Your friend looks exhausted. Ask two questions to find out why.","Have you been studying all night? Have you been working out?"],
+  ["Complain about something that has been annoying you recently.","My neighbours have been making noise every evening. It's been driving me crazy!"],
+  ["Imagine you're covered in mud. Explain why.","I've been playing football in the rain for two hours."],
+  ["Ask me three 'How long have you been…?' questions.","How long have you been teaching? How long have you been living here? …"],
+  ["What game or series have you been playing or watching recently? For how long?","I've been playing… for about a month. I've been watching… since summer."],
+  ["Your phone battery is at 1%. Explain what you've been doing.","I've been scrolling TikTok and I've been chatting with friends all afternoon."]]},
+ {res:"iron",tex:"iron",name:"Iron",need:"stone",tense:["Both tenses","var(--ok)"],tasks:[
+  ["Say two sentences, one with 'I've read…' and one with 'I've been reading…'. Explain the difference.","I've read Harry Potter (finished). I've been reading a new book (not finished yet)."],
+  ["Tell me how long you've been doing a hobby and what you've achieved in it.","I've been drawing for five years and I've won two competitions."],
+  ["Your room is a mess. What have you been doing, and what have you broken or lost?","I've been building a robot all day and I've lost two screws and broken a lamp."],
+  ["Mum is angry. Explain what you've been doing all afternoon and what you haven't done yet.","I've been revising for a test! I haven't washed the dishes yet, sorry."],
+  ["How many pages, levels or songs have you … this week? What have you been working on?","I've finished six levels. I've been working on a hard boss for days."],
+  ["Describe a friend: how long you've known them and what you've been doing together lately.","I've known Masha since first grade. Lately we've been learning to skate."],
+  ["You're late for class. Make an excuse using both tenses.","Sorry! I've been waiting for the bus for 30 minutes and I've lost my pass."],
+  ["The teacher says: 'I have been knowing you for a year.' Correct it and explain why.","I have known you for a year. Know is a state verb, so no Continuous."]]},
+ {res:"diamond",tex:"diamond",name:"Diamond",need:"iron",tense:["Free speaking","var(--gold)"],tasks:[
+  ["Interview the teacher: ask four questions using both tenses.","How long have you been teaching? Have you ever been abroad? What have you been reading lately? How many countries have you visited?"],
+  ["Tell a mini-story (five or more sentences) that starts: 'I've been waiting for this day for a whole year…'","…I've been saving money, I've finally bought the ticket and…"],
+  ["You're a YouTuber. Give your followers a 30-second update about this month.","Hi guys! I've been really busy. I've been editing a new video and I've reached 10K subs!"],
+  ["Speak for one minute: how has your life changed in the last year?","I've grown taller, I've changed school and I've been doing a lot of sport."],
+  ["Persuade me you're the best at something. What have you achieved? How long have you been practising?","I've been playing chess for six years and I've won three tournaments."],
+  ["The teacher mimes being tired, dirty and happy. Guess three things they've been doing and two things they've done.","You've been painting! You've been running… You've finished a project!"],
+  ["You've been living on a desert island for a month. Describe your life.","I've been eating coconuts, I've built a hut and I haven't seen any people."],
+  ["You're a news reporter at school. Report breaking news: what has just happened, what people have been doing.","Breaking news! The director has just cancelled homework! Students have been celebrating all morning."]]}
+];
+const NIGHT=[
+ ["I / lose / my phone","I've lost my phone."],["she / wait / for an hour","She's been waiting for an hour."],["you / ever / see a ghost?","Have you ever seen a ghost?"],
+ ["they / play / since 3 o'clock","They've been playing since 3 o'clock."],["he / not / finish / yet","He hasn't finished yet."],["I / know / him / since 2015","I've known him since 2015."],
+ ["how long / you / learn / Spanish?","How long have you been learning Spanish?"],["we / just / eat","We've just eaten."],["it / snow / all day","It's been snowing all day."],
+ ["she / write / three songs this year","She's written three songs this year."],["your eyes are red. you / cry?","Have you been crying?"],["I / never / try / sushi","I've never tried sushi."],
+ ["my dad / work / here / ten years","My dad has been working here for ten years."],["they / already / leave","They've already left."],["I / have / this phone / two years","I've had this phone for two years."],
+ ["he / not / sleep / well lately","He hasn't been sleeping well lately."],["you / do / your homework / yet?","Have you done your homework yet?"],["we / be / friends / since school","We've been friends since school."],
+ ["she's out of breath. she / run","She's been running."],["how many cups of tea / you / drink today?","How many cups of tea have you drunk today?"],
+ ["I / break / my arm. Look!","I've broken my arm. Look!"],["what / you / do / all morning?","What have you been doing all morning?"]
+];
+const RECIPES=[
+ {id:"wood",name:"Wooden pickaxe",what:"Unlocks the stone row",cost:{wood:3}},
+ {id:"stone",name:"Stone pickaxe",what:"Unlocks the iron row",cost:{wood:1,stone:3}},
+ {id:"iron",name:"Iron pickaxe",what:"Unlocks the diamond row",cost:{wood:1,iron:3}},
+ {id:"torch",name:"Torch",what:"Next monster has 1 less HP",cost:{wood:1}},
+ {id:"trophy",name:"Diamond trophy",what:"Win the game!",cost:{diamond:3,iron:2}}
+];
+const KEY="tense-mine-v1";
+const fresh=()=>({inv:{wood:0,stone:0,iron:0,diamond:0},tools:[],torches:0,hearts:5,day:1,nights:0,mined:0,sinceNight:0,
+ grid:LAYERS.map(()=>Array(8).fill(0)),tasks:LAYERS.map(()=>shuffle([0,1,2,3,4,5,6,7])),night:shuffle(NIGHT.map((_,i)=>i)),np:0,won:false});
+let S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(!S||!S.grid)S=fresh();
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const unlocked=l=>!LAYERS[l].need||S.tools.includes(LAYERS[l].need);
+const can=c=>Object.entries(c).every(([k,v])=>S.inv[k]>=v);
+const costHtml=c=>Object.entries(c).map(([k,v])=>`${icon[k](2)}×${v}`).join(" ");
+const drawMine=()=>{
+ const night=false;$("sky").className="sky";
+ $("sky").innerHTML=`<span>☀ Day ${S.day}</span><span>Night in ${6-S.sinceNight} block${6-S.sinceNight===1?"":"s"}</span>`;
+ $("grid").innerHTML=LAYERS.map((L,l)=>S.grid[l].map((st,c)=>{const lock=!unlocked(l);
+  return `<button class="blk${st===1?" mined":""}${st===2?" crk":""}${lock?" lock":""}" data-l="${l}" data-c="${c}" style="${bg(L.tex)}" aria-label="${L.name} block${st===1?", mined":""}${lock?", locked":""}" ${st===1?"disabled":""}></button>`}).join("")).join("");
+ $("inv").innerHTML=RES.map(k=>`<span class="inv">${icon[k](3)}${S.inv[k]}</span>`).join("")+S.tools.map(t=>`<span class="inv" title="${t} pickaxe">${icon.pick(t,2.4)}</span>`).join("")+(S.torches?`<span class="inv">${icon.torch(4)}${S.torches}</span>`:"");
+ $("hearts").innerHTML=[0,1,2,3,4].map(i=>icon.heart(i<S.hearts,4)).join("");
+ $("craft").innerHTML=RECIPES.map(R=>{const owned=["wood","stone","iron"].includes(R.id)&&S.tools.includes(R.id);
+  return `<div class="rec"><div style="display:flex;gap:8px;align-items:center">${R.id==="torch"?icon.torch(4):R.id==="trophy"?pix(M.trophy,{G:"#ffcf3a",g:"#fff6c0"},4):icon.pick(R.id,3)}<div><b>${R.name}</b><span class="muted" style="font-size:14px">${R.what}</span><div class="cost">${costHtml(R.cost)}</div></div></div>
+   ${owned?`<span class="owned">✔ have</span>`:`<button class="${R.id==="trophy"?"gold":"go"}" data-craft="${R.id}" ${can(R.cost)?"":"disabled"}>Craft</button>`}</div>`}).join("");
+ $("grid").querySelectorAll(".blk").forEach(b=>b.onclick=()=>{const l=+b.dataset.l,c=+b.dataset.c;
+  if(!unlocked(l)){toast(`You need a ${LAYERS[l].need} pickaxe for ${LAYERS[l].name.toLowerCase()}. Check the crafting table.`);return}
+  if(S.grid[l][c]===1)return;openTask(l,c)});
+ $("craft").querySelectorAll("[data-craft]").forEach(b=>b.onclick=()=>{const R=RECIPES.find(r=>r.id===b.dataset.craft);if(!can(R.cost))return;
+  Object.entries(R.cost).forEach(([k,v])=>S.inv[k]-=v);
+  if(R.id==="torch")S.torches++;else if(R.id==="trophy"){S.won=true;save();drawMine();showWin();return}else S.tools.push(R.id);
+  save();drawMine()});
+};
+const toast=msg=>{$("taskBox").innerHTML=`<p class="big" style="margin-top:0">Too hard!</p><p style="font-size:18px">${msg}</p><button class="go" id="tClose">OK</button>`;$("taskOv").classList.add("on");$("tClose").onclick=closeTask;$("tClose").focus()};
+const closeTask=()=>{$("taskOv").classList.remove("on")};
+const openTask=(l,c)=>{const L=LAYERS[l],t=L.tasks[S.tasks[l][c]],[tn,tc]=L.tense;
+ $("taskBox").innerHTML=`<div class="row" style="justify-content:space-between"><span class="row"><span class="tex" style="display:inline-block;width:40px;height:40px;${bg(L.tex)}"></span><span class="px" style="font-size:22px">${L.name} block</span></span><span class="chip" style="color:${tc}">${tn}</span></div>
+  <p class="big" style="margin:16px 0">${t[0]}</p>
+  <button id="exB">Teacher: show example</button><div class="example" id="ex"><span class="muted">Example:</span> ${t[1]}</div>
+  <p class="muted" style="margin:18px 0 8px">Teacher, how was it?</p>
+  <div class="row"><button class="bad" id="r0">Try again later</button><button class="go" id="r1">Correct · +1 ${L.res}</button><button class="gold" id="r2">Perfect · +2 ${L.res}</button><button id="rX" style="margin-left:auto">Cancel</button></div>`;
+ $("taskOv").classList.add("on");$("r1").focus();
+ $("exB").onclick=()=>$("ex").classList.toggle("on");$("rX").onclick=closeTask;
+ $("r0").onclick=()=>{S.grid[l][c]=2;save();closeTask();drawMine()};
+ const win=n=>{S.grid[l][c]=1;S.inv[L.res]+=n;S.mined++;S.sinceNight++;save();
+  $("taskBox").innerHTML=`<div style="text-align:center"><div class="float" style="display:inline-block">${icon[L.res](8)}</div><p class="big">+${n} ${L.res}!</p><button class="go" id="tOk">Keep digging</button></div>`;$("tOk").focus();
+  $("tOk").onclick=()=>{closeTask();drawMine();if(S.sinceNight>=6)startNight()}};
+ $("r1").onclick=()=>win(1);$("r2").onclick=()=>win(2)};
+
+/* night */
+let N=null,tick=null;
+const startNight=()=>{const hp=Math.max(1,3-(S.torches>0?1:0));if(S.torches>0)S.torches--;N={hp,max:3};save();$("nightOv").classList.add("on");nightPrompt(true)};
+const nightPrompt=first=>{clearInterval(tick);if(S.np>=S.night.length){S.night=shuffle(S.night);S.np=0}const p=NIGHT[S.night[S.np]];
+ $("nightBox").innerHTML=`${first?`<p class="big" style="margin:0;color:var(--gold)">Night falls…</p><p>A monster crawls out of the dark! Build each sentence out loud before the timer ends.</p>`:""}
+  <div class="float" style="display:inline-block;margin-top:6px">${pix(M.monster,{M:"#1a1030",m:"#3b2a66",E:"#ffcf3a",Y:"#ff3b2f",T:"#e8e8e8"},9)}</div>
+  <div class="hp">${Array.from({length:N.max},(_,i)=>`<i class="${i<N.hp?"":"off"}"></i>`).join("")}</div>
+  <div class="hearts" style="justify-content:center">${[0,1,2,3,4].map(i=>icon.heart(i<S.hearts,4)).join("")}</div>
+  <p class="big" style="margin:10px 0">${p[0]}</p><div class="timer"><i id="tm" style="width:100%"></i></div>
+  <button id="nA">Teacher: show answer</button><div class="example" id="nEx" style="text-align:left">${p[1]}</div>
+  <div class="row" style="justify-content:center;margin-top:14px"><button class="bad" id="nMiss">Wrong · lose a heart</button><button class="go" id="nHit">Correct · hit!</button></div>`;
+ let left=15;tick=setInterval(()=>{left--;const t=$("tm");if(t)t.style.width=(left/15*100)+"%";if(left<=0){clearInterval(tick);const t2=$("tm");if(t2)t2.parentNode.outerHTML='<p class="px" style="color:var(--red);font-size:22px">Time!</p>'}},1000);
+ $("nA").onclick=()=>$("nEx").classList.toggle("on");
+ $("nHit").onclick=()=>{S.np++;N.hp--;save();if(N.hp<=0)endNight(true);else nightPrompt()};
+ $("nMiss").onclick=()=>{S.np++;S.hearts--;save();if(S.hearts<=0)endNight(false);else nightPrompt()};
+ $("nHit").focus()};
+const endNight=won=>{clearInterval(tick);S.sinceNight=0;S.day++;let msg;
+ if(won){S.nights++;S.hearts=Math.min(5,S.hearts+1);const best=[...RES].reverse().find((k,i)=>unlocked(3-i))||"wood";S.inv[best]++;msg=`<p class="big" style="color:var(--gold)">Morning! You survived.</p><p>The monster ran away and dropped a gift. You also got back one heart.</p><div>${icon[best](7)}</div><p class="px" style="font-size:22px">+1 ${best}</p>`}
+ else{RES.forEach(k=>S.inv[k]=Math.floor(S.inv[k]/2));S.hearts=5;msg=`<p class="big" style="color:var(--red)">You fainted!</p><p>You woke up at home and dropped half of your resources. Hearts are full again.</p>`}
+ save();$("nightBox").innerHTML=`${msg}<button class="go" id="nOk" style="margin-top:12px">New day</button>`;$("nOk").focus();
+ $("nOk").onclick=()=>{$("nightOv").classList.remove("on");drawMine()}};
+const showWin=()=>{$("taskBox").innerHTML=`<div style="text-align:center"><div class="float" style="display:inline-block">${pix(M.trophy,{G:"#ffcf3a",g:"#fff6c0"},14)}</div>
+  <p class="big" style="color:var(--gold)">You've crafted the diamond trophy!</p><p style="font-size:18px">You've mined ${S.mined} blocks, you've survived ${S.nights} night${S.nights===1?"":"s"} and you've been digging for ${S.day} day${S.day===1?"":"s"}.</p>
+  <p class="muted">Now say three sentences about this game: what you've done and what you've been doing.</p><div class="row" style="justify-content:center"><button class="go" id="wOk">Close</button><button class="gold" id="wNew">New world</button></div></div>`;
+ $("taskOv").classList.add("on");$("wOk").onclick=closeTask;$("wNew").onclick=()=>{S=fresh();save();closeTask();drawMine()}};
+let resetArm=false;
+$("reset").onclick=()=>{if(!resetArm){resetArm=true;$("reset").textContent="Sure? Tap again";setTimeout(()=>{resetArm=false;$("reset").textContent="New world"},3000);return}
+ resetArm=false;$("reset").textContent="New world";S=fresh();save();drawMine()};
+addEventListener("keydown",e=>{if(e.key==="Escape"&&$("taskOv").classList.contains("on"))closeTask()});
+drawMine();
+}
+</script>
+</body>
+</html>
